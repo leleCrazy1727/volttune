@@ -1,1 +1,84 @@
+name: Build VoltTune iOS IPA
 
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Capacitor iOS platform
+        run: npx cap add ios || true
+
+      - name: Sync web assets
+        run: npx cap sync ios
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build IPA (unsigned for AltStore)
+        run: |
+          cd ios/App
+          xcodebuild \
+            -workspace App.xcworkspace \
+            -scheme App \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath $RUNNER_TEMP/VoltTune.xcarchive \
+            archive \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            AD_HOC_CODE_SIGNING_ALLOWED=YES \
+            | xcpretty
+
+      - name: Package IPA
+        run: |
+          APP_PATH=$(find $RUNNER_TEMP/VoltTune.xcarchive -name "*.app" | head -1)
+          mkdir -p /tmp/Payload
+          cp -r "$APP_PATH" /tmp/Payload/
+          cd /tmp && zip -r VoltTune.ipa Payload/
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: VoltTune-IPA
+          path: /tmp/VoltTune.ipa
+          retention-days: 30
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: VoltTune v1.0.${{ github.run_number }}
+          body: |
+            ## VoltTune iOS Build
+
+            ### Install via AltStore
+            1. Download VoltTune.ipa below
+            2. Open AltStore on iPhone → tap + → select the IPA
+            3. Trust the app in Settings → General → VPN & Device Management
+            4. Open VoltTune → Connect → tune your scooter
+
+            Requires iOS 14+ and AltStore (altstore.io)
+          files: /tmp/VoltTune.ipa
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
