@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: macos-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,10 +17,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Install Capacitor iOS platform
         run: npx cap add ios || true
@@ -33,7 +32,7 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Build IPA (unsigned for AltStore)
+      - name: Build IPA
         run: |
           cd ios/App
           xcodebuild \
@@ -69,14 +68,7 @@ jobs:
           name: VoltTune v1.0.${{ github.run_number }}
           body: |
             ## VoltTune iOS Build
-
-            ### Install via AltStore
-            1. Download VoltTune.ipa below
-            2. Open AltStore on iPhone → tap + → select the IPA
-            3. Trust the app in Settings → General → VPN & Device Management
-            4. Open VoltTune → Connect → tune your scooter
-
-            Requires iOS 14+ and AltStore (altstore.io)
+            Download VoltTune.ipa and install via AltStore.
           files: /tmp/VoltTune.ipa
           draft: false
           prerelease: false
