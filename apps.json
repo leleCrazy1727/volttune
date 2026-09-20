@@ -1,0 +1,30 @@
+{
+  "name": "VoltTune",
+  "identifier": "com.volttune.source",
+  "sourceURL": "https://raw.githubusercontent.com/leleCrazy1727/volttune/main/apps.json",
+  "apps": [
+    {
+      "name": "VoltTune",
+      "bundleIdentifier": "com.volttune.app",
+      "developerName": "VoltTune",
+      "subtitle": "Scooter tuning via Bluetooth",
+      "version": "1.0.0",
+      "versionDate": "2026-09-20",
+      "versionDescription": "Initial release. Supports Ninebot, Xiaomi and Navee scooters. NinebotCrypto encrypted pairing, Sport Mode, Zero Start, Speed Limit, Panic Button, Controller Info.",
+      "downloadURL": "https://github.com/leleCrazy1727/volttune/releases/latest/download/VoltTune.ipa",
+      "localizedDescription": "VoltTune connects to your Ninebot, Xiaomi or Navee electric scooter via Bluetooth and unlocks its full potential.\n\nFeatures:\n• Remove speed limits up to hardware maximum\n• Sport Mode — full motor power\n• Zero Start — instant throttle from standstill\n• Eco Mode — extend battery range\n• Cruise Control\n• Panic Button — configure a scooter button to instantly cap speed\n• Lock & Alarm\n• Controller & firmware info\n• Accent color themes + Rainbow mode\n\nSupports 89 models across Ninebot/Segway, Xiaomi/Mi and Navee.\n\nFor use on private property only.",
+      "iconURL": "https://raw.githubusercontent.com/leleCrazy1727/volttune/main/icon.png",
+      "tintColor": "FFFFFF",
+      "screenshotURLs": [],
+      "size": 90000,
+      "permissions": [
+        {
+          "type": "bluetooth",
+          "usageDescription": "VoltTune uses Bluetooth to connect to and tune your electric scooter."
+        }
+      ],
+      "minOSVersion": "14.0"
+    }
+  ],
+  "news": []
+}
