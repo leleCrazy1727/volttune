@@ -1,0 +1,22 @@
+{
+  "appId": "com.volttune.app",
+  "appName": "VoltTune",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "BluetoothLe": {
+      "displayStrings": {
+        "scanning": "Scanning for scooters…",
+        "cancel": "Cancel",
+        "availableDevices": "Nearby scooters",
+        "noDeviceFound": "No scooter found"
+      }
+    }
+  },
+  "ios": {
+    "scheme": "VoltTune",
+    "backgroundColor": "#000000",
+    "contentInset": "always",
+    "preferredContentMode": "mobile"
+  }
+}

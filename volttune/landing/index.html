@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#000000">
+<title>VoltTune — Scooter Tuning App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--acc:#fff;--bg:#000;--s1:#0f0f0f;--s2:#1a1a1a;--b1:rgba(255,255,255,.08);--b2:rgba(255,255,255,.15);--t1:#fff;--t2:rgba(255,255,255,.5);--t3:rgba(255,255,255,.25);--fh:"Space Grotesk",sans-serif;--fm:"Space Mono",monospace}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t1);font-family:var(--fh);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--b1);background:rgba(0,0,0,.85);backdrop-filter:blur(12px)}
+.nav-logo{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;letter-spacing:-.03em;text-decoration:none;color:#fff}
+.nav-logo span{color:rgba(255,255,255,.5);font-weight:400}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:14px;color:var(--t2);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{padding:8px 18px;background:#fff;color:#000;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none}
+.hero{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;position:relative}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(255,255,255,.06) 0%,transparent 70%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:5px 14px;border:1px solid var(--b2);border-radius:20px;font-size:12px;color:var(--t2);margin-bottom:28px}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-size:clamp(40px,8vw,78px);font-weight:700;letter-spacing:-.04em;line-height:1.05;max-width:800px;margin-bottom:20px}
+h1 span{color:var(--t2)}
+.hero-sub{font-size:clamp(15px,2.5vw,19px);color:var(--t2);max-width:500px;line-height:1.65;margin-bottom:44px}
+.btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+.btn-main{display:inline-flex;align-items:center;gap:10px;padding:15px 30px;background:#fff;color:#000;border-radius:12px;font-size:15px;font-weight:600;text-decoration:none;font-family:var(--fh)}
+.btn-alt{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;background:transparent;color:#fff;border:1px solid var(--b2);border-radius:12px;font-size:14px;font-weight:500;text-decoration:none;font-family:var(--fh)}
+.hero-note{margin-top:18px;font-size:13px;color:var(--t3)}
+/* PHONE */
+.phone-wrap{margin-top:64px}
+.phone{width:260px;height:520px;background:var(--s1);border-radius:36px;border:1px solid var(--b2);overflow:hidden;box-shadow:0 40px 120px rgba(0,0,0,.8)}
+.phone-notch{width:90px;height:24px;background:#000;border-radius:0 0 14px 14px;margin:0 auto}
+.phone-screen{padding:14px 12px;font-size:11px}
+.mock-speed{font-family:var(--fm);font-size:52px;font-weight:700;text-align:center;line-height:1;letter-spacing:-.03em;margin:18px 0 4px}
+.mock-unit{font-size:9px;color:rgba(255,255,255,.35);text-align:center;letter-spacing:.06em;text-transform:uppercase}
+.mock-bar{height:2px;background:rgba(255,255,255,.08);border-radius:1px;margin:10px 0;overflow:hidden}
+.mock-bar-fill{height:100%;width:58%;background:#fff;border-radius:1px}
+.mock-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:12px}
+.mock-card{background:rgba(255,255,255,.05);border-radius:7px;padding:7px;border:1px solid rgba(255,255,255,.04)}
+.mock-card-l{font-size:7px;color:rgba(255,255,255,.35);letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px}
+.mock-card-v{font-family:var(--fm);font-size:12px;font-weight:700}
+.mock-feat{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-top:9px}
+.mock-feat-btn{background:rgba(255,255,255,.05);border-radius:7px;padding:6px 7px;border:1px solid rgba(255,255,255,.05)}
+.mock-feat-btn.on{border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.08)}
+.mock-feat-ico{font-size:11px;margin-bottom:2px}
+.mock-feat-title{font-size:8px;font-weight:600}
+/* SECTIONS */
+.sec-wrap{padding:90px 24px;max-width:1100px;margin:0 auto}
+.sec-label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+h2{font-size:clamp(26px,5vw,46px);font-weight:700;letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
+.sec-sub{font-size:16px;color:var(--t2);max-width:500px;line-height:1.65;margin-bottom:44px}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.feat-card{background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:24px}
+.feat-card-icon{font-size:26px;margin-bottom:12px}
+.feat-card-title{font-size:16px;font-weight:600;letter-spacing:-.02em;margin-bottom:7px}
+.feat-card-sub{font-size:13px;color:var(--t2);line-height:1.6}
+/* MODEL STRIP */
+.model-strip{background:var(--s1);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);padding:40px 24px;text-align:center}
+.model-num{font-family:var(--fm);font-size:64px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.model-label{font-size:15px;color:var(--t2);margin-top:6px}
+.model-brands{display:flex;gap:28px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+.model-brand{font-size:13px;color:var(--t3)}
+.model-brand strong{color:var(--t1);font-weight:600}
+/* INSTALL */
+.steps{display:flex;flex-direction:column}
+.step{display:flex;gap:22px;padding:24px 0;border-bottom:1px solid var(--b1)}
+.step:last-child{border-bottom:none}
+.step-num{font-family:var(--fm);font-size:12px;color:var(--t3);width:30px;flex-shrink:0;padding-top:2px}
+.step-title{font-size:16px;font-weight:600;letter-spacing:-.02em;margin-bottom:6px}
+.step-desc{font-size:13px;color:var(--t2);line-height:1.65}
+.step-desc a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+.step-desc code{font-family:var(--fm);font-size:12px;background:var(--s2);padding:2px 6px;border-radius:4px;color:#fff}
+.step-note{margin-top:7px;font-size:12px;color:var(--t3);line-height:1.5}
+/* CTA */
+.cta-box{background:var(--s1);border:1px solid var(--b1);border-radius:18px;padding:44px;text-align:center}
+.cta-icon{font-size:40px;margin-bottom:16px}
+.cta-title{font-size:24px;font-weight:700;letter-spacing:-.03em;margin-bottom:10px}
+.cta-sub{font-size:14px;color:var(--t2);max-width:380px;margin:0 auto 24px;line-height:1.6}
+/* FOOTER */
+footer{border-top:1px solid var(--b1);padding:36px 32px;display:flex;align-items:flex-start;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.footer-logo{font-size:15px;font-weight:700;letter-spacing:-.03em;white-space:nowrap}
+.footer-logo span{color:var(--t2);font-weight:400}
+.footer-note{font-size:12px;color:var(--t3);max-width:360px;line-height:1.5}
+.footer-links{display:flex;gap:18px;flex-shrink:0}
+.footer-links a{font-size:13px;color:var(--t2);text-decoration:none}
+@media(max-width:640px){nav{padding:14px 18px}.nav-links{display:none}.sec-wrap{padding:60px 18px}.cta-box{padding:28px 18px}footer{flex-direction:column;padding:28px 18px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M4 5L9 17L12 11L15 17L20 5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Volt<span>Tune</span>
+  </a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#models">Models</a>
+    <a href="#install">Install</a>
+    <a href="https://github.com/YOUR_USERNAME/volttune" target="_blank">GitHub</a>
+    <a href="#install" class="nav-cta">Download IPA</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="badge"><div class="badge-dot"></div> Open source · Free · No account needed</div>
+  <h1>Tune your scooter.<br><span>Your way.</span></h1>
+  <p class="hero-sub">VoltTune unlocks the full potential of your Ninebot, Xiaomi or Navee scooter. Remove speed limits, enable Sport Mode, Zero Start and more — directly via Bluetooth.</p>
+  <div class="btns">
+    <a href="#install" class="btn-main">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="3.5" stroke="black" stroke-width="1.4"/><path d="M8 4v8M5 9l3 3 3-3" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download via AltStore
+    </a>
+    <a href="https://github.com/YOUR_USERNAME/volttune" target="_blank" class="btn-alt">View on GitHub</a>
+  </div>
+  <p class="hero-note">iOS 14+ · Free with AltStore · No Mac required</p>
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div style="font-size:8px;color:rgba(255,255,255,.25);letter-spacing:.05em;text-transform:uppercase;margin-bottom:3px">Live</div>
+        <div class="mock-speed">21.4</div>
+        <div class="mock-unit">km/h</div>
+        <div class="mock-bar"><div class="mock-bar-fill"></div></div>
+        <div class="mock-grid">
+          <div class="mock-card"><div class="mock-card-l">Top</div><div class="mock-card-v">38.1</div></div>
+          <div class="mock-card"><div class="mock-card-l">Trip</div><div class="mock-card-v">4.2</div></div>
+          <div class="mock-card"><div class="mock-card-l">Bat</div><div class="mock-card-v">81%</div></div>
+        </div>
+        <div style="font-size:8px;color:rgba(255,255,255,.25);letter-spacing:.05em;text-transform:uppercase;margin:9px 0 5px">Features</div>
+        <div class="mock-feat">
+          <div class="mock-feat-btn on"><div class="mock-feat-ico">&#9889;</div><div class="mock-feat-title">Sport</div></div>
+          <div class="mock-feat-btn"><div class="mock-feat-ico">&#127807;</div><div class="mock-feat-title">Eco</div></div>
+          <div class="mock-feat-btn on"><div class="mock-feat-ico">&#128640;</div><div class="mock-feat-title">Zero Start</div></div>
+          <div class="mock-feat-btn"><div class="mock-feat-ico">&#128272;</div><div class="mock-feat-title">Lock</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-wrap" id="features">
+  <div class="sec-label">What VoltTune does</div>
+  <h2>Everything your scooter<br>is capable of.</h2>
+  <p class="sec-sub">VoltTune sends direct BLE commands using the same protocol as the official apps — without the artificial restrictions.</p>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-card-icon">&#9889;</div><div class="feat-card-title">Sport Mode</div><div class="feat-card-sub">Removes the firmware speed cap and maximises motor power. Works on all supported models.</div></div>
+    <div class="feat-card"><div class="feat-card-icon">&#128640;</div><div class="feat-card-title">Zero Start</div><div class="feat-card-sub">Instant throttle response from standstill. No more push-off required.</div></div>
+    <div class="feat-card"><div class="feat-card-icon">&#127898;</div><div class="feat-card-title">Custom Speed Limit</div><div class="feat-card-sub">Set any speed from 5 km/h up to the hardware maximum with a smooth slider and quick presets.</div></div>
+    <div class="feat-card"><div class="feat-card-icon">&#127807;</div><div class="feat-card-title">Eco Mode</div><div class="feat-card-sub">Reduce motor power to extend battery range. Mutually exclusive with Sport mode.</div></div>
+    <div class="feat-card"><div class="feat-card-icon">&#128274;</div><div class="feat-card-title">Cruise Control</div><div class="feat-card-sub">Locks speed so you can ride hands-light. Release throttle to cancel.</div></div>
+    <div class="feat-card"><div class="feat-card-icon">&#128680;</div><div class="feat-card-title">Panic Button</div><div class="feat-card-sub">Configure a scooter button to instantly cap speed — great for handing your scooter to someone else.</div></div>
+    <div class="feat-card"><div class="feat-card-icon">&#128272;</div><div class="feat-card-title">Lock &amp; Alarm</div><div class="feat-card-sub">Lock the scooter and arm the alarm remotely via BLE on supported models.</div></div>
+    <div class="feat-card"><div class="feat-card-icon">&#128295;</div><div class="feat-card-title">Controller Info</div><div class="feat-card-sub">Reads firmware version, motor wattage and controller type directly from BLE registers.</div></div>
+    <div class="feat-card"><div class="feat-card-icon">&#127912;</div><div class="feat-card-title">Themes</div><div class="feat-card-sub">Choose your accent color — white, Segway orange, blue, purple — or enable Rainbow mode. Custom hex supported.</div></div>
+  </div>
+</div>
+
+<div class="model-strip" id="models">
+  <div class="model-num">89</div>
+  <div class="model-label">supported scooter models</div>
+  <div class="model-brands">
+    <div class="model-brand"><strong>44</strong> Ninebot / Segway</div>
+    <div class="model-brand"><strong>25</strong> Xiaomi / Mi</div>
+    <div class="model-brand"><strong>20</strong> Navee</div>
+  </div>
+</div>
+
+<div class="sec-wrap" id="install" style="max-width:680px">
+  <div class="sec-label">Installation</div>
+  <h2>Install on iPhone.<br>No Mac needed.</h2>
+  <p class="sec-sub">VoltTune is a free IPA file. Install it using AltStore — a free tool that lets you sideload any app on your iPhone without a Mac or paid developer account.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-content">
+        <div class="step-title">Install AltStore on your iPhone</div>
+        <div class="step-desc">Download <a href="https://altstore.io" target="_blank">AltServer for Windows</a> on your PC. Connect your iPhone via USB. Open AltServer (tray icon) &rarr; Install AltStore &rarr; select your iPhone. Sign in with any free Apple ID.</div>
+        <div class="step-note">No paid Apple Developer account needed. A free Apple ID is enough.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-content">
+        <div class="step-title">Download VoltTune.ipa to your iPhone</div>
+        <div class="step-desc">Tap the download button below. In Safari, tap and hold the link &rarr; "Download Linked File". Or send the <code>.ipa</code> from your PC to iPhone via AirDrop or the Files app.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-content">
+        <div class="step-title">Install with AltStore</div>
+        <div class="step-desc">Open AltStore on iPhone &rarr; tap <strong>+</strong> (bottom right) &rarr; select <code>VoltTune.ipa</code>. AltStore signs and installs the app. Your iPhone must be on the same Wi-Fi as your PC, or connected via USB.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-content">
+        <div class="step-title">Trust the developer certificate</div>
+        <div class="step-desc">Go to iPhone <strong>Settings &rarr; General &rarr; VPN &amp; Device Management</strong>. Tap your Apple ID &rarr; tap <strong>Trust</strong>. One-time step.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">05</div>
+      <div class="step-content">
+        <div class="step-title">Open VoltTune and connect your scooter</div>
+        <div class="step-desc">Open VoltTune &rarr; tap <strong>Connect</strong> &rarr; your scooter appears in the list &rarr; tap it &rarr; tap <strong>Connect</strong>. If prompted, press the power button on your scooter to pair. Start tuning.</div>
+        <div class="step-note">AltStore-signed apps expire every 7 days. Keep AltServer on your PC running on the same Wi-Fi to auto-refresh. Or use AltStore+ ($1.49/month) for wireless refresh.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="padding:0 24px 90px">
+  <div class="cta-box">
+    <div class="cta-icon">&#128242;</div>
+    <div class="cta-title">Ready to install?</div>
+    <div class="cta-sub">Download the latest VoltTune IPA from GitHub Releases. Free, open source, no account required.</div>
+    <div class="btns">
+      <a href="https://github.com/YOUR_USERNAME/volttune/releases/latest" target="_blank" class="btn-main">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="14" height="14" rx="3.5" stroke="black" stroke-width="1.4"/><path d="M8 4v8M5 9l3 3 3-3" stroke="black" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download VoltTune.ipa
+      </a>
+      <a href="https://altstore.io" target="_blank" class="btn-alt">Get AltStore</a>
+    </div>
+    <p style="margin-top:14px;font-size:12px;color:rgba(255,255,255,.2)">iOS 14+ &middot; Free Apple ID required for AltStore</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Volt<span>Tune</span></div>
+  <div class="footer-note">For use on private property only. Modifying scooter firmware may void your warranty and is illegal on public roads in many regions.</div>
+  <div class="footer-links">
+    <a href="https://github.com/YOUR_USERNAME/volttune" target="_blank">GitHub</a>
+    <a href="https://github.com/YOUR_USERNAME/volttune/releases" target="_blank">Releases</a>
+    <a href="https://scooterhacking.org" target="_blank">ScooterHacking</a>
+  </div>
+</footer>
+
+</body>
+</html>
