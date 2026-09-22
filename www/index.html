@@ -2,293 +2,245 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="VoltTune">
 <title>VoltTune</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
 <style>
-/* ── THEME SYSTEM ── */
 :root {
-  --acc: #ffffff;
-  --acc2: #ffffff;
-  --acc-rgb: 255,255,255;
-  --bg: #000000;
-  --s1: #0f0f0f;
-  --s2: #1a1a1a;
-  --s3: #242424;
-  --b1: rgba(255,255,255,.07);
-  --b2: rgba(255,255,255,.14);
-  --b3: rgba(255,255,255,.28);
-  --t1: #ffffff;
-  --t2: rgba(255,255,255,.5);
-  --t3: rgba(255,255,255,.25);
-  --fh: 'Space Grotesk', sans-serif;
-  --fm: 'Space Mono', monospace;
+  --a: #fff;
+  --a2: #fff;
+  --ar: 255,255,255;
+  --bg: #000;
+  --s1: #0d0d0d;
+  --s2: #171717;
+  --s3: #202020;
+  --b1: rgba(255,255,255,.06);
+  --b2: rgba(255,255,255,.12);
+  --b3: rgba(255,255,255,.24);
+  --t1: #fff;
+  --t2: rgba(255,255,255,.48);
+  --t3: rgba(255,255,255,.22);
+  --fh: "Space Grotesk", sans-serif;
+  --fm: "Space Mono", monospace;
+  --r: 14px;
 }
-
-/* Preset themes */
-[data-theme="orange"]  { --acc:#FF6B00; --acc2:#FF9500; --acc-rgb:255,107,0; }
-[data-theme="blue"]    { --acc:#0A84FF; --acc2:#30B0FF; --acc-rgb:10,132,255; }
-[data-theme="purple"]  { --acc:#BF5AF2; --acc2:#DA8FFF; --acc-rgb:191,90,242; }
-[data-theme="green"]   { --acc:#30D158; --acc2:#5FE37A; --acc-rgb:48,209,88; }
-[data-theme="red"]     { --acc:#FF3B30; --acc2:#FF6B60; --acc-rgb:255,59,48; }
-[data-theme="teal"]    { --acc:#5AC8FA; --acc2:#8DDBFF; --acc-rgb:90,200,250; }
-[data-theme="white"]   { --acc:#FFFFFF; --acc2:#FFFFFF; --acc-rgb:255,255,255; }
-
-*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
-html,body {
-  background:var(--bg); color:var(--t1);
-  font-family:var(--fh); height:100%;
-  overflow:hidden; -webkit-font-smoothing:antialiased;
-  -webkit-tap-highlight-color:transparent; user-select:none;
+[data-theme="orange"]  {--a:#FF6B00;--a2:#FF9500;--ar:255,107,0}
+[data-theme="blue"]    {--a:#0A84FF;--a2:#30B0FF;--ar:10,132,255}
+[data-theme="purple"]  {--a:#BF5AF2;--a2:#DA8FFF;--ar:191,90,242}
+[data-theme="green"]   {--a:#30D158;--a2:#5FE37A;--ar:48,209,88}
+[data-theme="red"]     {--a:#FF3B30;--a2:#FF6060;--ar:255,59,48}
+[data-theme="teal"]    {--a:#5AC8FA;--a2:#8DE0FF;--ar:90,200,250}
+[data-theme="rainbow"] {animation:rbTheme 4s linear infinite}
+@keyframes rbTheme {
+  0%   {--a:#FF3B30;--a2:#FF6060;--ar:255,59,48}
+  16%  {--a:#FF9500;--a2:#FFB340;--ar:255,149,0}
+  33%  {--a:#30D158;--a2:#5FE37A;--ar:48,209,88}
+  50%  {--a:#0A84FF;--a2:#30B0FF;--ar:10,132,255}
+  66%  {--a:#BF5AF2;--a2:#DA8FFF;--ar:191,90,242}
+  83%  {--a:#FF2D55;--a2:#FF6080;--ar:255,45,85}
+  100% {--a:#FF3B30;--a2:#FF6060;--ar:255,59,48}
 }
-#app {
-  height:100dvh; display:flex; flex-direction:column;
-  max-width:430px; margin:0 auto; position:relative; overflow:hidden;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%;overflow:hidden;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent;user-select:none}
+#app{height:100dvh;display:flex;flex-direction:column;max-width:430px;margin:0 auto;position:relative;overflow:hidden}
+header{display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 14px) 22px 13px;border-bottom:1px solid var(--b1);flex-shrink:0}
+.hlogo{display:flex;align-items:center;gap:9px;font-size:17px;font-weight:700;letter-spacing:-.03em}
+.hlogo span{color:var(--a)}
+.hico{width:28px;height:28px}
+.hright{display:flex;align-items:center;gap:8px}
+.icon-btn{background:none;border:none;padding:5px;cursor:pointer;color:var(--t2);display:flex;align-items:center;justify-content:center;border-radius:8px;transition:background .15s}
+.icon-btn:active{background:var(--s2)}
+.pill{display:flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--b2);border-radius:20px;font-size:11px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--t2);transition:all .3s}
+.pill.on{border-color:var(--b3);color:var(--t1)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--t3);transition:background .3s}
+.dot.live{background:var(--a);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+main{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 22px 40px;scrollbar-width:none}
+main::-webkit-scrollbar{display:none}
+.view{display:none;flex-direction:column;flex:1;overflow:hidden}
+.view.active{display:flex}
 
-/* ── HEADER ── */
-header {
-  display:flex; align-items:center; justify-content:space-between;
-  padding: env(safe-area-inset-top, 44px) 22px 14px;
-  border-bottom:1px solid var(--b1); flex-shrink:0;
-  padding-top: max(env(safe-area-inset-top, 0px), 16px);
-  padding-top: calc(env(safe-area-inset-top, 0px) + 16px);
-}
-.logo-wrap { display:flex; align-items:center; gap:9px; }
-.logo-icon { width:30px; height:30px; }
-.logo-text { font-size:18px; font-weight:700; letter-spacing:-.03em; }
-.logo-text span { color:var(--acc); }
-.pill {
-  display:flex; align-items:center; gap:6px; padding:5px 11px;
-  border:1px solid var(--b2); border-radius:20px;
-  font-size:11px; font-weight:500; letter-spacing:.04em;
-  text-transform:uppercase; color:var(--t2); transition:all .3s;
-}
-.pill.on { border-color:var(--b3); color:var(--t1); }
-.dot { width:6px; height:6px; border-radius:50%; background:var(--b2); transition:background .3s; }
-.dot.live { background:var(--acc); animation:pulse 2s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:1}50%{opacity:.25} }
+.hero{display:flex;flex-direction:column;align-items:center;padding:36px 0 28px;text-align:center;gap:10px}
+.hero-logo{width:70px;height:70px;background:var(--s2);border:1px solid var(--b2);border-radius:20px;display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+.hero-title{font-size:22px;font-weight:700;letter-spacing:-.03em}
+.hero-sub{font-size:13px;color:var(--t2);max-width:240px;line-height:1.65}
+.btn-connect{padding:14px 42px;background:var(--a);color:#000;border:none;border-radius:11px;font-family:var(--fh);font-size:15px;font-weight:600;cursor:pointer;margin-top:6px;transition:opacity .15s,transform .1s}
+.btn-connect:active{opacity:.8;transform:scale(.97)}
 
-/* ── MAIN ── */
-main { flex:1; overflow-y:auto; overflow-x:hidden; padding:0 22px 40px; scrollbar-width:none; }
-main::-webkit-scrollbar { display:none; }
+.sec{font-size:10px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);margin:22px 0 10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:13px 14px}
+.card-l{font-size:10px;color:var(--t2);letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px}
+.card-v{font-family:var(--fm);font-size:18px;font-weight:700;letter-spacing:-.02em}
+.card-u{font-size:10px;color:var(--t2);margin-left:2px}
 
-/* ── SPEED BLOCK ── */
-.speed-block { padding:28px 0 20px; text-align:center; border-bottom:1px solid var(--b1); }
-.speed-num { font-family:var(--fm); font-size:88px; font-weight:700; line-height:1; letter-spacing:-.04em; transition:color .2s; }
-.speed-unit { font-size:12px; color:var(--t2); letter-spacing:.07em; text-transform:uppercase; margin-top:4px; }
-.speed-track { margin-top:14px; height:2px; background:var(--b1); border-radius:1px; overflow:hidden; }
-.speed-fill { height:100%; background:var(--acc); border-radius:1px; width:0%; transition:width .12s ease; }
-.tune-badge {
-  display:inline-flex; align-items:center; gap:5px; padding:4px 10px;
-  background:var(--s2); border:1px solid var(--b2); border-radius:20px;
-  font-size:11px; color:var(--t2); margin-top:12px; opacity:0; transition:opacity .3s;
-}
-.tune-badge.show { opacity:1; }
-.tbdot { width:5px; height:5px; border-radius:50%; background:var(--acc); animation:pulse 2s infinite; }
+.speed-block{padding:26px 0 20px;text-align:center;border-bottom:1px solid var(--b1)}
+.spd{font-family:var(--fm);font-size:88px;font-weight:700;line-height:1;letter-spacing:-.04em;transition:color .2s}
+.spd-u{font-size:12px;color:var(--t2);letter-spacing:.07em;text-transform:uppercase;margin-top:3px}
+.spd-track{margin-top:13px;height:2px;background:var(--b1);border-radius:1px;overflow:hidden}
+.spd-fill{height:100%;background:var(--a);border-radius:1px;width:0%;transition:width .1s ease}
+.tbadge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;background:var(--s2);border:1px solid var(--b2);border-radius:20px;font-size:11px;color:var(--t2);margin-top:12px;opacity:0;transition:opacity .3s}
+.tbadge.on{opacity:1}
+.tbdot{width:5px;height:5px;border-radius:50%;background:var(--a);animation:blink 2s infinite}
 
-/* ── SECTIONS ── */
-.sec { font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--t3); margin:22px 0 10px; }
+.ctrl-card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:14px 16px}
+.ctrl-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--b1)}
+.ctrl-row:last-child{border-bottom:none}
+.ctrl-k{font-size:12px;color:var(--t2)}
+.ctrl-v{font-size:12px;font-weight:600;font-family:var(--fm)}
 
-/* ── STATS ── */
-.grid2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.grid3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
-.card { background:var(--s1); border:1px solid var(--b1); border-radius:12px; padding:14px 15px; }
-.card-label { font-size:10px; color:var(--t2); letter-spacing:.04em; text-transform:uppercase; margin-bottom:5px; }
-.card-val { font-family:var(--fm); font-size:19px; font-weight:700; letter-spacing:-.02em; }
-.card-unit { font-size:10px; color:var(--t2); margin-left:2px; }
-.card-sub { font-size:11px; color:var(--t3); margin-top:3px; }
+.sl-wrap{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:18px}
+.sl-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px}
+.sl-title{font-size:14px;font-weight:500}
+.sl-num{font-family:var(--fm);font-size:24px;font-weight:700;color:var(--a);letter-spacing:-.02em}
+.sl-unit{font-size:11px;color:var(--t2);margin-left:2px}
+.sl-track{position:relative;height:36px;display:flex;align-items:center}
+.sl-bg{position:absolute;left:0;right:0;height:3px;background:var(--b2);border-radius:2px}
+.sl-fill{position:absolute;left:0;height:3px;background:var(--a);border-radius:2px;transition:width .04s linear}
+.sl-hit{position:absolute;width:38px;height:38px;transform:translateX(-50%);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sl-thumb{width:22px;height:22px;border-radius:50%;background:var(--a);border:3px solid #000;box-shadow:0 0 0 1.5px rgba(var(--ar),.25);transition:transform .1s,box-shadow .1s}
+.sl-hit:active .sl-thumb{transform:scale(1.2);box-shadow:0 0 0 7px rgba(var(--ar),.12)}
+.sl-labels{display:flex;justify-content:space-between;margin-top:7px;font-size:10px;color:var(--t3);font-family:var(--fm)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.chip{padding:5px 13px;border:1px solid var(--b2);border-radius:20px;font-size:12px;font-weight:500;font-family:var(--fm);color:var(--t2);cursor:pointer;transition:all .15s}
+.chip:active,.chip.on{background:var(--a);color:#000;border-color:var(--a)}
 
-/* ── CONTROLLER INFO CARD ── */
-.ctrl-card {
-  background:var(--s1); border:1px solid var(--b1); border-radius:12px;
-  padding:14px 16px; margin-top:8px;
-}
-.ctrl-row { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid var(--b1); }
-.ctrl-row:last-child { border-bottom:none; }
-.ctrl-key { font-size:12px; color:var(--t2); }
-.ctrl-val { font-size:12px; font-weight:600; font-family:var(--fm); }
+.btn-p{width:100%;padding:15px;margin-top:12px;background:var(--a);color:#000;border:none;border-radius:11px;font-family:var(--fh);font-size:15px;font-weight:600;cursor:pointer;transition:opacity .15s,transform .1s;letter-spacing:-.01em}
+.btn-p:active{opacity:.8;transform:scale(.98)}
+.btn-p:disabled{opacity:.2;cursor:not-allowed;transform:none}
+.btn-g{width:100%;padding:14px;margin-top:8px;background:transparent;color:var(--t2);border:1px solid var(--b2);border-radius:11px;font-family:var(--fh);font-size:14px;font-weight:500;cursor:pointer;transition:all .15s}
+.btn-g:active{color:#fff;border-color:var(--b3)}
 
-/* ── SLIDER ── */
-.slider-wrap { background:var(--s1); border:1px solid var(--b1); border-radius:12px; padding:18px; }
-.sl-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px; }
-.sl-title { font-size:14px; font-weight:500; }
-.sl-val { font-family:var(--fm); font-size:24px; font-weight:700; letter-spacing:-.02em; color:var(--acc); }
-.sl-unit { font-size:11px; color:var(--t2); margin-left:2px; }
-.sl-track { position:relative; height:36px; display:flex; align-items:center; }
-.sl-bg { position:absolute; left:0; right:0; height:3px; background:var(--b2); border-radius:2px; }
-.sl-fill { position:absolute; left:0; height:3px; background:var(--acc); border-radius:2px; transition:width .04s linear; }
-.sl-hit { position:absolute; width:38px; height:38px; transform:translateX(-50%); cursor:pointer; display:flex; align-items:center; justify-content:center; }
-.sl-thumb { width:22px; height:22px; border-radius:50%; background:var(--acc); border:3px solid #000; box-shadow:0 0 0 1px rgba(var(--acc-rgb),.3); transition:transform .1s,box-shadow .1s; }
-.sl-hit:active .sl-thumb { transform:scale(1.18); box-shadow:0 0 0 7px rgba(var(--acc-rgb),.15); }
-.sl-labels { display:flex; justify-content:space-between; margin-top:6px; font-size:10px; color:var(--t3); font-family:var(--fm); }
-.chips { display:flex; gap:7px; flex-wrap:wrap; margin-top:12px; }
-.chip { padding:5px 13px; border:1px solid var(--b2); border-radius:20px; font-size:12px; font-weight:500; font-family:var(--fm); color:var(--t2); cursor:pointer; transition:all .15s; }
-.chip:active,.chip.on { background:var(--acc); color:#000; border-color:var(--acc); }
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fb{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:15px 14px;cursor:pointer;text-align:left;transition:background .15s,border-color .15s;position:relative;overflow:hidden}
+.fb:active{background:var(--s2)}
+.fb.on{border-color:rgba(var(--ar),.35);background:rgba(var(--ar),.05)}
+.fb.danger:active{background:rgba(255,59,48,.06)}
+.fb-ico{font-size:20px;margin-bottom:8px}
+.fb-title{font-size:13px;font-weight:600;letter-spacing:-.01em}
+.fb-sub{font-size:11px;color:var(--t2);margin-top:2px;line-height:1.4}
+.fb-state{position:absolute;top:12px;right:12px;font-size:10px;font-family:var(--fm);color:var(--t3);transition:color .2s}
+.fb-state.on{color:var(--a)}
 
-/* ── BUTTONS ── */
-.btn-primary { width:100%; padding:16px; margin-top:12px; background:var(--acc); color:#000; border:none; border-radius:10px; font-family:var(--fh); font-size:15px; font-weight:600; cursor:pointer; transition:opacity .15s,transform .1s; letter-spacing:-.01em; }
-.btn-primary:active { opacity:.8; transform:scale(.98); }
-.btn-primary:disabled { opacity:.2; cursor:not-allowed; transform:none; }
-.btn-ghost { width:100%; padding:14px; margin-top:8px; background:transparent; color:var(--t2); border:1px solid var(--b2); border-radius:10px; font-family:var(--fh); font-size:14px; font-weight:500; cursor:pointer; transition:all .15s; }
-.btn-ghost:active { color:#fff; border-color:var(--b3); }
+.bottom{padding:10px 22px;padding-bottom:max(10px,env(safe-area-inset-bottom,10px));border-top:1px solid var(--b1);flex-shrink:0}
 
-/* ── FEATURE GRID ── */
-.feat-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.feat-btn { background:var(--s1); border:1px solid var(--b1); border-radius:12px; padding:16px 14px; cursor:pointer; text-align:left; transition:all .15s; position:relative; overflow:hidden; }
-.feat-btn:active { background:var(--s2); border-color:var(--b2); }
-.feat-btn.danger { border-color:rgba(255,59,48,.2); }
-.feat-btn.danger:active { background:rgba(255,59,48,.08); }
-.feat-btn.active-feat { border-color:rgba(var(--acc-rgb),.4); background:rgba(var(--acc-rgb),.06); }
-.feat-icon { font-size:20px; margin-bottom:8px; }
-.feat-title { font-size:13px; font-weight:600; letter-spacing:-.01em; }
-.feat-sub { font-size:11px; color:var(--t2); margin-top:2px; line-height:1.4; }
-.feat-state { position:absolute; top:12px; right:12px; font-size:10px; font-family:var(--fm); color:var(--t3); }
-.feat-state.on { color:var(--acc); }
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
+.ov.on{opacity:1;pointer-events:all}
+.sheet{position:fixed;bottom:0;left:50%;transform:translateX(-50%) translateY(100%);width:100%;max-width:430px;background:var(--s1);border-top:1px solid var(--b2);border-radius:20px 20px 0 0;z-index:51;transition:transform .32s cubic-bezier(.32,.72,0,1);max-height:90dvh;display:flex;flex-direction:column}
+.sheet.on{transform:translateX(-50%) translateY(0)}
+.sh-handle{width:36px;height:4px;background:var(--b2);border-radius:2px;margin:12px auto 0;flex-shrink:0}
+.sh-head{padding:14px 20px 12px;border-bottom:1px solid var(--b1);flex-shrink:0}
+.sh-title{font-size:17px;font-weight:600;letter-spacing:-.02em}
+.sh-sub{font-size:12px;color:var(--t2);margin-top:3px}
+.sh-body{overflow-y:auto;flex:1;scrollbar-width:none}
+.sh-body::-webkit-scrollbar{display:none}
+.sh-footer{padding:12px 20px;padding-bottom:max(20px,env(safe-area-inset-bottom,20px));border-top:1px solid var(--b1);flex-shrink:0;text-align:center}
 
-/* ── BOTTOM ── */
-.bottom { padding:10px 22px; padding-bottom:max(22px, env(safe-area-inset-bottom, 22px)); border-top:1px solid var(--b1); flex-shrink:0; }
+.brand-hdr{padding:12px 20px 3px;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--t3);font-family:var(--fm)}
+.dr{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .1s}
+.dr:active{background:var(--s2)}
+.dl{display:flex;align-items:center;gap:13px}
+.dico{width:38px;height:38px;border:1px solid var(--b2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--fm);font-size:10px;font-weight:700;color:var(--t2)}
+.dn{font-size:14px;font-weight:500}
+.dm{font-size:11px;color:var(--t2);margin-top:2px}
 
-/* ── VIEWS ── */
-.view { display:none; flex-direction:column; flex:1; overflow:hidden; }
-.view.active { display:flex; }
+.scard{display:flex;align-items:center;margin:10px 16px;background:var(--s2);border:1px solid var(--b1);border-radius:16px;cursor:pointer;overflow:hidden;transition:border-color .15s,background .15s}
+.scard:active{background:var(--s3)}
+.scard.connecting{border-color:rgba(var(--ar),.4);animation:cpulse 1.2s ease-in-out infinite}
+@keyframes cpulse{0%,100%{border-color:rgba(var(--ar),.4)}50%{border-color:rgba(var(--ar),.1)}}
+.scard-img{width:104px;height:78px;display:flex;align-items:center;justify-content:center;flex-shrink:0;padding:8px}
+.scard-img svg{width:100%;height:100%}
+.scard-info{flex:1;padding:13px 10px 13px 2px;min-width:0}
+.scard-serial{font-size:16px;font-weight:700;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scard-model{font-size:12px;color:var(--a);font-weight:500;margin-top:2px}
+.scard-meta{font-size:11px;color:var(--t3);margin-top:3px;font-family:var(--fm)}
+.scard-right{display:flex;flex-direction:column;align-items:center;gap:9px;padding:13px;flex-shrink:0}
+.sig{display:flex;align-items:flex-end;gap:2px;height:18px}
+.sb{width:4px;border-radius:1px;background:var(--b2)}
+.sb.on{background:var(--a)}
 
-/* ── CONNECT HERO ── */
-.hero { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; padding:32px 0 28px; text-align:center; }
-.hero-logo { margin-bottom:8px; }
-.hero-title { font-size:22px; font-weight:700; letter-spacing:-.03em; }
-.hero-sub { font-size:13px; color:var(--t2); max-width:240px; line-height:1.6; }
-.btn-connect { padding:15px 44px; background:var(--acc); color:#000; border:none; border-radius:10px; font-family:var(--fh); font-size:15px; font-weight:600; cursor:pointer; transition:opacity .15s,transform .1s; margin-top:8px; }
-.btn-connect:active { opacity:.8; transform:scale(.97); }
+.spinner{width:16px;height:16px;border:2px solid var(--b2);border-top-color:var(--a);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin-row{display:flex;align-items:center;gap:12px;padding:20px;color:var(--t2);font-size:13px}
 
-/* ── SHEET ── */
-.overlay { position:fixed; inset:0; background:rgba(0,0,0,.75); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); z-index:50; opacity:0; pointer-events:none; transition:opacity .25s; }
-.overlay.show { opacity:1; pointer-events:all; }
-.sheet { position:fixed; bottom:0; left:50%; transform:translateX(-50%) translateY(100%); width:100%; max-width:430px; background:var(--s1); border-top:1px solid var(--b2); border-radius:20px 20px 0 0; z-index:51; transition:transform .35s cubic-bezier(.32,.72,0,1); max-height:88dvh; display:flex; flex-direction:column; }
-.sheet.show { transform:translateX(-50%) translateY(0); }
-.sheet-full { max-height:92dvh; }
-.sh-handle { width:36px; height:4px; background:var(--b2); border-radius:2px; margin:12px auto 0; flex-shrink:0; }
-.sh-head { padding:14px 20px 12px; border-bottom:1px solid var(--b1); flex-shrink:0; }
-.sh-title { font-size:17px; font-weight:600; letter-spacing:-.02em; }
-.sh-sub { font-size:12px; color:var(--t2); margin-top:3px; }
-.sh-body { overflow-y:auto; padding:6px 0; scrollbar-width:none; flex:1; }
-.sh-body::-webkit-scrollbar { display:none; }
-.brand-hdr { padding:12px 20px 3px; font-size:10px; letter-spacing:.07em; text-transform:uppercase; color:var(--t3); font-family:var(--fm); }
-.dev-row { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid var(--b1); cursor:pointer; transition:background .1s; }
-.dev-row:active { background:var(--s2); }
-.dev-left { display:flex; align-items:center; gap:13px; }
-.dev-ico { width:38px; height:38px; border:1px solid var(--b2); border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:var(--fm); font-size:10px; font-weight:700; color:var(--t2); }
-.dev-name { font-size:14px; font-weight:500; }
-.dev-meta { font-size:11px; color:var(--t2); margin-top:2px; }
+.toast{position:fixed;top:max(58px,calc(env(safe-area-inset-top,0px)+14px));left:50%;transform:translateX(-50%) translateY(-14px);background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:10px 18px;font-size:13px;font-weight:500;z-index:200;opacity:0;pointer-events:none;transition:all .22s;white-space:nowrap;max-width:calc(100% - 44px)}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* ── SCOOTER CARD (scan) ── */
-.scard { display:flex; align-items:center; margin:10px 16px; background:var(--s2); border:1px solid var(--b1); border-radius:16px; cursor:pointer; transition:border-color .15s,background .15s; overflow:hidden; }
-.scard:active { background:var(--s3); border-color:var(--b2); }
-.scard.connecting { border-color:rgba(var(--acc-rgb),.4); animation:cardpulse 1.2s ease-in-out infinite; }
-@keyframes cardpulse { 0%,100%{border-color:rgba(var(--acc-rgb),.4)}50%{border-color:rgba(var(--acc-rgb),.1)} }
-.scard-img { width:100px; height:76px; display:flex; align-items:center; justify-content:center; flex-shrink:0; padding:8px; }
-.scard-img svg { width:100%; height:100%; }
-.scard-info { flex:1; padding:14px 10px 14px 2px; min-width:0; }
-.scard-serial { font-size:16px; font-weight:700; letter-spacing:-.02em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.scard-model { font-size:12px; color:var(--acc); font-weight:500; margin-top:3px; }
-.scard-rssi { font-size:11px; color:var(--t3); margin-top:4px; font-family:var(--fm); }
-.scard-right { display:flex; flex-direction:column; align-items:center; gap:10px; padding:14px; flex-shrink:0; }
-.sig { display:flex; align-items:flex-end; gap:2px; height:18px; }
-.sig-bar { width:4px; border-radius:1px; background:var(--b2); }
-.sig-bar.on { background:var(--acc); }
+.scan-empty{padding:36px 20px;text-align:center;color:var(--t3);font-size:13px;line-height:1.7}
+.rescan-btn{margin:12px auto 0;display:block;padding:10px 22px;background:transparent;border:1px solid var(--b2);border-radius:8px;color:var(--t2);font-family:var(--fh);font-size:13px;cursor:pointer;transition:background .15s}
+.rescan-btn:active{background:var(--s2)}
 
-/* ── SPINNER ── */
-.spinner { width:16px; height:16px; border:2px solid var(--b2); border-top-color:var(--acc); border-radius:50%; animation:spin .8s linear infinite; flex-shrink:0; }
-@keyframes spin { to{transform:rotate(360deg)} }
-.spin-row { display:flex; align-items:center; gap:12px; padding:20px; color:var(--t2); font-size:13px; }
+.no-ble{padding:32px 20px;text-align:center}
+.no-ble-icon{font-size:36px;margin-bottom:12px}
+.no-ble-title{font-size:15px;font-weight:600;margin-bottom:8px}
+.no-ble-sub{font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:20px}
+.no-ble-btn{padding:12px 24px;background:var(--a);color:#000;border:none;border-radius:9px;font-family:var(--fh);font-size:14px;font-weight:600;cursor:pointer}
 
-/* ── TOAST ── */
-.toast { position:fixed; top:max(58px, calc(env(safe-area-inset-top,0px) + 14px)); left:50%; transform:translateX(-50%) translateY(-16px); background:var(--s2); border:1px solid var(--b2); border-radius:10px; padding:10px 18px; font-size:13px; font-weight:500; z-index:100; opacity:0; pointer-events:none; transition:all .2s; white-space:nowrap; max-width:calc(100% - 44px); }
-.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.tg{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px 20px}
+.ts{height:48px;border-radius:10px;cursor:pointer;border:2.5px solid transparent;transition:all .15s;position:relative;overflow:hidden}
+.ts.on{border-color:#fff}
+.ts.rb{background:linear-gradient(135deg,#f00,#f90,#ff0,#0f0,#09f,#60f,#f09)}
+.tlabel{font-size:10px;color:var(--t2);text-align:center;margin-top:4px}
 
-/* ── SCAN EMPTY ── */
-.scan-empty { padding:36px 20px; text-align:center; color:var(--t3); font-size:13px; line-height:1.7; }
-.rescan-btn { margin:14px auto 0; display:block; padding:10px 24px; background:transparent; border:1px solid var(--b2); border-radius:8px; color:var(--t2); font-family:var(--fh); font-size:13px; cursor:pointer; }
-.rescan-btn:active { background:var(--s2); }
+#splash{position:fixed;inset:0;background:#000;z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease}
+#splash.out{opacity:0;pointer-events:none}
+.splash-logo{width:90px;height:90px;background:var(--s1);border:1px solid var(--b2);border-radius:24px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;animation:splashIn .5s ease}
+@keyframes splashIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.splash-name{font-size:28px;font-weight:700;letter-spacing:-.03em;animation:splashIn .5s ease .1s both}
+.splash-sub{font-size:12px;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin-top:6px;animation:splashIn .5s ease .2s both}
 
-/* ── NO BLE ── */
-.no-ble { padding:32px 20px; text-align:center; }
-.no-ble-icon { font-size:36px; margin-bottom:12px; }
-.no-ble-title { font-size:15px; font-weight:600; margin-bottom:8px; }
-.no-ble-sub { font-size:13px; color:var(--t2); line-height:1.6; margin-bottom:20px; }
-.no-ble-btn { padding:12px 24px; background:var(--acc); color:#000; border:none; border-radius:9px; font-family:var(--fh); font-size:14px; font-weight:600; cursor:pointer; }
-
-/* ── THEME PICKER ── */
-.theme-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; padding:16px 20px; }
-.theme-swatch { height:48px; border-radius:10px; cursor:pointer; border:2px solid transparent; transition:all .15s; position:relative; overflow:hidden; }
-.theme-swatch.active { border-color:#fff; }
-.theme-swatch.rainbow { background:linear-gradient(135deg,#ff0000,#ff9900,#ffff00,#00ff00,#0099ff,#6633ff,#ff0099); }
-.theme-label { font-size:10px; color:var(--t2); text-align:center; margin-top:5px; letter-spacing:.03em; }
-.custom-color-row { display:flex; align-items:center; justify-content:space-between; padding:12px 20px; border-top:1px solid var(--b1); }
-
-/* ── LOGO SPLASH ── */
-#splash { position:fixed; inset:0; background:#000; z-index:300; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity .6s ease; }
-#splash.out { opacity:0; pointer-events:none; }
-
-/* ── RAINBOW ANIMATION ── */
-@keyframes rainbow {
-  0%   { --acc:#FF3B30; --acc-rgb:255,59,48; }
-  14%  { --acc:#FF9500; --acc-rgb:255,149,0; }
-  28%  { --acc:#FFCC00; --acc-rgb:255,204,0; }
-  42%  { --acc:#30D158; --acc-rgb:48,209,88; }
-  57%  { --acc:#0A84FF; --acc-rgb:10,132,255; }
-  71%  { --acc:#BF5AF2; --acc-rgb:191,90,242; }
-  85%  { --acc:#FF2D55; --acc-rgb:255,45,85; }
-  100% { --acc:#FF3B30; --acc-rgb:255,59,48; }
-}
-[data-theme="rainbow"] {
-  animation: rainbowTheme 4s linear infinite;
-}
-@keyframes rainbowTheme {
-  0%   { --acc:#FF3B30;--acc2:#FF6B60;--acc-rgb:255,59,48; }
-  16%  { --acc:#FF9500;--acc2:#FFB340;--acc-rgb:255,149,0; }
-  33%  { --acc:#30D158;--acc2:#5FE37A;--acc-rgb:48,209,88; }
-  50%  { --acc:#0A84FF;--acc2:#30B0FF;--acc-rgb:10,132,255; }
-  66%  { --acc:#BF5AF2;--acc2:#DA8FFF;--acc-rgb:191,90,242; }
-  83%  { --acc:#FF2D55;--acc2:#FF6080;--acc-rgb:255,45,85; }
-  100% { --acc:#FF3B30;--acc2:#FF6B60;--acc-rgb:255,59,48; }
-}
+#disc-overlay{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:400;display:none;align-items:flex-end;justify-content:center}
+.disc-box{background:var(--s1);border-top:1px solid var(--b2);border-radius:20px 20px 0 0;padding:28px 24px;padding-bottom:max(44px,calc(env(safe-area-inset-bottom,0px)+28px));max-width:430px;width:100%;max-height:80dvh;overflow-y:auto}
+.disc-title{font-size:22px;font-weight:700;letter-spacing:-.03em;margin-bottom:16px}
+.disc-body{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:24px}
+.disc-body strong{color:#fff}
 </style>
 </head>
 <body>
-
-<!-- ── SPLASH SCREEN ── -->
 <div id="splash">
-  <svg width="90" height="90" viewBox="0 0 90 90" fill="none" id="splashLogo">
-    <!-- VoltTune Logo: Lightning bolt V shape -->
-    <rect width="90" height="90" rx="22" fill="#111"/>
-    <path d="M18 22 L36 58 L45 42 L54 58 L72 22" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    <path d="M50 36 L44 52 L38 44" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".5"/>
-  </svg>
-  <div style="font-family:'Space Grotesk',sans-serif;font-size:28px;font-weight:700;letter-spacing:-.03em;margin-top:18px;color:#fff">Volt<span id="splashAccent" style="color:#fff">Tune</span></div>
-  <div style="font-family:'Space Grotesk',sans-serif;font-size:13px;color:rgba(255,255,255,.4);margin-top:6px;letter-spacing:.02em">SCOOTER TUNING</div>
+  <div class="splash-logo">
+    <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+      <path d="M10 12 L20 36 L25 24 L30 36 L40 12" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M28 22 L24 34 L20 28" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".45"/>
+    </svg>
+  </div>
+  <div class="splash-name">Volt<span style="color:rgba(255,255,255,.4);font-weight:400">Tune</span></div>
+  <div class="splash-sub">Scooter Tuning</div>
+</div>
+
+<div id="disc-overlay">
+  <div class="disc-box">
+    <div class="disc-title">Before you continue</div>
+    <div class="disc-body">
+      VoltTune modifies your scooter's firmware settings via Bluetooth.<br><br>
+      <strong>⚠️ Private property only.</strong> Riding a modified scooter on public roads may be illegal. Use only on private property.<br><br>
+      <strong>⚠️ Your responsibility.</strong> Increasing speed limits affects braking distance and motor life. You accept full responsibility for any damage or injury.<br><br>
+      <strong>⚠️ Warranty.</strong> Modifying firmware may void your manufacturer warranty.
+    </div>
+    <button onclick="acceptDisc()" style="width:100%;padding:15px;background:#fff;color:#000;border:none;border-radius:11px;font-family:var(--fh);font-size:15px;font-weight:600;cursor:pointer">I understand — continue</button>
+  </div>
 </div>
 
 <div id="app" data-theme="white">
 <div class="toast" id="toast"></div>
 
-<!-- ── DISCONNECTED VIEW ── -->
 <div class="view active" id="vDisc">
   <header>
-    <div class="logo-wrap">
-      <svg class="logo-icon" viewBox="0 0 30 30" fill="none">
-        <path d="M6 7 L12 20 L15 14 L18 20 L24 7" stroke="var(--acc)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <div class="hlogo">
+      <svg class="hico" viewBox="0 0 28 28" fill="none">
+        <path d="M5 6 L11 19 L14 12 L17 19 L23 6" stroke="var(--a)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <div class="logo-text">Volt<span>Tune</span></div>
+      Volt<span>Tune</span>
     </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <button onclick="openThemeSheet()" style="background:none;border:none;padding:4px;cursor:pointer;color:var(--t2)">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <div class="hright">
+      <button class="icon-btn" onclick="openSheet('shTheme')">
+        <svg width="19" height="19" viewBox="0 0 19 19" fill="none"><circle cx="9.5" cy="9.5" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M9.5 1.5v2M9.5 15.5v2M1.5 9.5h2M15.5 9.5h2M4.1 4.1l1.4 1.4M13.5 13.5l1.4 1.4M4.1 14.9l1.4-1.4M13.5 5.5l1.4-1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
       </button>
       <div class="pill"><div class="dot"></div><span>No device</span></div>
     </div>
@@ -296,70 +248,61 @@ main::-webkit-scrollbar { display:none; }
   <main>
     <div class="hero">
       <div class="hero-logo">
-        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-          <rect width="64" height="64" rx="16" fill="var(--s2)"/>
-          <path d="M13 15 L22 38 L32 20 L42 38 L51 15" stroke="var(--acc)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M36 28 L30 44 L24 36" stroke="var(--acc)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/>
+        <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+          <path d="M8 9 L16 29 L20 19 L24 29 L32 9" stroke="var(--a)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M23 18 L19 30 L15 24" stroke="var(--a)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".4"/>
         </svg>
       </div>
       <div class="hero-title">No scooter connected</div>
       <div class="hero-sub">Tap Connect to scan for nearby Ninebot, Xiaomi and Navee scooters.</div>
-      <button class="btn-connect" onclick="openScanSheet()">Connect</button>
+      <button class="btn-connect" onclick="openScan()">Connect</button>
     </div>
     <div class="sec">Supported models</div>
-    <div id="homeModelList"></div>
+    <div id="homeList"></div>
   </main>
 </div>
 
-<!-- ── CONNECTED VIEW ── -->
 <div class="view" id="vConn">
   <header>
-    <div class="logo-wrap">
-      <svg class="logo-icon" viewBox="0 0 30 30" fill="none">
-        <path d="M6 7 L12 20 L15 14 L18 20 L24 7" stroke="var(--acc)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <div class="hlogo">
+      <svg class="hico" viewBox="0 0 28 28" fill="none">
+        <path d="M5 6 L11 19 L14 12 L17 19 L23 6" stroke="var(--a)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <div class="logo-text">Volt<span>Tune</span></div>
+      Volt<span>Tune</span>
     </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <button onclick="openThemeSheet()" style="background:none;border:none;padding:4px;cursor:pointer;color:var(--t2)">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.22 4.22l1.42 1.42M14.36 14.36l1.42 1.42M4.22 15.78l1.42-1.42M14.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    <div class="hright">
+      <button class="icon-btn" onclick="openSheet('shTheme')">
+        <svg width="19" height="19" viewBox="0 0 19 19" fill="none"><circle cx="9.5" cy="9.5" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M9.5 1.5v2M9.5 15.5v2M1.5 9.5h2M15.5 9.5h2M4.1 4.1l1.4 1.4M13.5 13.5l1.4 1.4M4.1 14.9l1.4-1.4M13.5 5.5l1.4-1.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
       </button>
       <div class="pill on"><div class="dot live"></div><span id="connLabel">—</span></div>
     </div>
   </header>
   <main>
-    <!-- SPEED -->
     <div class="speed-block">
-      <div class="speed-num" id="speedNum">0.0</div>
-      <div class="speed-unit">km/h</div>
-      <div class="speed-track"><div class="speed-fill" id="speedFill"></div></div>
-      <div class="tune-badge" id="tuneBadge"><div class="tbdot"></div><span id="tuneLabel">Tune active</span></div>
+      <div class="spd" id="spdNum">0.0</div>
+      <div class="spd-u">km/h</div>
+      <div class="spd-track"><div class="spd-fill" id="spdFill"></div></div>
+      <div class="tbadge" id="tbadge"><div class="tbdot"></div><span id="tbLabel">Tune active</span></div>
     </div>
-
-    <!-- LIVE STATS -->
     <div class="sec">Live</div>
-    <div class="grid3">
-      <div class="card"><div class="card-label">Top</div><div class="card-val"><span id="topVal">0.0</span><span class="card-unit">km/h</span></div></div>
-      <div class="card"><div class="card-label">Trip</div><div class="card-val"><span id="distVal">0.0</span><span class="card-unit">km</span></div></div>
-      <div class="card"><div class="card-label">Battery</div><div class="card-val"><span id="batVal">—</span><span class="card-unit">%</span></div></div>
+    <div class="g3">
+      <div class="card"><div class="card-l">Top</div><div class="card-v"><span id="topVal">0.0</span><span class="card-u">km/h</span></div></div>
+      <div class="card"><div class="card-l">Trip</div><div class="card-v"><span id="distVal">0.0</span><span class="card-u">km</span></div></div>
+      <div class="card"><div class="card-l">Battery</div><div class="card-v"><span id="batVal">—</span><span class="card-u">%</span></div></div>
     </div>
-    <div class="grid2" style="margin-top:8px">
-      <div class="card"><div class="card-label">Signal</div><div class="card-val"><span id="rssiVal">—</span><span class="card-unit">dBm</span></div></div>
-      <div class="card"><div class="card-label">Limit set</div><div class="card-val"><span id="limitSet">—</span><span class="card-unit">km/h</span></div></div>
+    <div class="g2" style="margin-top:8px">
+      <div class="card"><div class="card-l">Signal</div><div class="card-v"><span id="rssiVal">—</span><span class="card-u">dBm</span></div></div>
+      <div class="card"><div class="card-l">Limit set</div><div class="card-v"><span id="limitSet">—</span><span class="card-u">km/h</span></div></div>
     </div>
-
-    <!-- CONTROLLER INFO (shown only when available) -->
-    <div id="ctrlSection" style="display:none">
+    <div id="ctrlSec" style="display:none">
       <div class="sec">Hardware</div>
       <div class="ctrl-card" id="ctrlCard"></div>
     </div>
-
-    <!-- SPEED LIMIT -->
     <div class="sec">Speed limit</div>
-    <div class="slider-wrap">
+    <div class="sl-wrap">
       <div class="sl-head">
         <div class="sl-title">Max speed</div>
-        <div><span class="sl-val" id="slVal">25</span><span class="sl-unit">km/h</span></div>
+        <div><span class="sl-num" id="slVal">25</span><span class="sl-unit">km/h</span></div>
       </div>
       <div class="sl-track" id="slTrack">
         <div class="sl-bg"></div>
@@ -367,1184 +310,635 @@ main::-webkit-scrollbar { display:none; }
         <div class="sl-hit" id="slThumb"><div class="sl-thumb"></div></div>
       </div>
       <div class="sl-labels"><span id="slMin">5</span><span id="slMax">35</span></div>
-      <div class="chips" id="presetChips"></div>
-      <button class="btn-primary" id="applyBtn" onclick="applyLimit()">Apply limit</button>
+      <div class="chips" id="presets"></div>
+      <button class="btn-p" id="applyBtn" onclick="applyLimit()">Apply limit</button>
     </div>
-
-    <!-- FEATURES -->
     <div class="sec">Features</div>
-    <div class="feat-grid" id="featGrid"></div>
-    <div id="panicSection"></div>
+    <div class="fg" id="featGrid"></div>
+    <div id="panicSec"></div>
     <div style="height:16px"></div>
   </main>
   <div class="bottom">
-    <button class="btn-ghost" onclick="disconnect()">Disconnect</button>
+    <button class="btn-g" onclick="disconnect()">Disconnect</button>
   </div>
 </div>
 
-<!-- ── OVERLAY ── -->
-<div class="overlay" id="ov" onclick="closeAllSheets()"></div>
+<div class="ov" id="ov" onclick="closeSheets()"></div>
 
-<!-- MODEL SHEET -->
-<div class="sheet" id="shModel">
-  <div class="sh-handle"></div>
-  <div class="sh-head"><div class="sh-title">All models</div><div class="sh-sub" id="shModelSub">89 models</div></div>
-  <div class="sh-body" id="shModelBody"></div>
-</div>
-
-<!-- SCAN SHEET -->
-<div class="sheet sheet-full" id="shBLE">
+<div class="sheet" id="shScan" style="max-height:92dvh">
   <div class="sh-handle"></div>
   <div class="sh-head">
     <div style="display:flex;align-items:center;justify-content:space-between">
-      <div><div class="sh-title">Nearby scooters</div><div class="sh-sub" id="shBLESub">Scanning…</div></div>
+      <div><div class="sh-title">Nearby scooters</div><div class="sh-sub" id="scanSub">Scanning…</div></div>
       <div class="spinner" id="scanSpinner" style="display:none"></div>
     </div>
   </div>
-  <div class="sh-body" id="shBLEBody"><div class="scan-empty">Searching for scooters…</div></div>
-  <div style="padding:12px 20px 32px;border-top:1px solid var(--b1);text-align:center">
+  <div class="sh-body" id="scanBody"><div class="scan-empty">Searching for scooters…</div></div>
+  <div class="sh-footer">
     <span style="font-size:13px;color:var(--t3)">Don't see yours? </span>
-    <span style="font-size:13px;color:var(--t2);text-decoration:underline;cursor:pointer" onclick="openModelSheet()">View all models</span>
+    <span style="font-size:13px;color:var(--t2);text-decoration:underline;cursor:pointer" onclick="openSheet('shModels')">All models</span>
   </div>
 </div>
 
-<!-- THEME SHEET -->
+<div class="sheet" id="shModels">
+  <div class="sh-handle"></div>
+  <div class="sh-head"><div class="sh-title">All models</div><div class="sh-sub" id="modelsSub">89 models</div></div>
+  <div class="sh-body" id="modelsBody"></div>
+</div>
+
 <div class="sheet" id="shTheme">
   <div class="sh-handle"></div>
-  <div class="sh-head"><div class="sh-title">Appearance</div><div class="sh-sub">Choose accent color</div></div>
+  <div class="sh-head"><div class="sh-title">Appearance</div><div class="sh-sub">Accent color</div></div>
   <div class="sh-body">
-    <div class="theme-grid">
-      <div>
-        <div class="theme-swatch active" data-t="white" onclick="setTheme('white')" style="background:#fff"></div>
-        <div class="theme-label">Default</div>
-      </div>
-      <div>
-        <div class="theme-swatch" data-t="orange" onclick="setTheme('orange')" style="background:#FF6B00"></div>
-        <div class="theme-label">Segway</div>
-      </div>
-      <div>
-        <div class="theme-swatch" data-t="blue" onclick="setTheme('blue')" style="background:#0A84FF"></div>
-        <div class="theme-label">Blue</div>
-      </div>
-      <div>
-        <div class="theme-swatch" data-t="purple" onclick="setTheme('purple')" style="background:#BF5AF2"></div>
-        <div class="theme-label">Purple</div>
-      </div>
-      <div>
-        <div class="theme-swatch" data-t="green" onclick="setTheme('green')" style="background:#30D158"></div>
-        <div class="theme-label">Green</div>
-      </div>
-      <div>
-        <div class="theme-swatch" data-t="red" onclick="setTheme('red')" style="background:#FF3B30"></div>
-        <div class="theme-label">Red</div>
-      </div>
-      <div>
-        <div class="theme-swatch" data-t="teal" onclick="setTheme('teal')" style="background:#5AC8FA"></div>
-        <div class="theme-label">Teal</div>
-      </div>
-      <div>
-        <div class="theme-swatch rainbow" data-t="rainbow" onclick="setTheme('rainbow')"></div>
-        <div class="theme-label">Rainbow</div>
-      </div>
+    <div class="tg">
+      <div><div class="ts on" data-t="white" onclick="setTheme('white')" style="background:#fff"></div><div class="tlabel">Default</div></div>
+      <div><div class="ts" data-t="orange" onclick="setTheme('orange')" style="background:#FF6B00"></div><div class="tlabel">Segway</div></div>
+      <div><div class="ts" data-t="blue" onclick="setTheme('blue')" style="background:#0A84FF"></div><div class="tlabel">Blue</div></div>
+      <div><div class="ts" data-t="purple" onclick="setTheme('purple')" style="background:#BF5AF2"></div><div class="tlabel">Purple</div></div>
+      <div><div class="ts" data-t="green" onclick="setTheme('green')" style="background:#30D158"></div><div class="tlabel">Green</div></div>
+      <div><div class="ts" data-t="red" onclick="setTheme('red')" style="background:#FF3B30"></div><div class="tlabel">Red</div></div>
+      <div><div class="ts" data-t="teal" onclick="setTheme('teal')" style="background:#5AC8FA"></div><div class="tlabel">Teal</div></div>
+      <div><div class="ts rb" data-t="rainbow" onclick="setTheme('rainbow')"></div><div class="tlabel">Rainbow</div></div>
     </div>
-    <!-- Custom gradient -->
     <div style="padding:0 20px 12px">
-      <div class="sec" style="margin-top:4px">Custom color</div>
+      <div class="sec" style="margin-top:4px">Custom</div>
       <div style="display:flex;align-items:center;gap:12px;margin-top:8px">
-        <input type="color" id="customColor1" value="#ffffff" onchange="applyCustom()" style="width:48px;height:48px;border:none;border-radius:10px;cursor:pointer;background:none">
-        <div style="font-size:13px;color:var(--t2)">Accent color</div>
+        <input type="color" id="customClr" value="#ffffff" onchange="applyCustom()" style="width:48px;height:48px;border:none;border-radius:10px;cursor:pointer;background:none">
+        <div style="font-size:13px;color:var(--t2)">Pick any color</div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- DISCLAIMER -->
-<div id="disclaimerOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:200;align-items:flex-end;justify-content:center">
-  <div style="background:var(--s1);border-top:1px solid var(--b2);border-radius:20px 20px 0 0;padding:28px 24px 44px;max-width:430px;width:100%;max-height:80dvh;overflow-y:auto">
-    <div style="font-size:22px;font-weight:700;letter-spacing:-.03em;margin-bottom:16px">Before you continue</div>
-    <div style="font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:24px">
-      VoltTune modifies your scooter's firmware settings via Bluetooth.<br><br>
-      <strong style="color:#fff">⚠️ Private property only.</strong><br>
-      Riding a modified scooter on public roads may be illegal. Use only on private property.<br><br>
-      <strong style="color:#fff">⚠️ Your responsibility.</strong><br>
-      Removing speed limits affects braking distance, motor life, and battery. You accept full responsibility for any damage or injury.<br><br>
-      <strong style="color:#fff">⚠️ Warranty void.</strong><br>
-      Modifying firmware may void your manufacturer warranty.
-    </div>
-    <button onclick="acceptDisclaimer()" style="width:100%;padding:16px;background:#fff;color:#000;border:none;border-radius:10px;font-family:var(--fh);font-size:15px;font-weight:600;cursor:pointer">I understand — continue</button>
-  </div>
 </div>
-
-</div><!-- #app -->
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-// MODEL DATABASE — 89 models with feature flags
-// ═══════════════════════════════════════════════════════════════
-const MODEL_DB = [
-  {brand:'Ninebot',name:'Segway Ninebot E2 E II',        key:'nb',maxKmh:30,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Ninebot',name:'Segway Ninebot E2 Plus E II',   key:'nb',maxKmh:30,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Ninebot',name:'Segway Ninebot E2 Pro E',       key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Ninebot',name:'Segway Ninebot E3 E',           key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Ninebot',name:'Segway Ninebot E3 Pro E',       key:'nb',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot F2 E II',        key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Ninebot',name:'Segway Ninebot F2 Plus E II',   key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Ninebot',name:'Segway Ninebot F2 Pro II E',    key:'nb',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot F3 E',           key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Ninebot',name:'Segway Ninebot F3 Pro E',       key:'nb',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot ZT3 Pro E',      key:'nb',maxKmh:45,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot D18W',           key:'nb',maxKmh:30,ctrl:false,features:['limit','eco','light','beep']},
-  {brand:'Ninebot',name:'Segway Ninebot D28E',           key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Ninebot',name:'Segway Ninebot D38E',           key:'nb',maxKmh:40,ctrl:false,features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Ninebot',name:'Segway Ninebot F20',            key:'nb',maxKmh:30,ctrl:false,features:['limit','eco','light','beep','cruise']},
-  {brand:'Ninebot',name:'Segway Ninebot F25',            key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Ninebot',name:'Segway Ninebot F30',            key:'nb',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Ninebot',name:'Segway Ninebot F40',            key:'nb',maxKmh:45,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot F65',            key:'nb',maxKmh:50,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot P65',            key:'nb',maxKmh:50,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot P100',           key:'nb',maxKmh:55,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot P100SE',         key:'nb',maxKmh:55,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Ninebot KickScooter MAX G30',   key:'nb',maxKmh:38,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Ninebot KickScooter MAX G30D',  key:'nb',maxKmh:38,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Ninebot KickScooter MAX G30E',  key:'nb',maxKmh:38,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Ninebot KickScooter MAX G30E II',key:'nb',maxKmh:38,ctrl:true,features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Ninebot KickScooter MAX G30LE', key:'nb',maxKmh:38,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Ninebot KickScooter MAX G30LP', key:'nb',maxKmh:38,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Ninebot KickScooter MAX G30P',  key:'nb',maxKmh:38,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot MAX G2 E',       key:'nb',maxKmh:45,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot MAX G3 E',       key:'nb',maxKmh:50,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Ninebot KickScooter E22',       key:'nb',maxKmh:30,ctrl:false,features:['limit','sport','eco','light','beep']},
-  {brand:'Ninebot',name:'Ninebot KickScooter E22E',      key:'nb',maxKmh:30,ctrl:false,features:['limit','sport','eco','light','beep']},
-  {brand:'Ninebot',name:'Ninebot KickScooter E25',       key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Ninebot',name:'Ninebot KickScooter E25E',      key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Ninebot',name:'Ninebot KickScooter E45',       key:'nb',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Ninebot',name:'Ninebot KickScooter E45E',      key:'nb',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Ninebot',name:'Ninebot KickScooter E2',        key:'nb',maxKmh:30,ctrl:false,features:['limit','eco','light','beep']},
-  {brand:'Ninebot',name:'Ninebot KickScooter E2 Plus',   key:'nb',maxKmh:30,ctrl:false,features:['limit','eco','light','beep']},
-  {brand:'Ninebot',name:'Segway Ninebot GT1',            key:'nb',maxKmh:55,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot GT1E',           key:'nb',maxKmh:55,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot GT2',            key:'nb',maxKmh:75,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot GT2E',           key:'nb',maxKmh:75,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot GT3 E',          key:'nb',maxKmh:70,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Ninebot',name:'Segway Ninebot GT3 Pro E',      key:'nb',maxKmh:75,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Xiaomi',name:'Mi Electric Scooter M365',       key:'mi',maxKmh:33,ctrl:false,features:['limit','sport','light','beep']},
-  {brand:'Xiaomi',name:'Mi Electric Scooter M365 Pro',   key:'mi',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Xiaomi',name:'Mi Electric Scooter M365 Pro 2', key:'mi',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Xiaomi',name:'Mi Electric Scooter 1S',         key:'mi',maxKmh:33,ctrl:false,features:['limit','sport','light','beep','cruise']},
-  {brand:'Xiaomi',name:'Mi Electric Scooter Essential',  key:'mi',maxKmh:28,ctrl:false,features:['limit','eco','light','beep']},
-  {brand:'Xiaomi',name:'Mi Electric Scooter Pro',        key:'mi',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Xiaomi',name:'Mi Electric Scooter Pro 2',      key:'mi',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Xiaomi',name:'Mi Electric Scooter 3',          key:'mi',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 3 Lite', key:'mi',maxKmh:28,ctrl:false,features:['limit','eco','light','beep']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 4',      key:'mi',maxKmh:35,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 4 Lite', key:'mi',maxKmh:28,ctrl:false,features:['limit','eco','light','beep']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 4 Pro',  key:'mi',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 4 Ultra',key:'mi',maxKmh:45,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 4 Go',   key:'mi',maxKmh:28,ctrl:false,features:['limit','eco','light','beep']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 4 Max',  key:'mi',maxKmh:45,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter S2',     key:'mi',maxKmh:35,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter S2 Pro', key:'mi',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 2 Lite', key:'mi',maxKmh:28,ctrl:false,features:['limit','eco','light','beep']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 5',      key:'mi',maxKmh:35,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 5 Pro',  key:'mi',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 5 Max',  key:'mi',maxKmh:45,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 6',      key:'mi',maxKmh:35,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 6 Lite', key:'mi',maxKmh:28,ctrl:false,features:['limit','eco','light','beep']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 6 Pro',  key:'mi',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 6 Max',  key:'mi',maxKmh:50,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Xiaomi',name:'Xiaomi Electric Scooter 6 Ultra',key:'mi',maxKmh:55,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Navee',name:'Navee N40',     key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Navee',name:'Navee N65',     key:'nb',maxKmh:42,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Navee',name:'Navee N65C',    key:'nb',maxKmh:42,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Navee',name:'Navee N65 Pro', key:'nb',maxKmh:45,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Navee',name:'Navee S40',     key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Navee',name:'Navee S65',     key:'nb',maxKmh:42,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Navee',name:'Navee S65C',    key:'nb',maxKmh:42,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Navee',name:'Navee V40',     key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Navee',name:'Navee V40i',    key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Navee',name:'Navee GT3',     key:'nb',maxKmh:42,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Navee',name:'Navee GT3 Max', key:'nb',maxKmh:48,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Navee',name:'Navee GT3 Pro', key:'nb',maxKmh:50,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Navee',name:'Navee GT5 Max', key:'nb',maxKmh:55,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Navee',name:'Navee GT5 Pro', key:'nb',maxKmh:60,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Navee',name:'Navee ST3',     key:'nb',maxKmh:35,ctrl:false,features:['limit','sport','eco','light','beep','cruise']},
-  {brand:'Navee',name:'Navee ST3 Pro', key:'nb',maxKmh:40,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock']},
-  {brand:'Navee',name:'Navee ST5 Max', key:'nb',maxKmh:48,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
-  {brand:'Navee',name:'Navee ST5 Pro', key:'nb',maxKmh:50,ctrl:true, features:['limit','sport','eco','light','beep','cruise','lock','zero']},
+const MODELS = [
+  {brand:"Ninebot",name:"Segway Ninebot E2 E II",        key:"nb",max:30,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Ninebot",name:"Segway Ninebot E2 Plus E II",   key:"nb",max:30,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Ninebot",name:"Segway Ninebot E2 Pro E",       key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Ninebot",name:"Segway Ninebot E3 E",           key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Ninebot",name:"Segway Ninebot E3 Pro E",       key:"nb",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot F2 E II",        key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Ninebot",name:"Segway Ninebot F2 Plus E II",   key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Ninebot",name:"Segway Ninebot F2 Pro II E",    key:"nb",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot F3 E",           key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Ninebot",name:"Segway Ninebot F3 Pro E",       key:"nb",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot ZT3 Pro E",      key:"nb",max:45,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot D18W",           key:"nb",max:30,ctrl:false,feat:["limit","eco","light","beep"]},
+  {brand:"Ninebot",name:"Segway Ninebot D28E",           key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Ninebot",name:"Segway Ninebot D38E",           key:"nb",max:40,ctrl:false,feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Ninebot",name:"Segway Ninebot F20",            key:"nb",max:30,ctrl:false,feat:["limit","eco","light","beep","cruise"]},
+  {brand:"Ninebot",name:"Segway Ninebot F25",            key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Ninebot",name:"Segway Ninebot F30",            key:"nb",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Ninebot",name:"Segway Ninebot F40",            key:"nb",max:45,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot F65",            key:"nb",max:50,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot P65",            key:"nb",max:50,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot P100",           key:"nb",max:55,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot P100SE",         key:"nb",max:55,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter MAX G30",   key:"nb",max:38,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter MAX G30D",  key:"nb",max:38,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter MAX G30E",  key:"nb",max:38,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter MAX G30E II",key:"nb",max:38,ctrl:true,feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter MAX G30LE", key:"nb",max:38,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter MAX G30LP", key:"nb",max:38,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter MAX G30P",  key:"nb",max:38,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot MAX G2 E",       key:"nb",max:45,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot MAX G3 E",       key:"nb",max:50,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter E22",       key:"nb",max:30,ctrl:false,feat:["limit","sport","eco","light","beep"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter E22E",      key:"nb",max:30,ctrl:false,feat:["limit","sport","eco","light","beep"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter E25",       key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter E25E",      key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter E45",       key:"nb",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter E45E",      key:"nb",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter E2",        key:"nb",max:30,ctrl:false,feat:["limit","eco","light","beep"]},
+  {brand:"Ninebot",name:"Ninebot KickScooter E2 Plus",   key:"nb",max:30,ctrl:false,feat:["limit","eco","light","beep"]},
+  {brand:"Ninebot",name:"Segway Ninebot GT1",            key:"nb",max:55,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot GT1E",           key:"nb",max:55,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot GT2",            key:"nb",max:75,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot GT2E",           key:"nb",max:75,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot GT3 E",          key:"nb",max:70,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Ninebot",name:"Segway Ninebot GT3 Pro E",      key:"nb",max:75,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Xiaomi",name:"Mi Electric Scooter M365",       key:"mi",max:33,ctrl:false,feat:["limit","sport","light","beep"]},
+  {brand:"Xiaomi",name:"Mi Electric Scooter M365 Pro",   key:"mi",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Xiaomi",name:"Mi Electric Scooter M365 Pro 2", key:"mi",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Xiaomi",name:"Mi Electric Scooter 1S",         key:"mi",max:33,ctrl:false,feat:["limit","sport","light","beep","cruise"]},
+  {brand:"Xiaomi",name:"Mi Electric Scooter Essential",  key:"mi",max:28,ctrl:false,feat:["limit","eco","light","beep"]},
+  {brand:"Xiaomi",name:"Mi Electric Scooter Pro",        key:"mi",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Xiaomi",name:"Mi Electric Scooter Pro 2",      key:"mi",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Xiaomi",name:"Mi Electric Scooter 3",          key:"mi",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 3 Lite", key:"mi",max:28,ctrl:false,feat:["limit","eco","light","beep"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 4",      key:"mi",max:35,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 4 Lite", key:"mi",max:28,ctrl:false,feat:["limit","eco","light","beep"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 4 Pro",  key:"mi",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 4 Ultra",key:"mi",max:45,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 4 Go",   key:"mi",max:28,ctrl:false,feat:["limit","eco","light","beep"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 4 Max",  key:"mi",max:45,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter S2",     key:"mi",max:35,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter S2 Pro", key:"mi",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 2 Lite", key:"mi",max:28,ctrl:false,feat:["limit","eco","light","beep"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 5",      key:"mi",max:35,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 5 Pro",  key:"mi",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 5 Max",  key:"mi",max:45,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 6",      key:"mi",max:35,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 6 Lite", key:"mi",max:28,ctrl:false,feat:["limit","eco","light","beep"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 6 Pro",  key:"mi",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 6 Max",  key:"mi",max:50,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Xiaomi",name:"Xiaomi Electric Scooter 6 Ultra",key:"mi",max:55,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Navee",name:"Navee N40",     key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Navee",name:"Navee N65",     key:"nb",max:42,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Navee",name:"Navee N65C",    key:"nb",max:42,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Navee",name:"Navee N65 Pro", key:"nb",max:45,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Navee",name:"Navee S40",     key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Navee",name:"Navee S65",     key:"nb",max:42,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Navee",name:"Navee S65C",    key:"nb",max:42,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Navee",name:"Navee V40",     key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Navee",name:"Navee V40i",    key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Navee",name:"Navee GT3",     key:"nb",max:42,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Navee",name:"Navee GT3 Max", key:"nb",max:48,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Navee",name:"Navee GT3 Pro", key:"nb",max:50,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Navee",name:"Navee GT5 Max", key:"nb",max:55,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Navee",name:"Navee GT5 Pro", key:"nb",max:60,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Navee",name:"Navee ST3",     key:"nb",max:35,ctrl:false,feat:["limit","sport","eco","light","beep","cruise"]},
+  {brand:"Navee",name:"Navee ST3 Pro", key:"nb",max:40,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock"]},
+  {brand:"Navee",name:"Navee ST5 Max", key:"nb",max:48,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
+  {brand:"Navee",name:"Navee ST5 Pro", key:"nb",max:50,ctrl:true, feat:["limit","sport","eco","light","beep","cruise","lock","zero"]},
 ];
 
-// Serial → model map
 const SERIAL_MAP = [
-  {pfx:'1K1D',family:'ZT3',      key:'nb',maxKmh:45,ctrl:true},
-  {pfx:'1CGD',family:'Max G3',   key:'nb',maxKmh:50,ctrl:true},
-  {pfx:'1CGB',family:'Max G3',   key:'nb',maxKmh:50,ctrl:true},
-  {pfx:'1CG', family:'Max G3',   key:'nb',maxKmh:50,ctrl:true},
-  {pfx:'N4GS',family:'MAX G30P', key:'nb',maxKmh:38,ctrl:true},
-  {pfx:'N4GC',family:'MAX G30',  key:'nb',maxKmh:38,ctrl:true},
-  {pfx:'N4GE',family:'MAX G30D', key:'nb',maxKmh:38,ctrl:true},
-  {pfx:'N4GP',family:'MAX G30E', key:'nb',maxKmh:38,ctrl:true},
-  {pfx:'N4GN',family:'MAX G30LP',key:'nb',maxKmh:38,ctrl:true},
-  {pfx:'N4GA',family:'MAX G30LE',key:'nb',maxKmh:38,ctrl:true},
-  {pfx:'N4GO',family:'MAX G30LE',key:'nb',maxKmh:38,ctrl:true},
-  {pfx:'N4GM',family:'MAX G30LD',key:'nb',maxKmh:38,ctrl:true},
-  {pfx:'N4G', family:'MAX G30',  key:'nb',maxKmh:38,ctrl:true},
-  {pfx:'N4Y', family:'MAX G2',   key:'nb',maxKmh:45,ctrl:true},
-  {pfx:'N2G', family:'ES',       key:'nb',maxKmh:35,ctrl:false},
-  {pfx:'N5GQ',family:'E22',      key:'nb',maxKmh:30,ctrl:false},
-  {pfx:'N5GR',family:'E25',      key:'nb',maxKmh:35,ctrl:false},
-  {pfx:'N5GT',family:'E45',      key:'nb',maxKmh:40,ctrl:true},
-  {pfx:'N5G', family:'E-series', key:'nb',maxKmh:40,ctrl:false},
-  {pfx:'1TE', family:'E3 Pro',   key:'nb',maxKmh:40,ctrl:true},
-  {pfx:'1NC', family:'F-series', key:'nb',maxKmh:45,ctrl:true},
-  {pfx:'1SF', family:'F3 Pro',   key:'nb',maxKmh:45,ctrl:true},
-  {pfx:'S1D', family:'Segway',   key:'nb',maxKmh:40,ctrl:true},
-  {pfx:'MIScooter',family:'Mi Scooter',key:'mi',maxKmh:45,ctrl:true},
-  {pfx:'MiScooter',family:'Mi Scooter',key:'mi',maxKmh:45,ctrl:true},
-  {pfx:'MXScooter',family:'Mi Scooter',key:'mi',maxKmh:45,ctrl:true},
-  {pfx:'Navee_',   family:'Navee',     key:'nb',maxKmh:50,ctrl:true},
-  {pfx:'NAVEE-',   family:'Navee',     key:'nb',maxKmh:50,ctrl:true},
+  {p:"1K1D",n:"ZT3",          k:"nb",max:45,ctrl:true},
+  {p:"1CGD",n:"Max G3",        k:"nb",max:50,ctrl:true},
+  {p:"1CGB",n:"Max G3",        k:"nb",max:50,ctrl:true},
+  {p:"1CG", n:"Max G3",        k:"nb",max:50,ctrl:true},
+  {p:"N4GS",n:"MAX G30P",      k:"nb",max:38,ctrl:true},
+  {p:"N4GC",n:"MAX G30",       k:"nb",max:38,ctrl:true},
+  {p:"N4GE",n:"MAX G30D",      k:"nb",max:38,ctrl:true},
+  {p:"N4GP",n:"MAX G30E",      k:"nb",max:38,ctrl:true},
+  {p:"N4GN",n:"MAX G30LP",     k:"nb",max:38,ctrl:true},
+  {p:"N4GA",n:"MAX G30LE",     k:"nb",max:38,ctrl:true},
+  {p:"N4GO",n:"MAX G30LE",     k:"nb",max:38,ctrl:true},
+  {p:"N4GM",n:"MAX G30LD",     k:"nb",max:38,ctrl:true},
+  {p:"N4G", n:"MAX G30",       k:"nb",max:38,ctrl:true},
+  {p:"N4Y", n:"MAX G2",        k:"nb",max:45,ctrl:true},
+  {p:"N2G", n:"ES",            k:"nb",max:35,ctrl:false},
+  {p:"N5GQ",n:"E22",           k:"nb",max:30,ctrl:false},
+  {p:"N5GR",n:"E25",           k:"nb",max:35,ctrl:false},
+  {p:"N5GT",n:"E45",           k:"nb",max:40,ctrl:true},
+  {p:"N5G", n:"E-series",      k:"nb",max:40,ctrl:false},
+  {p:"1TE", n:"E3 Pro",        k:"nb",max:40,ctrl:true},
+  {p:"1NC", n:"F-series",      k:"nb",max:45,ctrl:true},
+  {p:"1SF", n:"F3 Pro",        k:"nb",max:45,ctrl:true},
+  {p:"S1D", n:"Segway",        k:"nb",max:40,ctrl:true},
+  {p:"MIScooter",n:"Mi Scooter",k:"mi",max:45,ctrl:true},
+  {p:"MiScooter",n:"Mi Scooter",k:"mi",max:45,ctrl:true},
+  {p:"MXScooter",n:"Mi Scooter",k:"mi",max:45,ctrl:true},
+  {p:"Navee_",   n:"Navee",    k:"nb",max:50,ctrl:true},
+  {p:"NAVEE-",   n:"Navee",    k:"nb",max:50,ctrl:true},
 ];
 
-function resolveSerial(name) {
-  if (!name) return null;
-  const u = name.toUpperCase();
-  const sorted = [...SERIAL_MAP].sort((a,b)=>b.pfx.length-a.pfx.length);
-  for (const e of sorted) if (u.startsWith(e.pfx.toUpperCase())) return e;
+const SVC  = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
+const CHRX = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+const CHTX = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
+
+const S = {
+  dev:null, tx:null, connected:false,
+  proto:"nb", max:30, model:"", feat:[], hasCtrl:false,
+  spd:0, top:0, dist:0,
+  sMin:5, sMax:30, limit:25,
+  tuned:false,
+  sport:false, zero:false, eco:false, light:true, cruise:false, locked:false,
+  panicSpd:22, panicKey:"brake",
+  simT:null, pollT:null, found:[],
+};
+
+function nbCs(d){let c=0;for(const b of d)c=(c+b)&0xFF;return(~c)&0xFF;}
+function nbP(s,d,c,a,p){p=p||[];const b=[s,d,c,a,...p];return new Uint8Array([0x55,0xAA,b.length,...b,nbCs(b)]);}
+function miCs(d){let c=0;for(const b of d)c^=b;return c&0xFF;}
+function miP(c,p){p=p||[];const b=[c,...p];return new Uint8Array([0x55,0xAB,b.length+1,...b,miCs(b),0x0D,0x0A]);}
+
+function buildCmd(t) {
+  const nb=(c,a,p)=>nbP(0x3E,0x20,c,a,p);
+  if (S.proto==="mi") {
+    const m={
+      speed:miP(0x01,[0x76]),bat:miP(0x01,[0x7A]),beep:miP(0x01,[0x78,0x04]),
+      lock:miP(0x01,[0x70,0x01]),unlock:miP(0x01,[0x70,0x00]),
+      light_on:miP(0x01,[0x6D,0x02]),light_off:miP(0x01,[0x6D,0x00]),
+      sport_on:miP(0x01,[0x8E,0x02]),sport_off:miP(0x01,[0x8E,0x00]),
+      eco_on:miP(0x01,[0x8E,0x01]),eco_off:miP(0x01,[0x8E,0x00]),
+      zero_on:miP(0x01,[0x7C,0x01]),zero_off:miP(0x01,[0x7C,0x00]),
+      cruise_on:miP(0x01,[0x7D,0x01]),cruise_off:miP(0x01,[0x7D,0x00]),
+      reset:miP(0x01,[0x85,0x19]),ctrl_info:miP(0x01,[0x68]),
+    };
+    if(t==="limit"||t==="panic")return miP(0x01,[0x85,(t==="panic"?S.panicSpd:S.limit)&0xFF]);
+    return m[t]||null;
+  }
+  const m={
+    speed:nb(0x01,0x26,[]),bat:nb(0x01,0x22,[]),beep:nb(0x03,0x06,[0x01,0xC8]),
+    lock:nb(0x03,0x4A,[0x01,0x00]),unlock:nb(0x03,0x4A,[0x00,0x00]),
+    light_on:nb(0x03,0x7D,[0x02]),light_off:nb(0x03,0x7D,[0x00]),
+    sport_on:nb(0x03,0x8C,[0x02]),sport_off:nb(0x03,0x8C,[0x00]),
+    eco_on:nb(0x03,0x8C,[0x01]),eco_off:nb(0x03,0x8C,[0x00]),
+    zero_on:nb(0x03,0x8F,[0x01]),zero_off:nb(0x03,0x8F,[0x00]),
+    cruise_on:nb(0x03,0x8B,[0x01]),cruise_off:nb(0x03,0x8B,[0x00]),
+    reset:nb(0x03,0x70,[0x00,0x01]),ctrl_info:nb(0x01,0x62,[]),fw_ver:nb(0x01,0x1A,[]),
+  };
+  if(t==="limit"||t==="panic"){const kmh=t==="panic"?S.panicSpd:S.limit;const mm=Math.round(kmh*1000/36);return nb(0x03,0x89,[mm&0xFF,(mm>>8)&0xFF]);}
+  return m[t]||null;
+}
+
+async function tx(t){const c=buildCmd(t);if(!c||!S.tx)return false;try{await S.tx.writeValueWithoutResponse(c);return true;}catch(e){return false;}}
+
+const ctrlData = {};
+
+function onNotify(e) {
+  const raw = new Uint8Array(e.target.value.buffer);
+  const d = new DataView(raw.buffer);
+  if(d.byteLength<7||d.getUint8(0)!==0x55)return;
+  const cmd = d.getUint8(3);
+  if(cmd===0x26&&d.byteLength>=8){const mm=d.getUint8(6)|(d.getUint8(7)<<8);setSpd(Math.round(mm*36/100)/10);}
+  if(cmd===0x22&&d.byteLength>=7){document.getElementById("batVal").textContent=d.getUint8(6);}
+  if(cmd===0x62&&d.byteLength>=10){ctrlData.power=(d.getUint8(7)|(d.getUint8(8)<<8))+"W";ctrlData.ctrl="v"+d.getUint8(9);renderCtrl();}
+  if(cmd===0x1A&&d.byteLength>=9){ctrlData.fw=d.getUint8(7)+"."+d.getUint8(8);renderCtrl();}
+}
+
+function renderCtrl(){
+  if(!S.hasCtrl||!Object.keys(ctrlData).length)return;
+  const rows=[ctrlData.fw?["Firmware",ctrlData.fw]:null,ctrlData.power?["Motor",ctrlData.power]:null,ctrlData.ctrl?["Controller",ctrlData.ctrl]:null].filter(Boolean);
+  if(!rows.length)return;
+  document.getElementById("ctrlSec").style.display="block";
+  document.getElementById("ctrlCard").innerHTML=rows.map(([k,v])=>`<div class="ctrl-row"><span class="ctrl-k">${k}</span><span class="ctrl-v">${v}</span></div>`).join("");
+}
+
+function resolveSerial(name){
+  if(!name)return null;
+  const u=name.toUpperCase();
+  const s=[...SERIAL_MAP].sort((a,b)=>b.p.length-a.p.length);
+  for(const e of s)if(u.startsWith(e.p.toUpperCase()))return e;
   return null;
 }
 
-function resolveModel(bleName) {
-  const s = resolveSerial(bleName);
-  if (s) {
-    const db = MODEL_DB.find(m=>m.key===s.key&&m.ctrl===s.ctrl) || MODEL_DB.find(m=>m.key===s.key);
-    return {name:'Ninebot '+s.family, key:s.key, maxKmh:s.maxKmh, ctrl:s.ctrl,
-            features: db ? db.features : ['limit','sport','eco','light','beep']};
-  }
-  const low = (bleName||'').toLowerCase();
-  const m = MODEL_DB.find(m => low.includes(m.name.split(' ').slice(-1)[0].toLowerCase()));
-  if (m) return {name:m.name, key:m.key, maxKmh:m.maxKmh, ctrl:m.ctrl, features:m.features};
-  return {name:S.modelName||bleName||'Unknown', key:S.proto||'nb', maxKmh:S.maxKmh||30,
-          ctrl:false, features:S.features||['limit','beep','light']};
+function resolve(bleName){
+  const s=resolveSerial(bleName);
+  if(s){const db=MODELS.find(m=>m.key===s.k&&m.ctrl===s.ctrl)||MODELS.find(m=>m.key===s.k);return{name:"Ninebot "+s.n,key:s.k,max:s.max,ctrl:s.ctrl,feat:db?db.feat:["limit","sport","eco","light","beep"]};}
+  const low=(bleName||"").toLowerCase();
+  const m=MODELS.find(m=>low.includes(m.name.split(" ").slice(-1)[0].toLowerCase()));
+  if(m)return{name:m.name,key:m.key,max:m.max,ctrl:m.ctrl,feat:m.feat};
+  return{name:S.model||bleName||"Unknown",key:S.proto,max:S.max,ctrl:false,feat:S.feat||["limit","beep","light"]};
 }
 
-// ═══════════════════════════════════════════════════════════════
-// BLE CONSTANTS + STATE
-// ═══════════════════════════════════════════════════════════════
-const SVC  = '6e400001-b5a3-f393-e0a9-e50e24dcca9e';
-const CHRX = '6e400002-b5a3-f393-e0a9-e50e24dcca9e';
-const CHTX = '6e400003-b5a3-f393-e0a9-e50e24dcca9e';
+const SVG_NB = `<svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="62" r="13" stroke="white" stroke-width="3.5"/><circle cx="22" cy="62" r="5" fill="white" opacity=".2"/><circle cx="96" cy="62" r="13" stroke="white" stroke-width="3.5"/><circle cx="96" cy="62" r="5" fill="white" opacity=".2"/><path d="M22 62 L46 20 L88 20 L96 62" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 20 L56 7" stroke="white" stroke-width="3.5" stroke-linecap="round"/><path d="M50 7 L64 7" stroke="white" stroke-width="4" stroke-linecap="round"/><rect x="82" y="16" width="12" height="7" rx="2" fill="white" opacity=".3"/></svg>`;
+const SVG_MI = `<svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="63" r="12" stroke="white" stroke-width="3.5"/><circle cx="20" cy="63" r="4.5" fill="white" opacity=".2"/><circle cx="98" cy="63" r="12" stroke="white" stroke-width="3.5"/><circle cx="98" cy="63" r="4.5" fill="white" opacity=".2"/><path d="M20 63 L38 22 L92 22 L98 63" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 22 L46 9" stroke="white" stroke-width="3.5" stroke-linecap="round"/><path d="M40 9 L58 9" stroke="white" stroke-width="4.5" stroke-linecap="round"/><rect x="85" y="17" width="14" height="8" rx="2.5" fill="white" opacity=".25"/><path d="M32 22 L88 22" stroke="white" stroke-width="2" stroke-linecap="round" opacity=".3"/></svg>`;
 
-const S = {
-  bleDevice:null, txChar:null, connected:false,
-  proto:'nb', maxKmh:30, modelName:'', features:[], hasCtrl:false,
-  speedKmh:0, topSpeed:0, dist:0,
-  sliderMin:5, sliderMax:30, limitTarget:25,
-  tuneActive:false,
-  sport:false, zero:false, eco:false, light:true, cruise:false, locked:false,
-  panicSpeed:22, panicKey:'brake',
-  simTimer:null, pollTimer:null,
-  found:[], // scanned devices
-};
+function sigBars(n){const h=[10,14,18,22];return`<div class="sig">${h.map((v,i)=>`<div class="sb${i<n?" on":""}" style="height:${v}px"></div>`).join("")}</div>`;}
+function rssiLvl(r){return r===null?2:r>=-60?4:r>=-72?3:r>=-82?2:1;}
+function chargeIco(){return`<svg width="12" height="18" viewBox="0 0 12 18" fill="none" opacity=".45"><path d="M6 1L2 7h3l-1 8 5-8H5L6 1z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;}
 
-
-// ═══════════════════════════════════════════════════════════════
-// NINEBOT CRYPTO — TEA-based encryption (NinebotCrypto protocol)
-// Source: ScooterHacking/NinebotCrypto, reverse-engineered by majsi
-// Required for BLE209+, BLE307, M365 Pro2/1S/Lite, E-series, F-series
-// ═══════════════════════════════════════════════════════════════
-class NinebotCrypto {
-  constructor() {
-    this.reset();
-  }
-
-  reset() {
-    this.key      = new Uint8Array(16);  // session key (16 bytes random, updated each pairing)
-    this.iv       = new Uint8Array(16);  // counter/IV, increments per message
-    this.sn       = null;                // scooter serial number (14 bytes from 0x5B reply)
-    this.paired   = false;
-    this.counter  = 0;
-    this.enabled  = false;              // set true after successful 0x5D
-  }
-
-  // TEA encrypt 8 bytes with 16-byte key (4 x uint32 LE)
-  _teaEncrypt(v0, v1, key) {
-    const DELTA = 0x9e3779b9;
-    let sum = 0;
-    const k = [
-      key[0]|(key[1]<<8)|(key[2]<<16)|(key[3]<<24),
-      key[4]|(key[5]<<8)|(key[6]<<16)|(key[7]<<24),
-      key[8]|(key[9]<<8)|(key[10]<<16)|(key[11]<<24),
-      key[12]|(key[13]<<8)|(key[14]<<16)|(key[15]<<24),
-    ];
-    for (let i = 0; i < 32; i++) {
-      sum = (sum + DELTA) >>> 0;
-      v0 = (v0 + (((v1<<4)+k[0]) ^ (v1+sum) ^ ((v1>>>5)+k[1]))) >>> 0;
-      v1 = (v1 + (((v0<<4)+k[2]) ^ (v0+sum) ^ ((v0>>>5)+k[3]))) >>> 0;
-    }
-    return [v0, v1];
-  }
-
-  // Encrypt/decrypt a data block using key+counter (counter mode TEA)
-  _processBlock(data, offset, len) {
-    const out = new Uint8Array(data);
-    for (let i = 0; i < len; i += 8) {
-      // Build IV block from counter
-      const iv = new Uint8Array(8);
-      const c = this.counter;
-      iv[0]=c&0xFF; iv[1]=(c>>8)&0xFF; iv[2]=(c>>16)&0xFF; iv[3]=(c>>24)&0xFF;
-      this.counter = (this.counter + 1) >>> 0;
-
-      const v0 = iv[0]|(iv[1]<<8)|(iv[2]<<16)|(iv[3]<<24);
-      const v1 = iv[4]|(iv[5]<<8)|(iv[6]<<16)|(iv[7]<<24);
-      const [e0, e1] = this._teaEncrypt(v0 >>> 0, v1 >>> 0, this.key);
-
-      // XOR with data
-      const block = new Uint8Array(8);
-      block[0]=e0&0xFF; block[1]=(e0>>8)&0xFF; block[2]=(e0>>16)&0xFF; block[3]=(e0>>24)&0xFF;
-      block[4]=e1&0xFF; block[5]=(e1>>8)&0xFF; block[6]=(e1>>16)&0xFF; block[7]=(e1>>24)&0xFF;
-
-      for (let j = 0; j < 8 && (i+j) < len; j++) {
-        out[offset + i + j] ^= block[j];
-      }
-    }
-    return out;
-  }
-
-  // Encrypt an outgoing packet (modifies payload bytes 4..end-1)
-  encrypt(pkt) {
-    if (!this.enabled) return pkt;
-    // Ninebot packet: [0x55, 0xAA, len, src, dst, cmd, arg, ...payload..., checksum]
-    // Encrypt from byte 4 (src) up to last byte (checksum excluded? No — encrypt all after header)
-    // Per NinebotCrypto: encrypt bytes starting at position 4, length = pkt[2]
-    const len = pkt[2];
-    const encrypted = this._processBlock(pkt, 4, len);
-    // Recompute checksum after encryption
-    let cs = 0;
-    for (let i = 3; i < 3 + len; i++) cs = (cs + encrypted[i]) & 0xFF;
-    encrypted[3 + len] = (~cs) & 0xFF;
-    return encrypted;
-  }
-
-  // Decrypt an incoming packet
-  decrypt(pkt) {
-    if (!this.enabled) return pkt;
-    const len = pkt[2];
-    return this._processBlock(pkt, 4, len);
-  }
-
-  // Build 0x5B init packet (no crypto yet)
-  buildInit() {
-    return nbP(0x3E, 0x20, 0x01, 0x5B, []);
-  }
-
-  // Build 0x5C pairing packet with random 16-byte key
-  buildPair(randomKey16) {
-    this.key = randomKey16;
-    return nbP(0x3E, 0x20, 0x03, 0x5C, Array.from(randomKey16));
-  }
-
-  // Build 0x5D confirmation packet with scooter SN
-  buildConfirm() {
-    if (!this.sn) return null;
-    return nbP(0x3E, 0x20, 0x03, 0x5D, Array.from(this.sn));
-  }
-
-  // Parse 0x5B reply — extract 14-byte SN starting at offset 16 of payload
-  parse5B(pkt) {
-    if (pkt.byteLength < 20) return false;
-    const d = new Uint8Array(pkt.buffer || pkt);
-    // payload starts at byte 4 (after 0x55,0xAA,len,checksum_pos)
-    // Actually: [0x55,0xAA,len,src,dst,cmd,arg,...payload...]
-    // SN at payload offset 16 = pkt byte 4+16+2(cmd,arg offset adjustment)
-    // From wiki: reply is 213e5b + arg + 30 bytes payload; SN at offset 16, 14 bytes
-    const payloadStart = 6; // after header bytes
-    if (d.length >= payloadStart + 30) {
-      this.sn = d.slice(payloadStart + 16, payloadStart + 30);
-      return true;
-    }
-    return false;
-  }
-
-  // Check if 0x5C reply has arg=01 (button pressed) or 00 (key accepted)
-  check5C(pkt) {
-    const d = new Uint8Array(pkt.buffer || pkt);
-    return d.length >= 5 && (d[4] === 0x01 || d[4] === 0x00);
-  }
-
-  // Check 0x5D reply
-  check5D(pkt) {
-    const d = new Uint8Array(pkt.buffer || pkt);
-    return d.length >= 5 && d[4] === 0x01;
-  }
-
-  activate() {
-    this.enabled = true;
-    this.counter = 0;
-  }
+function scard(d,i){
+  const r=d.r,bn=d.dev.name||"Unknown",isSerial=bn!==r.name;
+  return`<div class="scard" id="sc${i}" onclick="connectIdx(${i})"><div class="scard-img">${r.key==="mi"?SVG_MI:SVG_NB}</div><div class="scard-info"><div class="scard-serial">${isSerial?bn:r.name}</div><div class="scard-model">${isSerial?r.name:"Max "+r.max+" km/h"}</div><div class="scard-meta">Max ${r.max} km/h</div></div><div class="scard-right">${sigBars(rssiLvl(d.rssi))}${chargeIco()}</div></div>`;
 }
 
-const crypto = new NinebotCrypto();
-
-// ═══════════════════════════════════════════════════════════════
-// PROTOCOL — Ninebot UART + Xiaomi Mi (verified register map)
-// ═══════════════════════════════════════════════════════════════
-function nbCs(d){let c=0;for(const b of d)c=(c+b)&0xFF;return(~c)&0xFF;}
-function nbP(src,dst,cmd,arg,pl){pl=pl||[];const b=[src,dst,cmd,arg,...pl];return new Uint8Array([0x55,0xAA,b.length,...b,nbCs(b)]);}
-function miCs(d){let c=0;for(const b of d)c^=b;return c&0xFF;}
-function miP(cmd,pl){pl=pl||[];const b=[cmd,...pl];return new Uint8Array([0x55,0xAB,b.length+1,...b,miCs(b),0x0D,0x0A]);}
-
-// Ninebot register reference (scooterhacking.org):
-// READ  0x01 = read reg, arg = register
-// WRITE 0x03 = write reg, arg = register
-// 0x22 = battery SoC %, 0x26 = speed mm/s (LE 2B)
-// 0x7D = light (0=off, 2=on), 0x06 = beep (0x01,0xC8 = 200ms)
-// 0x8C = drive mode (0=eco,1=normal,2=sport)
-// 0x8F = zero-start (0/1), 0x8B = cruise (0/1)
-// 0x89 = speed limit mm/s (LE 2B), 0x4A = lock (0/1)
-// 0x70 = factory reset cmd
-// Controller read: 0x01,0x20,0x01,0x62 → firmware/controller info
-function buildCmd(type) {
-  const nb=(c,a,p)=>nbP(0x3E,0x20,c,a,p);
-  if (S.proto==='mi') {
-    const m = {
-      speed:    miP(0x01,[0x76]),
-      bat:      miP(0x01,[0x7A]),
-      beep:     miP(0x01,[0x78,0x04]),
-      lock:     miP(0x01,[0x70,0x01]),
-      unlock:   miP(0x01,[0x70,0x00]),
-      light_on: miP(0x01,[0x6D,0x02]),
-      light_off:miP(0x01,[0x6D,0x00]),
-      sport_on: miP(0x01,[0x8E,0x02]),
-      sport_off:miP(0x01,[0x8E,0x00]),
-      eco_on:   miP(0x01,[0x8E,0x01]),
-      eco_off:  miP(0x01,[0x8E,0x00]),
-      zero_on:  miP(0x01,[0x7C,0x01]),
-      zero_off: miP(0x01,[0x7C,0x00]),
-      cruise_on:miP(0x01,[0x7D,0x01]),
-      cruise_off:miP(0x01,[0x7D,0x00]),
-      reset:    miP(0x01,[0x85,0x19]),
-      ctrl_info:miP(0x01,[0x68]),
-    };
-    if (type==='limit'||type==='panic') return miP(0x01,[0x85,(type==='panic'?S.panicSpeed:S.limitTarget)&0xFF]);
-    return m[type]||null;
-  }
-  // Ninebot / Navee
-  const m = {
-    speed:    nb(0x01,0x26,[]),
-    bat:      nb(0x01,0x22,[]),
-    beep:     nb(0x03,0x06,[0x01,0xC8]),
-    lock:     nb(0x03,0x4A,[0x01,0x00]),
-    unlock:   nb(0x03,0x4A,[0x00,0x00]),
-    light_on: nb(0x03,0x7D,[0x02]),
-    light_off:nb(0x03,0x7D,[0x00]),
-    sport_on: nb(0x03,0x8C,[0x02]),
-    sport_off:nb(0x03,0x8C,[0x00]),
-    eco_on:   nb(0x03,0x8C,[0x01]),
-    eco_off:  nb(0x03,0x8C,[0x00]),
-    zero_on:  nb(0x03,0x8F,[0x01]),
-    zero_off: nb(0x03,0x8F,[0x00]),
-    cruise_on:nb(0x03,0x8B,[0x01]),
-    cruise_off:nb(0x03,0x8B,[0x00]),
-    reset:    nb(0x03,0x70,[0x00,0x01]),
-    ctrl_info:nb(0x01,0x62,[]),  // controller/motor info register
-    fw_ver:   nb(0x01,0x1A,[]),  // firmware version
-    sn:       nb(0x01,0x10,[]),  // serial number
-  };
-  if (type==='limit'||type==='panic') {
-    const kmh = type==='panic' ? S.panicSpeed : S.limitTarget;
-    const mmps = Math.round(kmh*1000/36);
-    return nb(0x03,0x89,[mmps&0xFF,(mmps>>8)&0xFF]);
-  }
-  return m[type]||null;
+function renderFound(){
+  const b=document.getElementById("scanBody");
+  if(!S.found.length){b.innerHTML=`<div class="scan-empty">Searching…<br><span style="font-size:11px;opacity:.5">Select your scooter in the system picker</span></div>`;return;}
+  document.getElementById("scanSub").textContent=S.found.length+" scooter"+(S.found.length>1?"s":"")+" found";
+  b.innerHTML=S.found.map((d,i)=>scard(d,i)).join("")+`<div style="padding:8px 16px 4px"><button class="rescan-btn" onclick="addDev()">+ Scan for another</button></div>`;
 }
 
-async function send(type) {
-  const cmd = buildCmd(type);
-  if (!cmd||!S.txChar) return false;
-  try {
-    const toSend = crypto.encrypt(cmd); // passthrough if not paired
-    await S.txChar.writeValueWithoutResponse(toSend);
-    return true;
-  }
-  catch(e) { console.warn('BLE write',type,e); return false; }
-}
-
-// ═══════════════════════════════════════════════════════════════
-// BLE NOTIFY HANDLER
-// ═══════════════════════════════════════════════════════════════
-const ctrlInfo = {};
-
-function onNotify(e) {
-  const rawView = e.target.value;
-  // Decrypt packet if crypto is active
-  const rawArr = new Uint8Array(rawView.buffer);
-  const decArr = crypto.decrypt(rawArr);
-  const d = new DataView(decArr.buffer);
-
-  if (d.byteLength < 7) return;
-  if (d.getUint8(0) !== 0x55) return;
-  const cmd = d.getUint8(3);
-
-  // Handle crypto pairing replies
-  if (cmd === 0x5B) { crypto.parse5B(decArr); return; }
-  if (cmd === 0x5C) { /* handled in pairing flow */ return; }
-  if (cmd === 0x5D) { /* handled in pairing flow */ return; }
-
-
-  // Speed: register 0x26, bytes 6-7 = mm/s LE
-  if (cmd === 0x26 && d.byteLength >= 8) {
-    const mmps = d.getUint8(6) | (d.getUint8(7)<<8);
-    updateSpeed(Math.round(mmps*36/100)/10);
-  }
-  // Battery: register 0x22, byte 6 = %
-  if (cmd === 0x22 && d.byteLength >= 7) {
-    document.getElementById('batVal').textContent = d.getUint8(6);
-  }
-  // Controller info: register 0x62
-  if (cmd === 0x62 && d.byteLength >= 10) {
-    ctrlInfo.motorType   = d.getUint8(6);
-    ctrlInfo.motorPower  = (d.getUint8(7)|(d.getUint8(8)<<8)) + 'W';
-    ctrlInfo.ctrlVersion = '0x'+d.getUint8(9).toString(16).toUpperCase();
-    renderCtrlInfo();
-  }
-  // Firmware version: register 0x1A
-  if (cmd === 0x1A && d.byteLength >= 9) {
-    const major = d.getUint8(7), minor = d.getUint8(8);
-    ctrlInfo.firmware = major+'.'+minor;
-    renderCtrlInfo();
-  }
-}
-
-function renderCtrlInfo() {
-  if (!S.hasCtrl || !Object.keys(ctrlInfo).length) return;
-  const motorTypes = {0:'Hub motor',1:'Belt drive',2:'Chain drive'};
-  const rows = [
-    ctrlInfo.firmware  ? ['Firmware', ctrlInfo.firmware]   : null,
-    ctrlInfo.motorPower? ['Motor',    ctrlInfo.motorPower]  : null,
-    ctrlInfo.motorType !== undefined ? ['Drive type', motorTypes[ctrlInfo.motorType]||'Unknown'] : null,
-    ctrlInfo.ctrlVersion ? ['Controller', ctrlInfo.ctrlVersion] : null,
-  ].filter(Boolean);
-  if (!rows.length) return;
-  document.getElementById('ctrlSection').style.display = 'block';
-  document.getElementById('ctrlCard').innerHTML = rows.map(([k,v])=>
-    '<div class="ctrl-row"><span class="ctrl-key">'+k+'</span><span class="ctrl-val">'+v+'</span></div>'
-  ).join('');
-}
-
-// ═══════════════════════════════════════════════════════════════
-// SCAN FLOW
-// ═══════════════════════════════════════════════════════════════
-const SVG_NB = '<svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="22" cy="62" r="13" stroke="white" stroke-width="3.5"/><circle cx="22" cy="62" r="5" fill="white" opacity=".2"/><circle cx="96" cy="62" r="13" stroke="white" stroke-width="3.5"/><circle cx="96" cy="62" r="5" fill="white" opacity=".2"/><path d="M22 62 L46 20 L88 20 L96 62" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 20 L56 7" stroke="white" stroke-width="3.5" stroke-linecap="round"/><path d="M50 7 L64 7" stroke="white" stroke-width="4" stroke-linecap="round"/><rect x="82" y="16" width="12" height="7" rx="2" fill="white" opacity=".3"/></svg>';
-const SVG_MI = '<svg viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="63" r="12" stroke="white" stroke-width="3.5"/><circle cx="20" cy="63" r="4.5" fill="white" opacity=".2"/><circle cx="98" cy="63" r="12" stroke="white" stroke-width="3.5"/><circle cx="98" cy="63" r="4.5" fill="white" opacity=".2"/><path d="M20 63 L38 22 L92 22 L98 63" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M38 22 L46 9" stroke="white" stroke-width="3.5" stroke-linecap="round"/><path d="M40 9 L58 9" stroke="white" stroke-width="4.5" stroke-linecap="round"/><rect x="85" y="17" width="14" height="8" rx="2.5" fill="white" opacity=".25"/></svg>';
-
-function sigBars(n) {
-  // n = 1-4
-  const bars = [10,14,18,22];
-  return '<div class="sig">'+bars.map((h,i)=>'<div class="sig-bar'+(i<n?' on':'')+'" style="height:'+h+'px"></div>').join('')+'</div>';
-}
-
-function rssiToLvl(rssi) {
-  return rssi===null?2 : rssi>=-60?4 : rssi>=-72?3 : rssi>=-82?2:1;
-}
-
-function scard(d, i) {
-  const r = d.r, bn = d.bleDev.name||'Unknown';
-  const isSerial = bn !== r.name;
-  return '<div class="scard" id="sc'+i+'" onclick="connectIdx('+i+')">' +
-    '<div class="scard-img">'+(r.key==='mi'?SVG_MI:SVG_NB)+'</div>' +
-    '<div class="scard-info">' +
-      '<div class="scard-serial">'+(isSerial?bn:r.name)+'</div>' +
-      '<div class="scard-model">'+(isSerial?r.name:'Max '+r.maxKmh+' km/h')+'</div>' +
-      '<div class="scard-rssi">Max '+r.maxKmh+' km/h</div>' +
-    '</div>' +
-    '<div class="scard-right">'+sigBars(rssiToLvl(d.rssi))+'<svg width="12" height="18" viewBox="0 0 12 18" fill="none" opacity=".5"><path d="M6 1L2 7h3l-1 6 5-8H5L6 1z" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
-  '</div>';
-}
-
-function renderFound() {
-  const body = document.getElementById('shBLEBody');
-  if (!S.found.length) {
-    body.innerHTML='<div class="scan-empty">Searching…<br><span style="font-size:11px;opacity:.5">Select your scooter in the OS picker</span></div>';
-    return;
-  }
-  document.getElementById('shBLESub').textContent = S.found.length+' scooter'+(S.found.length>1?'s':'')+' found';
-  body.innerHTML = S.found.map((d,i)=>scard(d,i)).join('') +
-    '<div style="padding:8px 16px 4px"><button class="rescan-btn" onclick="addDevice()">+ Add another</button></div>';
-}
-
-const BLE_NAME_FILTERS = [
-  {namePrefix:'N4G'},{namePrefix:'N4L'},{namePrefix:'N2G'},{namePrefix:'N5G'},
-  {namePrefix:'1TE'},{namePrefix:'1CG'},{namePrefix:'1NC'},{namePrefix:'1SF'},
-  {namePrefix:'1K1'},{namePrefix:'S1D'},
-  {namePrefix:'Ninebot'},{namePrefix:'Segway'},
-  {namePrefix:'MIScooter'},{namePrefix:'MiScooter'},{namePrefix:'MXScooter'},
-  {namePrefix:'Mi Scooter'},{namePrefix:'Mi Electric'},{namePrefix:'Xiaomi'},
-  {namePrefix:'Navee_'},{namePrefix:'NAVEE-'},{namePrefix:'Navee'},
+const BLE_FILTERS = [
+  {namePrefix:"N4G"},{namePrefix:"N4L"},{namePrefix:"N2G"},{namePrefix:"N5G"},
+  {namePrefix:"1TE"},{namePrefix:"1CG"},{namePrefix:"1NC"},{namePrefix:"1SF"},
+  {namePrefix:"1K1"},{namePrefix:"S1D"},
+  {namePrefix:"Ninebot"},{namePrefix:"Segway"},
+  {namePrefix:"MIScooter"},{namePrefix:"MiScooter"},{namePrefix:"MXScooter"},
+  {namePrefix:"Mi Scooter"},{namePrefix:"Mi Electric"},{namePrefix:"Xiaomi"},
+  {namePrefix:"Navee_"},{namePrefix:"NAVEE-"},{namePrefix:"Navee"},
   {services:[SVC]},
 ];
 
-async function requestDevice() {
-  const isBluefy = /Bluefy/i.test(navigator.userAgent);
-  // Capacitor native BLE takes priority when available
-  if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.BluetoothLe) {
-    return await requestCapacitorBLE();
-  }
-  if (isBluefy) return navigator.bluetooth.requestDevice({acceptAllDevices:true, optionalServices:[SVC]});
-  try {
-    return await navigator.bluetooth.requestDevice({
-      filters:[
-        {manufacturerData:[{companyIdentifier:0x424E}]},
-        {manufacturerData:[{companyIdentifier:0x434E}]},
-        ...BLE_NAME_FILTERS,
-      ],
-      optionalServices:[SVC],
-    });
-  } catch(_) {
-    return navigator.bluetooth.requestDevice({filters:BLE_NAME_FILTERS, optionalServices:[SVC]});
-  }
+async function reqDev(){
+  const isBluefy=/Bluefy/i.test(navigator.userAgent);
+  if(isBluefy)return navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[SVC]});
+  try{return await navigator.bluetooth.requestDevice({filters:[{manufacturerData:[{companyIdentifier:0x424E}]},{manufacturerData:[{companyIdentifier:0x434E}]},...BLE_FILTERS],optionalServices:[SVC]});}
+  catch(_){return navigator.bluetooth.requestDevice({filters:BLE_FILTERS,optionalServices:[SVC]});}
 }
 
-async function requestCapacitorBLE() {
-  // Capacitor BLE plugin wrapper (used in native iOS build)
-  const BLE = window.Capacitor.Plugins.BluetoothLe;
-  await BLE.initialize();
-  return new Promise((resolve, reject) => {
-    BLE.requestDevice({
-      services:[SVC],
-      optionalServices:[CHRX, CHTX],
-    }).then(dev => {
-      // Wrap in Web Bluetooth-like interface
-      resolve({
-        id: dev.deviceId, name: dev.name,
-        gatt: {
-          connect: async () => ({
-            getPrimaryService: async () => ({
-              getCharacteristic: async (uuid) => ({
-                writeValueWithoutResponse: async (val) => BLE.write({deviceId:dev.deviceId,service:SVC,characteristic:uuid,value:btoa(String.fromCharCode(...val))}),
-                startNotifications: async () => {},
-                addEventListener: (_, fn) => {
-                  BLE.startNotifications({deviceId:dev.deviceId,service:SVC,characteristic:CHTX},
-                    evt => fn({target:{value:new DataView(Uint8Array.from(atob(evt.value).split('').map(c=>c.charCodeAt(0))).buffer)}}));
-                },
-              }),
-            }),
-          }),
-        },
-        addEventListener: (_, fn) => { BLE.addListener('disconnected', fn); },
-      });
-    }).catch(reject);
-  });
+async function openScan(){
+  openSheet("shScan");
+  S.found=[];renderFound();
+  await addDev();
 }
 
-async function openScanSheet() {
-  showSheet('shBLE');
-  S.found = [];
-  renderFound();
-  await addDevice();
-}
-
-async function addDevice() {
-  const hasBLE = window.Capacitor || (navigator.bluetooth && navigator.bluetooth.requestDevice);
-  if (!hasBLE) { showNoBLE(); return; }
-  document.getElementById('scanSpinner').style.display = 'block';
-  document.getElementById('shBLESub').textContent = 'Select your scooter…';
-  try {
-    const dev = await requestDevice();
-    document.getElementById('scanSpinner').style.display = 'none';
-    const exists = S.found.find(d=>d.bleDev.id===dev.id);
-    if (!exists) {
-      S.found.push({bleDev:dev, r:resolveModel(dev.name||''), rssi:null});
-      renderFound();
-    }
-  } catch(e) {
-    document.getElementById('scanSpinner').style.display = 'none';
-    if (!S.found.length) {
-      document.getElementById('shBLESub').textContent = 'No scooter selected';
-      document.getElementById('shBLEBody').innerHTML =
-        '<div class="scan-empty">No scooter selected.<br>Make sure your scooter is on and Bluetooth is enabled.<button class="rescan-btn" onclick="openScanSheet()">Try again</button></div>';
-    }
+async function addDev(){
+  const hasBLE=navigator.bluetooth&&navigator.bluetooth.requestDevice;
+  if(!hasBLE){showNoBLE();return;}
+  document.getElementById("scanSpinner").style.display="block";
+  document.getElementById("scanSub").textContent="Select your scooter…";
+  try{
+    const dev=await reqDev();
+    document.getElementById("scanSpinner").style.display="none";
+    if(!S.found.find(d=>d.dev.id===dev.id)){S.found.push({dev,r:resolve(dev.name||""),rssi:null});renderFound();}
+  }catch(e){
+    document.getElementById("scanSpinner").style.display="none";
+    if(!S.found.length){document.getElementById("scanSub").textContent="No scooter selected";document.getElementById("scanBody").innerHTML=`<div class="scan-empty">No scooter found. Make sure your scooter is powered on.<button class="rescan-btn" onclick="openScan()">Try again</button></div>`;}
   }
 }
 
-async function connectIdx(i) {
-  const entry = S.found[i]; if (!entry) return;
-  const el = document.getElementById('sc'+i);
-  if (el) el.classList.add('connecting');
-  document.getElementById('shBLESub').textContent = 'Connecting…';
-  S.bleDevice = entry.bleDev;
-  S.modelName = entry.r.name;
-  S.proto     = entry.r.key;
-  S.maxKmh    = entry.r.maxKmh;
-  S.features  = entry.r.features;
-  S.hasCtrl   = entry.r.ctrl;
-  await doConnect();
+async function connectIdx(i){
+  const e=S.found[i];if(!e)return;
+  const c=document.getElementById("sc"+i);if(c)c.classList.add("connecting");
+  document.getElementById("scanSub").textContent="Connecting…";
+  S.dev=e.dev;S.model=e.r.name;S.proto=e.r.key;S.max=e.r.max;S.feat=e.r.feat;S.hasCtrl=e.r.ctrl;
+  await doConn();
 }
 
-async function doConnect() {
-  try {
-    const server  = await S.bleDevice.gatt.connect();
-    const svc     = await server.getPrimaryService(SVC);
-    S.txChar      = await svc.getCharacteristic(CHRX);
-    const rxChar  = await svc.getCharacteristic(CHTX);
-    await rxChar.startNotifications();
-    rxChar.addEventListener('characteristicvaluechanged', onNotify);
-    S.bleDevice.addEventListener('gattserverdisconnected', ()=>disconnect(true));
-
-    // ── NinebotCrypto pairing handshake ─────────────────────────────
-    // Step 1: Send 0x5B — scooter replies with SN (onNotify parses it)
-    // If no reply = legacy protocol, skip crypto
-    crypto.reset();
-    let pairingDone = false;
-    try {
-      await S.txChar.writeValueWithoutResponse(crypto.buildInit());
-      await delay(600); // wait for 0x5B reply (parsed in onNotify)
-
-      if (crypto.sn) {
-        // Step 2: Send 0x5C with random key every 1s, wait for button press
-        const randomKey = (() => {
-          const k = new Uint8Array(16);
-          if (window.crypto && window.crypto.getRandomValues) {
-            window.crypto.getRandomValues(k);
-          } else {
-            for (let i = 0; i < 16; i++) k[i] = Math.random() * 256 | 0;
-          }
-          return k;
-        })();
-        const pairPkt = crypto.buildPair(randomKey);
-
-        document.getElementById('shBLESub').textContent = 'Press power button on scooter…';
-        toast('Press the power button on your scooter to pair');
-
-        let pairAck = false;
-        const pairListener = (e) => {
-          const raw = new Uint8Array(e.target.value.buffer);
-          if (raw.length >= 5 && raw[4] === 0x5C && (raw.length < 6 || raw[5] >= 0)) {
-            // 0x5C reply — check arg
-            if (crypto.check5C(raw)) pairAck = true;
-          }
-        };
-        rxChar.addEventListener('characteristicvaluechanged', pairListener);
-
-        // Send 0x5C up to 10 times (1s each)
-        for (let attempt = 0; attempt < 10 && !pairAck; attempt++) {
-          await S.txChar.writeValueWithoutResponse(pairPkt);
-          await delay(1000);
-        }
-        rxChar.removeEventListener('characteristicvaluechanged', pairListener);
-
-        // Step 3: Confirm with 0x5D + SN
-        const confirmPkt = crypto.buildConfirm();
-        if (confirmPkt) {
-          for (let retry = 0; retry < 3; retry++) {
-            await S.txChar.writeValueWithoutResponse(confirmPkt);
-            await delay(400);
-          }
-        }
-        crypto.activate();
-        pairingDone = true;
-        console.log('NinebotCrypto paired, encryption active');
-      }
-    } catch(pairErr) {
-      console.warn('Crypto pairing skipped (legacy protocol):', pairErr.message);
-      // Legacy protocol — continue without crypto
-    }
-    // ────────────────────────────────────────────────────────────────
-
-    // Poll speed + battery every 500ms
-    S.pollTimer = setInterval(async () => {
-      await send('speed');
-      await send('bat');
-    }, 500);
-
-    // Request controller info if model supports it
-    if (S.hasCtrl) {
-      setTimeout(async () => {
-        await send('ctrl_info');
-        await send('fw_ver');
-      }, 1200);
-    }
-
-    // Beep on connect
-    setTimeout(()=>send('beep'), 800);
-
-    closeAllSheets();
-    enterConnected();
-  } catch(e) {
-    document.getElementById('shBLESub').textContent = 'Failed: '+(e.message||e.name);
-    S.found.forEach((_,i)=>{const c=document.getElementById('sc'+i);if(c)c.classList.remove('connecting');});
-    toast('Connection failed');
-    console.error('GATT connect', e);
+async function doConn(){
+  try{
+    const srv=await S.dev.gatt.connect();
+    const svc=await srv.getPrimaryService(SVC);
+    S.tx=await svc.getCharacteristic(CHRX);
+    const rx=await svc.getCharacteristic(CHTX);
+    await rx.startNotifications();
+    rx.addEventListener("characteristicvaluechanged",onNotify);
+    S.dev.addEventListener("gattserverdisconnected",()=>disconnect(true));
+    S.pollT=setInterval(async()=>{await tx("speed");await tx("bat");},500);
+    if(S.hasCtrl)setTimeout(async()=>{await tx("ctrl_info");await tx("fw_ver");},1200);
+    setTimeout(()=>tx("beep"),800);
+    closeSheets();
+    enterConn();
+  }catch(e){
+    document.getElementById("scanSub").textContent="Failed: "+(e.message||e.name);
+    S.found.forEach((_,i)=>{const c=document.getElementById("sc"+i);if(c)c.classList.remove("connecting");});
+    toast("Connection failed");
   }
 }
 
-function showNoBLE() {
-  document.getElementById('scanSpinner').style.display = 'none';
-  document.getElementById('shBLESub').textContent = 'Bluetooth not available';
-  document.getElementById('shBLEBody').innerHTML =
-    '<div class="no-ble"><div class="no-ble-icon">📱</div>' +
-    '<div class="no-ble-title">Open in Bluefy</div>' +
-    '<div class="no-ble-sub">Safari blocks Web Bluetooth. Install Bluefy from the App Store and open this page there.</div>' +
-    '<button class="no-ble-btn" onclick="openBluefy()">Get Bluefy</button>' +
-    '<div style="margin-top:12px"><button class="btn-ghost" style="max-width:220px;margin:0 auto" onclick="startDemo()">Demo mode</button></div></div>';
+function showNoBLE(){
+  document.getElementById("scanSpinner").style.display="none";
+  document.getElementById("scanSub").textContent="Bluetooth not available";
+  document.getElementById("scanBody").innerHTML=`<div class="no-ble"><div class="no-ble-icon">📱</div><div class="no-ble-title">Open in Bluefy</div><div class="no-ble-sub">Safari blocks Web Bluetooth. Install Bluefy from the App Store.</div><button class="no-ble-btn" onclick="openBluefy()">Get Bluefy</button><div style="margin-top:12px"><button class="btn-g" style="max-width:220px;margin:0 auto" onclick="startDemo()">Demo mode</button></div></div>`;
 }
 
-// ═══════════════════════════════════════════════════════════════
-// CONNECTED STATE
-// ═══════════════════════════════════════════════════════════════
-function enterConnected() {
-  S.connected=true; S.sliderMin=5; S.sliderMax=S.maxKmh;
-  S.limitTarget=Math.min(25,S.maxKmh); S.topSpeed=0; S.dist=0;
-  S.sport=false; S.zero=false; S.eco=false; S.light=true; S.cruise=false; S.locked=false;
-  Object.assign(ctrlInfo, {});
-
-  document.getElementById('connLabel').textContent = S.modelName.split(' ').slice(-2).join(' ');
-  ['batVal','rssiVal'].forEach(id=>document.getElementById(id).textContent='—');
-  document.getElementById('distVal').textContent='0.0';
-  document.getElementById('topVal').textContent='0.0';
-  document.getElementById('limitSet').textContent='—';
-  document.getElementById('tuneBadge').classList.remove('show');
-  document.getElementById('ctrlSection').style.display='none';
-  document.getElementById('slMin').textContent=S.sliderMin;
-  document.getElementById('slMax').textContent=S.maxKmh;
-
-  buildPresets(); setSlider(S.limitTarget);
-  buildFeatureGrid(); buildPanicSection();
-  switchView('vConn');
+function enterConn(){
+  S.connected=true;S.sMin=5;S.sMax=S.max;S.limit=Math.min(25,S.max);S.top=0;S.dist=0;
+  S.sport=S.zero=S.eco=S.locked=S.cruise=false;S.light=true;
+  Object.keys(ctrlData).forEach(k=>delete ctrlData[k]);
+  document.getElementById("connLabel").textContent=S.model.split(" ").slice(-2).join(" ");
+  ["batVal","rssiVal"].forEach(id=>document.getElementById(id).textContent="—");
+  document.getElementById("distVal").textContent="0.0";
+  document.getElementById("topVal").textContent="0.0";
+  document.getElementById("limitSet").textContent="—";
+  document.getElementById("tbadge").classList.remove("on");
+  document.getElementById("ctrlSec").style.display="none";
+  document.getElementById("slMin").textContent=S.sMin;
+  document.getElementById("slMax").textContent=S.max;
+  buildPresets();setSlider(S.limit);buildFeatGrid();buildPanic();
+  switchView("vConn");
 }
 
-function disconnect(fromDevice) {
-  if (!fromDevice && S.bleDevice && S.bleDevice.gatt.connected) S.bleDevice.gatt.disconnect();
-  clearInterval(S.simTimer); clearInterval(S.pollTimer);
-  S.simTimer=null; S.pollTimer=null; S.txChar=null; S.bleDevice=null; S.connected=false;
-  updateSpeed(0); switchView('vDisc'); toast('Disconnected');
+function disconnect(fromDev){
+  if(!fromDev&&S.dev&&S.dev.gatt.connected)S.dev.gatt.disconnect();
+  clearInterval(S.simT);clearInterval(S.pollT);
+  S.simT=S.pollT=null;S.tx=null;S.dev=null;S.connected=false;
+  setSpd(0);switchView("vDisc");toast("Disconnected");
 }
 
-function startDemo() {
-  closeAllSheets();
-  if (!S.modelName) {
-    S.modelName='Ninebot MAX G30'; S.maxKmh=38; S.proto='nb'; S.hasCtrl=true;
-    S.features=['limit','sport','eco','light','beep','cruise','lock','zero'];
-  }
-  enterConnected();
-  // Simulate controller info
-  if (S.hasCtrl) {
-    setTimeout(()=>{
-      ctrlInfo.firmware='1.4.7'; ctrlInfo.motorPower='350W';
-      ctrlInfo.motorType=0; ctrlInfo.ctrlVersion='0x22';
-      renderCtrlInfo();
-    }, 1500);
-  }
+function startDemo(){
+  closeSheets();
+  if(!S.model){S.model="Ninebot MAX G30";S.max=38;S.proto="nb";S.hasCtrl=true;S.feat=["limit","sport","eco","light","beep","cruise","lock","zero"];}
+  enterConn();
+  if(S.hasCtrl)setTimeout(()=>{ctrlData.fw="1.4.7";ctrlData.power="350W";ctrlData.ctrl="v22";renderCtrl();},1500);
   let tick=0,st=0,sp=0,dist=0,bat=81;
-  S.simTimer=setInterval(()=>{
-    tick++;
-    st = tick%80<50 ? 16+Math.sin(tick*.25)*7 : 0;
-    sp += (st-sp)*.13; sp = Math.max(0,sp);
-    if (sp>1) dist+=sp/3600*.3; bat=Math.max(0,bat-.004);
-    updateSpeed(Math.round(sp*10)/10);
-    document.getElementById('distVal').textContent=dist.toFixed(1);
-    document.getElementById('batVal').textContent=Math.round(bat);
-    if (S.topSpeed<sp){S.topSpeed=sp;document.getElementById('topVal').textContent=S.topSpeed.toFixed(1);}
-  }, 200);
-  toast(S.modelName+' — demo mode');
+  S.simT=setInterval(()=>{
+    tick++;st=tick%80<50?16+Math.sin(tick*.25)*7:0;
+    sp+=(st-sp)*.13;sp=Math.max(0,sp);
+    if(sp>1)dist+=sp/3600*.3;bat=Math.max(0,bat-.004);
+    setSpd(Math.round(sp*10)/10);
+    document.getElementById("distVal").textContent=dist.toFixed(1);
+    document.getElementById("batVal").textContent=Math.round(bat);
+    if(S.top<sp){S.top=sp;document.getElementById("topVal").textContent=S.top.toFixed(1);}
+  },200);
+  toast(S.model+" — demo mode");
 }
 
-// ═══════════════════════════════════════════════════════════════
-// SPEED + SLIDER
-// ═══════════════════════════════════════════════════════════════
-function updateSpeed(kmh) {
-  S.speedKmh=kmh;
-  document.getElementById('speedNum').textContent=kmh.toFixed(1);
-  document.getElementById('speedFill').style.width=Math.min(100,(kmh/S.maxKmh)*100)+'%';
+function setSpd(v){
+  S.spd=v;
+  document.getElementById("spdNum").textContent=v.toFixed(1);
+  document.getElementById("spdFill").style.width=Math.min(100,(v/S.max)*100)+"%";
 }
 
-function setSlider(v) {
-  v=Math.max(S.sliderMin,Math.min(S.sliderMax,Math.round(v)));
-  S.limitTarget=v;
-  document.getElementById('slVal').textContent=v;
-  const pct=((v-S.sliderMin)/(S.sliderMax-S.sliderMin))*100;
-  document.getElementById('slFill').style.width=pct+'%';
-  document.getElementById('slThumb').style.left=pct+'%';
-  document.querySelectorAll('#presetChips .chip').forEach(c=>c.classList.toggle('on',+c.dataset.v===v));
+function setSlider(v){
+  v=Math.max(S.sMin,Math.min(S.sMax,Math.round(v)));S.limit=v;
+  document.getElementById("slVal").textContent=v;
+  const p=((v-S.sMin)/(S.sMax-S.sMin))*100;
+  document.getElementById("slFill").style.width=p+"%";
+  document.getElementById("slThumb").style.left=p+"%";
+  document.querySelectorAll("#presets .chip").forEach(c=>c.classList.toggle("on",+c.dataset.v===v));
 }
 
-function buildPresets() {
-  const max=S.sliderMax;
-  const vals=[...new Set([15,20,25,30,35,40,50].filter(v=>v>=S.sliderMin&&v<=max).concat([max]))];
-  document.getElementById('presetChips').innerHTML=
-    vals.map(v=>'<div class="chip" data-v="'+v+'" onclick="setSlider('+v+')">'+v+'</div>').join('');
+function buildPresets(){
+  const max=S.sMax;
+  const vals=[...new Set([15,20,25,30,35,40,50].filter(v=>v>=S.sMin&&v<=max).concat([max]))];
+  document.getElementById("presets").innerHTML=vals.map(v=>`<div class="chip" data-v="${v}" onclick="setSlider(${v})">${v}</div>`).join("");
 }
 
-(function initSlider(){
-  const wrap=document.getElementById('slTrack'); let drag=false;
-  function pct(e){const r=wrap.getBoundingClientRect();const x=e.touches?e.touches[0].clientX:e.clientX;return Math.max(0,Math.min(1,(x-r.left)/r.width));}
-  function upd(p){setSlider(S.sliderMin+p*(S.sliderMax-S.sliderMin));}
-  wrap.addEventListener('mousedown',e=>{drag=true;upd(pct(e));});
-  wrap.addEventListener('touchstart',e=>{drag=true;upd(pct(e));},{passive:true});
-  window.addEventListener('mousemove',e=>{if(drag)upd(pct(e));});
-  window.addEventListener('touchmove',e=>{if(drag)upd(pct(e));},{passive:true});
-  window.addEventListener('mouseup',()=>drag=false);
-  window.addEventListener('touchend',()=>drag=false);
+(function(){
+  const w=document.getElementById("slTrack");let drag=false;
+  function p(e){const r=w.getBoundingClientRect();const x=e.touches?e.touches[0].clientX:e.clientX;return Math.max(0,Math.min(1,(x-r.left)/r.width));}
+  function u(pct){setSlider(S.sMin+pct*(S.sMax-S.sMin));}
+  w.addEventListener("mousedown",e=>{drag=true;u(p(e));});
+  w.addEventListener("touchstart",e=>{drag=true;u(p(e));},{passive:true});
+  window.addEventListener("mousemove",e=>{if(drag)u(p(e));});
+  window.addEventListener("touchmove",e=>{if(drag)u(p(e));},{passive:true});
+  window.addEventListener("mouseup",()=>drag=false);
+  window.addEventListener("touchend",()=>drag=false);
 })();
 
-async function applyLimit() {
-  const btn=document.getElementById('applyBtn');
-  btn.disabled=true; btn.textContent='Applying…';
-  await send('limit');
-  await delay(300);
-  await send('beep');
-  S.tuneActive=true;
-  document.getElementById('limitSet').textContent=S.limitTarget;
-  document.getElementById('tuneBadge').classList.add('show');
-  document.getElementById('tuneLabel').textContent='Limit '+S.limitTarget+' km/h active';
-  btn.disabled=false; btn.textContent='Apply limit';
-  toast('Speed limit set to '+S.limitTarget+' km/h');
+async function applyLimit(){
+  const btn=document.getElementById("applyBtn");
+  btn.disabled=true;btn.textContent="Applying…";
+  await tx("limit");await delay(300);await tx("beep");
+  S.tuned=true;
+  document.getElementById("limitSet").textContent=S.limit;
+  document.getElementById("tbadge").classList.add("on");
+  document.getElementById("tbLabel").textContent="Limit "+S.limit+" km/h active";
+  btn.disabled=false;btn.textContent="Apply limit";
+  toast("Speed limit set to "+S.limit+" km/h");
 }
 
-// ═══════════════════════════════════════════════════════════════
-// FEATURES — dynamic, model-based
-// ═══════════════════════════════════════════════════════════════
-const FEAT = {
-  sport: {icon:'⚡',title:'Sport Mode',   sub:'Full power, no cap',              fn:'doSport'},
-  zero:  {icon:'🚀',title:'Zero Start',   sub:'Instant throttle from standstill', fn:'doZero'},
-  eco:   {icon:'🌿',title:'Eco Mode',     sub:'Extend battery range',             fn:'doEco'},
-  light: {icon:'💡',title:'Headlight',    sub:'Toggle headlight on/off',          fn:'doLight'},
-  cruise:{icon:'🔒',title:'Cruise Ctrl',  sub:'Hold speed automatically',         fn:'doCruise'},
-  beep:  {icon:'🔔',title:'Beep',         sub:'Trigger horn',                     fn:'doBeep'},
-  lock:  {icon:'🔐',title:'Lock',         sub:'Alarm + lock',                     fn:'doLock'},
+const FEAT_DEF={
+  sport:{ico:"⚡",title:"Sport Mode",  sub:"Full power, no cap",          fn:"doSport"},
+  zero: {ico:"🚀",title:"Zero Start",  sub:"Instant throttle from stop",   fn:"doZero"},
+  eco:  {ico:"🌿",title:"Eco Mode",    sub:"Extend battery range",         fn:"doEco"},
+  light:{ico:"💡",title:"Headlight",   sub:"Toggle on / off",              fn:"doLight"},
+  cruise:{ico:"🔒",title:"Cruise Ctrl",sub:"Hold speed automatically",     fn:"doCruise"},
+  beep: {ico:"🔔",title:"Beep",        sub:"Trigger horn",                 fn:"doBeep"},
+  lock: {ico:"🔐",title:"Lock",        sub:"Alarm + lock",                 fn:"doLock"},
 };
 
-function buildFeatureGrid() {
-  const feats = S.features.filter(f=>f!=='limit');
-  let h = feats.map(f=>{
-    const d=FEAT[f]; if(!d)return'';
-    const sid='fs_'+f;
-    return '<div class="feat-btn" id="fb_'+f+'" onclick="'+d.fn+'()">' +
-      '<div class="feat-icon">'+d.icon+'</div>' +
-      '<div class="feat-title">'+d.title+'</div>' +
-      '<div class="feat-sub">'+d.sub+'</div>' +
-      (f!=='beep'?'<div class="feat-state" id="'+sid+'">OFF</div>':'') +
-    '</div>';
-  }).join('');
-  h+='<div class="feat-btn danger" onclick="doReset()">' +
-    '<div class="feat-icon">↩️</div>' +
-    '<div class="feat-title">Factory Reset</div>' +
-    '<div class="feat-sub">Remove all changes</div></div>';
-  document.getElementById('featGrid').innerHTML=h;
-  updateFeatUI();
+function buildFeatGrid(){
+  const feats=S.feat.filter(f=>f!=="limit");
+  let h=feats.map(f=>{
+    const d=FEAT_DEF[f];if(!d)return"";
+    return`<div class="fb" id="fb_${f}" onclick="${d.fn}()"><div class="fb-ico">${d.ico}</div><div class="fb-title">${d.title}</div><div class="fb-sub">${d.sub}</div>${f!=="beep"?`<div class="fb-state" id="fs_${f}">OFF</div>`:""}</div>`;
+  }).join("");
+  h+=`<div class="fb danger" onclick="doReset()"><div class="fb-ico">↩️</div><div class="fb-title">Factory Reset</div><div class="fb-sub">Remove all changes</div></div>`;
+  document.getElementById("featGrid").innerHTML=h;
+  updFeat();
 }
 
-async function doSport()  { S.sport=!S.sport; if(S.sport)S.eco=false; await send(S.sport?'sport_on':'sport_off'); updateFeatUI(); toast('Sport '+(S.sport?'ON':'OFF')); }
-async function doZero()   { S.zero=!S.zero;   await send(S.zero?'zero_on':'zero_off');   updateFeatUI(); toast('Zero Start '+(S.zero?'ON':'OFF')); }
-async function doEco()    { S.eco=!S.eco;     if(S.eco)S.sport=false; await send(S.eco?'eco_on':'eco_off'); updateFeatUI(); toast('Eco '+(S.eco?'ON':'OFF')); }
-async function doLight()  { S.light=!S.light; await send(S.light?'light_on':'light_off'); updateFeatUI(); toast('Light '+(S.light?'ON':'OFF')); }
-async function doCruise() { S.cruise=!S.cruise; await send(S.cruise?'cruise_on':'cruise_off'); updateFeatUI(); toast('Cruise '+(S.cruise?'ON':'OFF')); }
-async function doBeep()   { await send('beep'); toast('Beep! 🔔'); }
-async function doLock()   { S.locked=!S.locked; await send(S.locked?'lock':'unlock'); updateFeatUI(); toast(S.locked?'Locked 🔐':'Unlocked'); }
-async function doReset()  {
-  await send('reset'); await delay(400); await send('beep');
-  S.sport=S.zero=S.eco=S.locked=S.cruise=false; S.light=true; S.tuneActive=false;
-  document.getElementById('limitSet').textContent='—';
-  document.getElementById('tuneBadge').classList.remove('show');
-  updateFeatUI(); toast('Factory settings restored');
+async function doSport(){S.sport=!S.sport;if(S.sport)S.eco=false;await tx(S.sport?"sport_on":"sport_off");updFeat();toast("Sport "+(S.sport?"ON":"OFF"));}
+async function doZero(){S.zero=!S.zero;await tx(S.zero?"zero_on":"zero_off");updFeat();toast("Zero Start "+(S.zero?"ON":"OFF"));}
+async function doEco(){S.eco=!S.eco;if(S.eco)S.sport=false;await tx(S.eco?"eco_on":"eco_off");updFeat();toast("Eco "+(S.eco?"ON":"OFF"));}
+async function doLight(){S.light=!S.light;await tx(S.light?"light_on":"light_off");updFeat();toast("Light "+(S.light?"ON":"OFF"));}
+async function doCruise(){S.cruise=!S.cruise;await tx(S.cruise?"cruise_on":"cruise_off");updFeat();toast("Cruise "+(S.cruise?"ON":"OFF"));}
+async function doBeep(){await tx("beep");toast("Beep! 🔔");}
+async function doLock(){S.locked=!S.locked;await tx(S.locked?"lock":"unlock");updFeat();toast(S.locked?"Locked 🔐":"Unlocked");}
+async function doReset(){
+  await tx("reset");await delay(400);await tx("beep");
+  S.sport=S.zero=S.eco=S.locked=S.cruise=false;S.light=true;S.tuned=false;
+  document.getElementById("limitSet").textContent="—";
+  document.getElementById("tbadge").classList.remove("on");
+  updFeat();toast("Factory settings restored");
 }
 
-function updateFeatUI() {
-  [['fs_sport',S.sport,'fb_sport'],['fs_zero',S.zero,'fb_zero'],
-   ['fs_eco',S.eco,'fb_eco'],['fs_light',S.light,'fb_light'],
-   ['fs_cruise',S.cruise,'fb_cruise'],['fs_lock',S.locked,'fb_lock']
+function updFeat(){
+  [["fs_sport",S.sport,"fb_sport"],["fs_zero",S.zero,"fb_zero"],["fs_eco",S.eco,"fb_eco"],
+   ["fs_light",S.light,"fb_light"],["fs_cruise",S.cruise,"fb_cruise"],["fs_lock",S.locked,"fb_lock"]
   ].forEach(([sid,on,bid])=>{
     const s=document.getElementById(sid),b=document.getElementById(bid);
-    if(s){s.textContent=on?'ON':'OFF';s.classList.toggle('on',on);}
-    if(b)b.classList.toggle('active-feat',on);
+    if(s){s.textContent=on?"ON":"OFF";s.classList.toggle("on",on);}
+    if(b)b.classList.toggle("on",on);
   });
 }
 
-// ═══════════════════════════════════════════════════════════════
-// PANIC BUTTON
-// ═══════════════════════════════════════════════════════════════
-const PKEYS = {brake:'Brake lever (double-press)',bell:'Bell button',power:'Power button (hold)',throttle:'Throttle double-tap'};
+const PKEYS={brake:"Brake lever (double-press)",bell:"Bell button",power:"Power button (hold)",throttle:"Throttle double-tap"};
 
-function buildPanicSection() {
-  const w=document.getElementById('panicSection'); if(!w)return;
-  w.innerHTML='<div class="sec" style="margin-top:24px">Panic Button</div>' +
-    '<div class="slider-wrap">' +
-      '<div style="font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:14px">Instantly caps speed when you trigger the configured button on the scooter.</div>' +
-      '<div class="sl-head"><div class="sl-title">Panic speed</div><div><span class="sl-val" id="pVal">'+S.panicSpeed+'</span><span class="sl-unit">km/h</span></div></div>' +
-      '<div class="sl-track" id="pTrack"><div class="sl-bg"></div><div class="sl-fill" id="pFill"></div><div class="sl-hit" id="pThumb"><div class="sl-thumb"></div></div></div>' +
-      '<div class="sl-labels"><span>5</span><span>'+S.sliderMax+'</span></div>' +
-      '<div class="sec" style="margin-top:14px;margin-bottom:8px">Trigger</div>' +
-      '<div style="display:flex;flex-direction:column;gap:6px">'+
-        Object.entries(PKEYS).map(([k,l])=>'<div class="dev-row" style="padding:10px 14px;border:1px solid var(--b1);border-radius:10px" onclick="setPKey(\''+k+'\')">'+
-          '<div style="font-size:13px;font-weight:500">'+l+'</div>'+
-          '<div id="pk_'+k+'" style="width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center">'+
-          (S.panicKey===k?'<div style="width:8px;height:8px;background:var(--acc);border-radius:50%"></div>':'')+
-          '</div></div>').join('')+
-      '</div>' +
-      '<button class="btn-primary" style="margin-top:12px" onclick="armPanic()">Arm Panic Button</button>' +
-      '<div id="pStatus" style="text-align:center;font-size:12px;color:var(--t3);margin-top:8px"></div>' +
-    '</div>';
-  initPSlider(); updPSlider();
+function buildPanic(){
+  const w=document.getElementById("panicSec");if(!w)return;
+  w.innerHTML=`<div class="sec" style="margin-top:24px">Panic Button</div><div class="sl-wrap"><div style="font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:14px">Instantly caps speed when triggered.</div><div class="sl-head"><div class="sl-title">Panic speed</div><div><span class="sl-num" id="pVal">${S.panicSpd}</span><span class="sl-unit">km/h</span></div></div><div class="sl-track" id="pTrack"><div class="sl-bg"></div><div class="sl-fill" id="pFill"></div><div class="sl-hit" id="pThumb"><div class="sl-thumb"></div></div></div><div class="sl-labels"><span>5</span><span>${S.sMax}</span></div><div class="sec" style="margin-top:14px;margin-bottom:8px">Trigger</div><div style="display:flex;flex-direction:column;gap:6px">${Object.entries(PKEYS).map(([k,l])=>`<div class="dr" style="padding:10px 14px;border:1px solid var(--b1);border-radius:11px" onclick="setPK('${k}')"><div style="font-size:13px;font-weight:500">${l}</div><div id="pk_${k}" style="width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center">${S.panicKey===k?`<div style="width:8px;height:8px;background:var(--a);border-radius:50%"></div>`:""}</div></div>`).join("")}</div><button class="btn-p" style="margin-top:12px" onclick="armPanic()">Arm Panic Button</button><div id="pStatus" style="text-align:center;font-size:12px;color:var(--t3);margin-top:8px"></div></div>`;
+  initPSlider();updPSlider();
 }
 
 function initPSlider(){
-  const w=document.getElementById('pTrack');if(!w)return;
-  let drag=false;
-  function pct(e){const r=w.getBoundingClientRect();const x=e.touches?e.touches[0].clientX:e.clientX;return Math.max(0,Math.min(1,(x-r.left)/r.width));}
-  function upd(p){setPSpeed(Math.round(5+p*(S.sliderMax-5)));}
-  w.addEventListener('mousedown',e=>{drag=true;upd(pct(e));});
-  w.addEventListener('touchstart',e=>{drag=true;upd(pct(e));},{passive:true});
-  window.addEventListener('mousemove',e=>{if(drag)upd(pct(e));});
-  window.addEventListener('touchmove',e=>{if(drag)upd(pct(e));},{passive:true});
-  window.addEventListener('mouseup',()=>drag=false);
-  window.addEventListener('touchend',()=>drag=false);
+  const w=document.getElementById("pTrack");if(!w)return;let drag=false;
+  function p(e){const r=w.getBoundingClientRect();const x=e.touches?e.touches[0].clientX:e.clientX;return Math.max(0,Math.min(1,(x-r.left)/r.width));}
+  function u(pct){S.panicSpd=Math.max(5,Math.min(S.sMax,Math.round(5+pct*(S.sMax-5))));updPSlider();}
+  w.addEventListener("mousedown",e=>{drag=true;u(p(e));});
+  w.addEventListener("touchstart",e=>{drag=true;u(p(e));},{passive:true});
+  window.addEventListener("mousemove",e=>{if(drag)u(p(e));});
+  window.addEventListener("touchmove",e=>{if(drag)u(p(e));},{passive:true});
+  window.addEventListener("mouseup",()=>drag=false);
+  window.addEventListener("touchend",()=>drag=false);
 }
-function setPSpeed(v){S.panicSpeed=Math.max(5,Math.min(S.sliderMax,v));updPSlider();}
+
 function updPSlider(){
-  const el=document.getElementById('pVal'),f=document.getElementById('pFill'),t=document.getElementById('pThumb');
-  if(!el)return; el.textContent=S.panicSpeed;
-  const p=((S.panicSpeed-5)/(S.sliderMax-5))*100;
-  if(f)f.style.width=p+'%'; if(t)t.style.left=p+'%';
+  const el=document.getElementById("pVal"),f=document.getElementById("pFill"),t=document.getElementById("pThumb");
+  if(!el)return;el.textContent=S.panicSpd;
+  const p=((S.panicSpd-5)/(S.sMax-5))*100;
+  if(f)f.style.width=p+"%";if(t)t.style.left=p+"%";
 }
-function setPKey(k){
+
+function setPK(k){
   S.panicKey=k;
-  Object.keys(PKEYS).forEach(key=>{const el=document.getElementById('pk_'+key);if(!el)return;el.innerHTML=key===k?'<div style="width:8px;height:8px;background:var(--acc);border-radius:50%"></div>':'';});
+  Object.keys(PKEYS).forEach(key=>{const el=document.getElementById("pk_"+key);if(!el)return;el.innerHTML=key===k?`<div style="width:8px;height:8px;background:var(--a);border-radius:50%"></div>`:"";}); 
 }
+
 async function armPanic(){
-  await send('panic');
-  const st=document.getElementById('pStatus');
-  if(st)st.textContent='Armed · '+S.panicSpeed+' km/h via '+PKEYS[S.panicKey];
-  toast('Panic button armed — '+S.panicSpeed+' km/h');
+  await tx("panic");
+  const st=document.getElementById("pStatus");
+  if(st)st.textContent="Armed · "+S.panicSpd+" km/h via "+PKEYS[S.panicKey];
+  toast("Panic button armed — "+S.panicSpd+" km/h");
 }
 
-// ═══════════════════════════════════════════════════════════════
-// THEME SYSTEM
-// ═══════════════════════════════════════════════════════════════
-function setTheme(t) {
-  const app=document.getElementById('app');
-  app.setAttribute('data-theme',t);
-  localStorage.setItem('vt_theme',t);
-  document.querySelectorAll('.theme-swatch').forEach(s=>s.classList.toggle('active',s.dataset.t===t));
-  // Update splash accent
-  const sa=document.getElementById('splashAccent');
-  if(sa){
-    const themes={orange:'#FF6B00',blue:'#0A84FF',purple:'#BF5AF2',green:'#30D158',red:'#FF3B30',teal:'#5AC8FA',white:'#fff',rainbow:'#FF3B30'};
-    sa.style.color=themes[t]||'#fff';
-  }
-}
+function openSheet(id){document.getElementById("ov").classList.add("on");document.getElementById(id).classList.add("on");}
+function closeSheets(){document.getElementById("ov").classList.remove("on");document.querySelectorAll(".sheet").forEach(s=>s.classList.remove("on"));}
+function switchView(id){document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));document.getElementById(id).classList.add("active");}
 
-function applyCustom() {
-  const c=document.getElementById('customColor1').value;
-  const r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),b=parseInt(c.slice(5,7),16);
-  const app=document.getElementById('app');
-  app.setAttribute('data-theme','custom');
-  app.style.setProperty('--acc',c);
-  app.style.setProperty('--acc2',c);
-  app.style.setProperty('--acc-rgb',r+','+g+','+b);
-  document.querySelectorAll('.theme-swatch').forEach(s=>s.classList.remove('active'));
-  localStorage.setItem('vt_theme','custom');
-  localStorage.setItem('vt_custom',c);
-}
-
-function openThemeSheet(){showSheet('shTheme');}
-
-// ═══════════════════════════════════════════════════════════════
-// MODEL SHEET
-// ═══════════════════════════════════════════════════════════════
-function openModelSheet(){renderModelList();showSheet('shModel');}
-function renderModelList(){
-  const brands=['Ninebot','Xiaomi','Navee'],icons={Ninebot:'NB',Xiaomi:'MI',Navee:'NV'};
-  let h='';
-  for(const br of brands){
-    const ms=MODEL_DB.filter(m=>m.brand===br);
-    h+='<div class="brand-hdr">'+br+' <span style="opacity:.4">'+ms.length+'</span></div>';
-    for(const m of ms){
-      const fStr=m.features.map(f=>'"'+f+'"').join(',');
-      h+='<div class="dev-row" onclick="preSelect(\''+esc(m.name)+'\','+m.maxKmh+',\''+m.key+'\','+m.ctrl+',['+fStr+'])">' +
-        '<div class="dev-left"><div class="dev-ico">'+icons[br]+'</div>' +
-        '<div><div class="dev-name">'+m.name+'</div><div class="dev-meta">Max '+m.maxKmh+' km/h'+(m.ctrl?' · Controller info':'')+'</div></div></div>' +
-        '<svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="opacity:.2;flex-shrink:0"><path d="M4.5 2.5l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
-      '</div>';
-    }
-  }
-  document.getElementById('shModelBody').innerHTML=h;
-  document.getElementById('shModelSub').textContent=MODEL_DB.length+' models';
-}
-function preSelect(name,maxKmh,key,ctrl,features){
-  S.modelName=name;S.maxKmh=maxKmh;S.proto=key;S.hasCtrl=ctrl;S.features=features;
-  hideSheet('shModel');showSheet('shBLE');S.found=[];renderFound();addDevice();
-}
-
-// ═══════════════════════════════════════════════════════════════
-// DISCLAIMER
-// ═══════════════════════════════════════════════════════════════
-function showDisclaimer(){if(localStorage.getItem('vt_disc'))return;document.getElementById('disclaimerOverlay').style.display='flex';}
-function acceptDisclaimer(){localStorage.setItem('vt_disc','1');document.getElementById('disclaimerOverlay').style.display='none';}
-
-// ═══════════════════════════════════════════════════════════════
-// SHEET / VIEW / MISC
-// ═══════════════════════════════════════════════════════════════
-function showSheet(id){document.getElementById('ov').classList.add('show');document.getElementById(id).classList.add('show');}
-function hideSheet(id){document.getElementById(id).classList.remove('show');}
-function closeAllSheets(){document.getElementById('ov').classList.remove('show');document.querySelectorAll('.sheet').forEach(s=>s.classList.remove('show'));}
-function switchView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(id).classList.add('active');}
 let _tt=null;
-function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove('show'),2400);}
-function openBluefy(){window.location.href='bluefy://'+window.location.href.replace(/^https?:\/\//,'');setTimeout(()=>window.open('https://apps.apple.com/app/bluefy-web-ble-browser/id1492822055','_blank'),1500);}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("on");clearTimeout(_tt);_tt=setTimeout(()=>el.classList.remove("on"),2400);}
+function openBluefy(){window.location.href="bluefy://"+window.location.href.replace(/^https?:\/\//,"");setTimeout(()=>window.open("https://apps.apple.com/app/bluefy-web-ble-browser/id1492822055","_blank"),1500);}
 function delay(ms){return new Promise(r=>setTimeout(r,ms));}
-function esc(s){return(s||'').replace(/'/g,"\\'").replace(/"/g,'&quot;');}
+function esc(s){return(s||"").replace(/'/g,"\\'").replace(/"/g,"&quot;");}
 
-// ── HOME MODEL LIST ──
+function setTheme(t){
+  const app=document.getElementById("app");
+  app.setAttribute("data-theme",t);
+  localStorage.setItem("vt_theme",t);
+  document.querySelectorAll(".ts").forEach(s=>s.classList.toggle("on",s.dataset.t===t));
+}
+
+function applyCustom(){
+  const c=document.getElementById("customClr").value;
+  const r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),b=parseInt(c.slice(5,7),16);
+  const app=document.getElementById("app");
+  app.setAttribute("data-theme","custom");
+  app.style.setProperty("--a",c);app.style.setProperty("--a2",c);
+  app.style.setProperty("--ar",r+","+g+","+b);
+  document.querySelectorAll(".ts").forEach(s=>s.classList.remove("on"));
+  localStorage.setItem("vt_theme","custom");localStorage.setItem("vt_clr",c);
+}
+
+function showDisc(){if(localStorage.getItem("vt_disc"))return;document.getElementById("disc-overlay").style.display="flex";}
+function acceptDisc(){localStorage.setItem("vt_disc","1");document.getElementById("disc-overlay").style.display="none";}
+
+async function checkUpdate(){
+  try{
+    const r=await fetch("https://raw.githubusercontent.com/leleCrazy1727/volttune/main/apps.json");
+    const j=await r.json();
+    const latest=j.apps&&j.apps[0]&&j.apps[0].version;
+    const current="1.0.0";
+    if(latest&&latest!==current){toast("Update available: v"+latest);}
+  }catch(_){}
+}
+
 (function(){
-  const brands=['Ninebot','Xiaomi','Navee']; let h='';
+  const brands=["Ninebot","Xiaomi","Navee"];let h="";
   for(const br of brands){
-    const ms=MODEL_DB.filter(m=>m.brand===br);
-    h+='<div class="sec">'+br+' <span style="opacity:.4;font-size:9px">'+ms.length+' models</span></div>';
+    const ms=MODELS.filter(m=>m.brand===br);
+    h+=`<div class="sec">${br} <span style="opacity:.4;font-size:9px">${ms.length} models</span></div>`;
+    for(const m of ms){h+=`<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--b1)"><div style="font-size:13px;font-weight:500">${m.name}</div><div style="font-family:var(--fm);font-size:11px;color:var(--t3)">${m.max} km/h</div></div>`;}
+  }
+  h+="<div style=\"height:32px\"></div>";
+  document.getElementById("homeList").innerHTML=h;
+})();
+
+(function(){
+  const brands=["Ninebot","Xiaomi","Navee"],icons={Ninebot:"NB",Xiaomi:"MI",Navee:"NV"};let h="";
+  for(const br of brands){
+    const ms=MODELS.filter(m=>m.brand===br);
+    h+=`<div class="brand-hdr">${br} <span style="opacity:.4">${ms.length}</span></div>`;
     for(const m of ms){
-      h+='<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--b1)">' +
-        '<div style="font-size:13px;font-weight:500">'+m.name+'</div>' +
-        '<div style="font-family:var(--fm);font-size:11px;color:var(--t3)">'+m.maxKmh+' km/h</div></div>';
+      const fs=m.feat.map(f=>`"${f}"`).join(",");
+      h+=`<div class="dr" onclick="preSelect('${esc(m.name)}',${m.max},'${m.key}',${m.ctrl},[${fs}])"><div class="dl"><div class="dico">${icons[br]}</div><div><div class="dn">${m.name}</div><div class="dm">Max ${m.max} km/h${m.ctrl?" · Controller info":""}</div></div></div><svg width="13" height="13" viewBox="0 0 13 13" fill="none" style="opacity:.2"><path d="M4.5 2.5l4 4-4 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
     }
   }
-  h+='<div style="height:32px"></div>';
-  document.getElementById('homeModelList').innerHTML=h;
+  document.getElementById("modelsBody").innerHTML=h;
+  document.getElementById("modelsSub").textContent=MODELS.length+" models";
 })();
 
-// ── BLUEFY / INSTALL BANNER ──
-(function(){
-  const ua=navigator.userAgent;
-  const isBluefy=/Bluefy/i.test(ua);
-  const isIOSSafari=/iphone|ipad|ipod/i.test(ua)&&/safari/i.test(ua)&&!/chrome|crios|fxios/i.test(ua);
-  const standalone=window.matchMedia('(display-mode:standalone)').matches||navigator.standalone===true;
-  if(standalone||isBluefy)return;
-  // We could show a banner but it's handled by the landing page
-})();
+function preSelect(name,max,key,ctrl,feat){
+  S.model=name;S.max=max;S.proto=key;S.hasCtrl=ctrl;S.feat=feat;
+  closeSheets();openSheet("shScan");S.found=[];renderFound();addDev();
+}
 
-// ── SPLASH + INIT ──
-(function(){
-  // Restore theme
-  const t=localStorage.getItem('vt_theme')||'white';
-  if(t==='custom'){
-    const c=localStorage.getItem('vt_custom')||'#ffffff';
+(function init(){
+  const t=localStorage.getItem("vt_theme")||"white";
+  if(t==="custom"){
+    const c=localStorage.getItem("vt_clr")||"#ffffff";
     const r=parseInt(c.slice(1,3),16),g=parseInt(c.slice(3,5),16),b=parseInt(c.slice(5,7),16);
-    const app=document.getElementById('app');
-    app.setAttribute('data-theme','custom');
-    app.style.setProperty('--acc',c);
-    app.style.setProperty('--acc-rgb',r+','+g+','+b);
-  } else {
-    setTheme(t);
-  }
-
-  // Animate splash
+    const app=document.getElementById("app");
+    app.setAttribute("data-theme","custom");
+    app.style.setProperty("--a",c);app.style.setProperty("--ar",r+","+g+","+b);
+  }else{setTheme(t);}
   setTimeout(()=>{
-    const splash=document.getElementById('splash');
-    splash.classList.add('out');
-    setTimeout(()=>splash.style.display='none', 650);
-    showDisclaimer();
-  }, 1800);
-
+    const sp=document.getElementById("splash");
+    sp.classList.add("out");
+    setTimeout(()=>sp.style.display="none",650);
+    showDisc();
+    setTimeout(checkUpdate,3000);
+  },1800);
   setSlider(25);
 })();
 </script>
 </body>
 </html>
-<!-- This file is intentionally left empty - crypto is inline above -->
