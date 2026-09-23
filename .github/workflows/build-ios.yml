@@ -70,8 +70,8 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v1.1
-          name: VoltTune v1.1
+          tag_name: v1.2
+          name: VoltTune v1.2
           body: |
             ## VoltTune v1.1
             Download VoltTune.ipa and install via SideStore or AltStore.
