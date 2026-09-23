@@ -27,11 +27,14 @@ jobs:
       - name: Sync web assets
         run: npx cap sync ios
 
-      - name: Set version
+      - name: Set version in all Info.plist files
         run: |
-          cd ios/App/App
-          plutil -replace CFBundleShortVersionString -string "1.1" Info.plist
-          plutil -replace CFBundleVersion -string "1.1" Info.plist
+          VERSION=$(node -e "console.log(require('./package.json').version)")
+          echo "Setting version to $VERSION"
+          find ios -name "Info.plist" | while read f; do
+            plutil -replace CFBundleShortVersionString -string "$VERSION" "$f" && echo "Patched: $f"
+            plutil -replace CFBundleVersion -string "$VERSION" "$f"
+          done
 
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
@@ -51,6 +54,8 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
             AD_HOC_CODE_SIGNING_ALLOWED=YES \
+            MARKETING_VERSION=$(node -e "console.log(require('../../package.json').version)") \
+            CURRENT_PROJECT_VERSION=$(node -e "console.log(require('../../package.json').version)") \
             | xcpretty
 
       - name: Package IPA
@@ -59,6 +64,9 @@ jobs:
           mkdir -p /tmp/Payload
           cp -r "$APP_PATH" /tmp/Payload/
           cd /tmp && zip -r VoltTune.ipa Payload/
+          
+          # Verify version in IPA
+          cd /tmp && unzip -p VoltTune.ipa "Payload/*.app/Info.plist" | plutil -extract CFBundleShortVersionString raw -
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
@@ -70,10 +78,10 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v1.2
-          name: VoltTune v1.2
+          tag_name: v${{ github.run_number }}
+          name: VoltTune v${{ github.run_number }}
           body: |
-            ## VoltTune v1.1
+            ## VoltTune
             Download VoltTune.ipa and install via SideStore or AltStore.
           files: /tmp/VoltTune.ipa
           draft: false
