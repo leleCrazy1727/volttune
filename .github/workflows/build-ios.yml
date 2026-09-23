@@ -27,6 +27,12 @@ jobs:
       - name: Sync web assets
         run: npx cap sync ios
 
+      - name: Set version
+        run: |
+          cd ios/App/App
+          plutil -replace CFBundleShortVersionString -string "1.1" Info.plist
+          plutil -replace CFBundleVersion -string "1.1" Info.plist
+
       - name: Setup Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -64,11 +70,11 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v1.0.${{ github.run_number }}
-          name: VoltTune v1.0.${{ github.run_number }}
+          tag_name: v1.1
+          name: VoltTune v1.1
           body: |
-            ## VoltTune iOS Build
-            Download VoltTune.ipa and install via AltStore.
+            ## VoltTune v1.1
+            Download VoltTune.ipa and install via SideStore or AltStore.
           files: /tmp/VoltTune.ipa
           draft: false
           prerelease: false
