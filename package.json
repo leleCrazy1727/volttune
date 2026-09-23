@@ -1,6 +1,6 @@
 {
   "name": "volttune",
-  "version": "1.0.0",
+  "version": "1.1",
   "description": "VoltTune — Scooter Tuning App",
   "scripts": {
     "build": "echo Static app"
