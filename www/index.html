@@ -206,13 +206,6 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
 .spl-sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.15);border-top-color:rgba(255,255,255,.4);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto;margin-top:10px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* DISC */
-#disc{position:fixed;inset:0;background:#000;z-index:500;display:none}
-.disc-box{background:var(--bg);padding:max(56px,calc(var(--safe-top)+32px)) 24px max(44px,calc(var(--safe-bot)+24px));width:100%;min-height:100dvh;display:flex;flex-direction:column}
-.disc-title{font-size:28px;font-weight:700;letter-spacing:-.03em;margin-bottom:18px}
-.disc-body{font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:32px;flex:1;max-width:480px}
-.disc-body strong{color:#fff}
-
 /* NBLE */
 .nble{padding:32px 20px;text-align:center}
 .nble-ico{font-size:32px;margin-bottom:10px}
@@ -233,26 +226,6 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
   <div class="spl-name">Volt<span style="color:rgba(255,255,255,.32);font-weight:300">Tune</span></div>
   <div class="spl-txt" id="splTxt">Checking for updates…</div>
   <div class="spl-sp" id="splSp"></div>
-</div>
-
-<div id="disc">
-  <div class="disc-box">
-    <div class="disc-title">Before you continue</div>
-    <div class="disc-body">
-      VoltTune modifies your scooter's firmware settings via Bluetooth.<br><br>
-      <strong>⚠️ Private property only.</strong> Riding a modified scooter on public roads is illegal in most countries.<br><br>
-      <strong>⚠️ Motor safety.</strong> Speed limits shown are the safe hardware maximums for each model. Exceeding them can damage the motor or controller.<br><br>
-      <strong>⚠️ Your responsibility.</strong> You accept full responsibility for any damage or injury.
-    </div>
-    <div id="discBtnWrap" style="position:relative;overflow:hidden;border-radius:10px;margin-top:auto">
-      <button id="discBtn" onclick="acceptDisc()" style="width:100%;padding:16px;background:#fff;color:#000;border:none;border-radius:10px;font-family:var(--fh);font-size:15px;font-weight:600;cursor:pointer;position:relative;z-index:2">
-        I understand — continue
-      </button>
-      <div id="discOverlay" style="position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:3;border-radius:10px;display:flex;align-items:center;justify-content:center;pointer-events:none">
-        <span id="discTimer" style="color:#fff;font-size:20px;font-weight:700;font-family:var(--fm)">30</span>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div id="app" data-t="white">
@@ -1242,27 +1215,6 @@ function applyCustom(){
   app.style.setProperty("--a",c);app.style.setProperty("--ar",`${r},${g},${b}`);
   document.querySelectorAll(".ts").forEach(s=>s.classList.remove("on"));
   localStorage.setItem("vt_t","custom");localStorage.setItem("vt_c",c);
-}
-
-function acceptDisc(){
-  if(document.getElementById("discBtn").disabled)return;
-  if(!localStorage.getItem("vt_d")){document.getElementById("disc").style.display="flex";startDiscCountdown();}
-  document.getElementById("disc").style.display="none";
-}
-function startDiscCountdown(){
-  let t=30;
-  const ov=document.getElementById("discOverlay");
-  const tm=document.getElementById("discTimer");
-  if(!ov||!tm)return;
-  const iv=setInterval(()=>{
-    t--;
-    if(tm)tm.textContent=t;
-    if(t<=0){
-      clearInterval(iv);
-      if(ov){ov.style.opacity="0";setTimeout(()=>{ov.style.display="none";},300);}
-    }
-  },1000);
-  if(ov)ov.style.transition="opacity .3s";
 }
 
 async function checkUpdate(){
