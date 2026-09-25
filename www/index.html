@@ -207,10 +207,10 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* DISC */
-#disc{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:500;display:none;align-items:flex-end;justify-content:center}
-.disc-box{background:var(--s2);border-top:1px solid var(--b2);border-radius:20px 20px 0 0;padding:24px 22px;padding-bottom:max(40px,calc(var(--safe-bot)+24px));max-width:430px;width:100%;max-height:80dvh;overflow-y:auto}
-.disc-title{font-size:20px;font-weight:700;letter-spacing:-.03em;margin-bottom:12px}
-.disc-body{font-size:13px;color:var(--t2);line-height:1.75;margin-bottom:22px}
+#disc{position:fixed;inset:0;background:#000;z-index:500;display:none;align-items:stretch;justify-content:stretch}
+.disc-box{background:var(--bg);padding:max(60px,calc(var(--safe-top)+40px)) 28px max(48px,calc(var(--safe-bot)+28px));width:100%;height:100dvh;overflow-y:auto;display:flex;flex-direction:column;justify-content:center}
+.disc-title{font-size:28px;font-weight:700;letter-spacing:-.03em;margin-bottom:18px}
+.disc-body{font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:32px;flex:1}
 .disc-body strong{color:#fff}
 
 /* NBLE */
@@ -244,7 +244,10 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
       <strong>⚠️ Motor safety.</strong> Speed limits shown are the safe hardware maximums for each model. Exceeding them can damage the motor or controller.<br><br>
       <strong>⚠️ Your responsibility.</strong> You accept full responsibility for any damage or injury.
     </div>
-    <button onclick="acceptDisc()" style="width:100%;padding:14px;background:#fff;color:#000;border:none;border-radius:10px;font-family:var(--fh);font-size:14px;font-weight:600;cursor:pointer">I understand — continue</button>
+    <button id="discBtn" onclick="acceptDisc()" disabled style="width:100%;padding:14px;background:rgba(255,255,255,.2);color:rgba(0,0,0,.4);border:none;border-radius:10px;font-family:var(--fh);font-size:14px;font-weight:600;cursor:not-allowed;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px">
+      <span id="discTxt">I understand — continue</span>
+      <span id="discTimer" style="font-size:13px;opacity:.7">30s</span>
+    </button>
   </div>
 </div>
 
@@ -1190,7 +1193,29 @@ function applyCustom(){
   localStorage.setItem("vt_t","custom");localStorage.setItem("vt_c",c);
 }
 
-function acceptDisc(){localStorage.setItem("vt_d","1");document.getElementById("disc").style.display="none";}
+function acceptDisc(){
+  if(document.getElementById("discBtn").disabled)return;
+  if(!localStorage.getItem("vt_d")){document.getElementById("disc").style.display="flex";startDiscCountdown();}
+  document.getElementById("disc").style.display="none";
+}
+function startDiscCountdown(){
+  const btn=document.getElementById("discBtn");
+  const timer=document.getElementById("discTimer");
+  if(!btn||!timer)return;
+  let t=30;
+  const iv=setInterval(()=>{
+    t--;
+    timer.textContent=t+"s";
+    if(t<=0){
+      clearInterval(iv);
+      btn.disabled=false;
+      btn.style.background="#fff";
+      btn.style.color="#000";
+      btn.style.cursor="pointer";
+      timer.style.display="none";
+    }
+  },1000);
+}
 
 async function checkUpdate(){
   try{
@@ -1252,7 +1277,7 @@ function preSelect(idx){
     setTimeout(()=>{
       const spl=document.getElementById("splash");
       spl.classList.add("out");
-      setTimeout(()=>{spl.style.display="none";if(!localStorage.getItem("vt_d"))document.getElementById("disc").style.display="flex";},550);
+      setTimeout(()=>{spl.style.display="none";if(!localStorage.getItem("vt_d")){document.getElementById("disc").style.display="flex";startDiscCountdown();}},550);
     },1200);
   });
 })();
