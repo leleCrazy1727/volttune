@@ -8,7 +8,7 @@
       "bundleIdentifier": "com.volttune.app",
       "developerName": "VoltTune",
       "subtitle": "Scooter tuning via Bluetooth",
-      "version": "1.2",
+      "version": "1.3",
       "versionDate": "2026-09-23T00:00:00Z",
       "versionDescription": "Tab navigation, firmware flashing, region change, panic button, 89 models, detailed scooter illustrations, safe speed limits per model.",
       "downloadURL": "https://github.com/leleCrazy1727/volttune/releases/latest/download/VoltTune.ipa",
