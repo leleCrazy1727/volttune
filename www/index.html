@@ -207,10 +207,10 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* DISC */
-#disc{position:fixed;inset:0;background:#000;z-index:500;display:none;align-items:stretch;justify-content:stretch}
-.disc-box{background:var(--bg);padding:max(60px,calc(var(--safe-top)+40px)) 28px max(48px,calc(var(--safe-bot)+28px));width:100%;height:100dvh;overflow-y:auto;display:flex;flex-direction:column;justify-content:center}
+#disc{position:fixed;inset:0;background:#000;z-index:500;display:none}
+.disc-box{background:var(--bg);padding:max(56px,calc(var(--safe-top)+32px)) 24px max(44px,calc(var(--safe-bot)+24px));width:100%;min-height:100dvh;display:flex;flex-direction:column}
 .disc-title{font-size:28px;font-weight:700;letter-spacing:-.03em;margin-bottom:18px}
-.disc-body{font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:32px;flex:1}
+.disc-body{font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:32px;flex:1;max-width:480px}
 .disc-body strong{color:#fff}
 
 /* NBLE */
@@ -244,10 +244,14 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
       <strong>⚠️ Motor safety.</strong> Speed limits shown are the safe hardware maximums for each model. Exceeding them can damage the motor or controller.<br><br>
       <strong>⚠️ Your responsibility.</strong> You accept full responsibility for any damage or injury.
     </div>
-    <button id="discBtn" onclick="acceptDisc()" disabled style="width:100%;padding:14px;background:rgba(255,255,255,.2);color:rgba(0,0,0,.4);border:none;border-radius:10px;font-family:var(--fh);font-size:14px;font-weight:600;cursor:not-allowed;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px">
-      <span id="discTxt">I understand — continue</span>
-      <span id="discTimer" style="font-size:13px;opacity:.7">30s</span>
-    </button>
+    <div id="discBtnWrap" style="position:relative;overflow:hidden;border-radius:10px;margin-top:auto">
+      <button id="discBtn" onclick="acceptDisc()" style="width:100%;padding:16px;background:#fff;color:#000;border:none;border-radius:10px;font-family:var(--fh);font-size:15px;font-weight:600;cursor:pointer;position:relative;z-index:2">
+        I understand — continue
+      </button>
+      <div id="discOverlay" style="position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:3;border-radius:10px;display:flex;align-items:center;justify-content:center;pointer-events:none">
+        <span id="discTimer" style="color:#fff;font-size:20px;font-weight:700;font-family:var(--fm)">30</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -307,6 +311,8 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
         <div class="card"><div class="cl">Limit set</div><div class="cv"><span id="limitSet">—</span><span class="cu">km/h</span></div></div>
         <div class="card"><div class="cl">Mode</div><div class="cv" id="modeVal">Normal</div></div>
       </div>
+      <div class="sec">Riding mode</div>
+      <div id="modeSel" style="display:flex;gap:7px"></div>
       <div id="ctrlSec" style="display:none">
         <div class="sec">Hardware</div>
         <div class="ctable" id="ctrlCard"></div>
@@ -471,8 +477,8 @@ const MODELS=[
   {b:"Ninebot",n:"Segway Ninebot ZT3 Pro E",     k:"nb",max:45,ctrl:true,proto:"nb2",f:["limit","sport","eco","light","beep","cruise","lock","zero","flash","region"]},
   // GT series: performance, high-power motors
   {b:"Ninebot",n:"Segway Ninebot GT1",           k:"nb",max:55,ctrl:true,proto:"nb2",f:["limit","sport","eco","light","beep","cruise","lock","zero","flash","region"]},
-  {b:"Ninebot",n:"Segway Ninebot GT1E",          k:"nb",max:55,ctrl:true,proto:"nb2",f:["limit","sport","eco","light","beep","cruise","lock","zero","flash","region"]},
-  {b:"Ninebot",n:"Segway Ninebot GT2",           k:"nb",max:70,ctrl:true,proto:"nb2",f:["limit","sport","eco","light","beep","cruise","lock","zero","flash","region"]},
+  {b:"Ninebot",n:"Segway Ninebot GT1E",          k:"nb",max:55,ctrl:true,proto:"nb2",f:["limit","sport","eco","race","light","beep","cruise","lock","zero","flash","region"]},
+  {b:"Ninebot",n:"Segway Ninebot GT2",           k:"nb",max:70,ctrl:true,proto:"nb2",f:["limit","sport","eco","race","light","beep","cruise","lock","zero","flash","region"]},
   {b:"Ninebot",n:"Segway Ninebot GT2E",          k:"nb",max:70,ctrl:true,proto:"nb2",f:["limit","sport","eco","light","beep","cruise","lock","zero","flash","region"]},
   // GT3 Pro: dual motor, safe up to 65
   {b:"Ninebot",n:"Segway Ninebot GT3 E",         k:"nb",max:60,ctrl:true,proto:"nb2",f:["limit","sport","eco","light","beep","cruise","lock","zero","flash","region"]},
@@ -851,7 +857,7 @@ function showNoBLE(){
 
 function enterConn(){
   S.connected=true;S.sMin=5;S.sMax=S.max;S.limit=Math.min(25,S.max);S.top=0;S.dist=0;
-  S.sport=S.zero=S.eco=S.locked=S.cruise=false;S.light=true;
+  S.sport=S.zero=S.eco=S.locked=S.cruise=false;S.light=true;S.currentMode='normal';
   Object.keys(ctrlD).forEach(k=>delete ctrlD[k]);
   document.getElementById("connPill").classList.add("on");
   document.getElementById("connDot").classList.add("live");
@@ -866,7 +872,7 @@ function enterConn(){
   document.getElementById("slMin").textContent=S.sMin;
   document.getElementById("slMax").textContent=S.max;
   document.getElementById("tabbar").classList.remove("hidden");
-  buildPresets();setSlider(S.limit);buildFeatGrid();buildAdvanced();
+  buildPresets();setSlider(S.limit);buildModeSelector();buildFeatGrid();buildAdvanced();
   gotoTab(0);
 }
 
@@ -956,6 +962,50 @@ const FEATS={
   lock:  {ico:"🔐",t:"Lock",         s:"Alarm + lock scooter",      g:"settings"},
 };
 
+function buildModeSelector(){
+  const w=document.getElementById("modeSel");if(!w)return;
+  const modes=[];
+  if(S.feat.includes("eco"))modes.push({k:"eco",ico:"🌿",t:"Eco",reg:0x01});
+  modes.push({k:"normal",ico:"⚡",t:"Normal",reg:0x00});
+  if(S.feat.includes("sport"))modes.push({k:"sport",ico:"🚀",t:"Sport",reg:0x02});
+  if(S.feat.includes("race"))modes.push({k:"race",ico:"🏁",t:"Race",reg:0x03});
+  w.innerHTML=modes.map(m=>`
+    <div id="mode_${m.k}" onclick="setMode('${m.k}',${m.reg})" style="flex:1;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:12px 8px;text-align:center;cursor:pointer;transition:all .15s">
+      <div style="font-size:18px;margin-bottom:5px">${m.ico}</div>
+      <div style="font-size:12px;font-weight:600">${m.t}</div>
+    </div>`).join("");
+  updModeSelector();
+}
+
+async function setMode(k,reg){
+  const nb=(c,a,p)=>nbPkt(0x3E,0x20,c,a,p);
+  const mi=S.proto==="mi";
+  let cmd;
+  if(mi){
+    cmd=miPkt(0x01,[0x8E,reg]);
+  }else{
+    cmd=nb(0x03,0x8C,[reg]);
+  }
+  if(cmd&&S.txC){
+    try{await S.txC.writeValueWithoutResponse(cmd);}catch(_){}
+  }
+  S.sport=k==="sport";S.eco=k==="eco";
+  S.currentMode=k;
+  updModeSelector();
+  updMode();
+  toast(k.charAt(0).toUpperCase()+k.slice(1)+" Mode");
+}
+
+function updModeSelector(){
+  const cur=S.currentMode||"normal";
+  ["eco","normal","sport","race"].forEach(k=>{
+    const el=document.getElementById("mode_"+k);if(!el)return;
+    const on=k===cur;
+    el.style.borderColor=on?"rgba(var(--ar),.4)":"rgba(255,255,255,.08)";
+    el.style.background=on?"rgba(var(--ar),.08)":"var(--s1)";
+  });
+}
+
 function buildFeatGrid(){
   const riding=S.feat.filter(f=>FEATS[f]&&FEATS[f].g==="riding");
   const settings=S.feat.filter(f=>FEATS[f]&&FEATS[f].g==="settings");
@@ -991,7 +1041,8 @@ async function doFeat(f){
 
 function updMode(){
   const el=document.getElementById("modeVal");if(!el)return;
-  el.textContent=S.sport?"Sport":S.eco?"Eco":"Normal";
+  const m=S.currentMode||"normal";
+  el.textContent=m.charAt(0).toUpperCase()+m.slice(1);
 }
 
 function updFeat(){
@@ -1005,7 +1056,7 @@ function updFeat(){
 
 async function doReset(){
   await tx("reset");await delay(400);await tx("beep");
-  S.sport=S.zero=S.eco=S.locked=S.cruise=false;S.light=true;S.tuned=false;
+  S.sport=S.zero=S.eco=S.locked=S.cruise=false;S.light=true;S.currentMode='normal';S.tuned=false;
   document.getElementById("limitSet").textContent="—";
   document.getElementById("badge").classList.remove("on");
   document.getElementById("modeVal").textContent="Normal";
@@ -1199,22 +1250,19 @@ function acceptDisc(){
   document.getElementById("disc").style.display="none";
 }
 function startDiscCountdown(){
-  const btn=document.getElementById("discBtn");
-  const timer=document.getElementById("discTimer");
-  if(!btn||!timer)return;
   let t=30;
+  const ov=document.getElementById("discOverlay");
+  const tm=document.getElementById("discTimer");
+  if(!ov||!tm)return;
   const iv=setInterval(()=>{
     t--;
-    timer.textContent=t+"s";
+    if(tm)tm.textContent=t;
     if(t<=0){
       clearInterval(iv);
-      btn.disabled=false;
-      btn.style.background="#fff";
-      btn.style.color="#000";
-      btn.style.cursor="pointer";
-      timer.style.display="none";
+      if(ov){ov.style.opacity="0";setTimeout(()=>{ov.style.display="none";},300);}
     }
   },1000);
+  if(ov)ov.style.transition="opacity .3s";
 }
 
 async function checkUpdate(){
