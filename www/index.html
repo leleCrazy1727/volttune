@@ -206,6 +206,13 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
 .spl-sp{width:14px;height:14px;border:2px solid rgba(255,255,255,.15);border-top-color:rgba(255,255,255,.4);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto;margin-top:10px}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* DISC */
+#disc{position:fixed;inset:0;background:#000;z-index:500;display:none}
+.disc-box{background:var(--bg);padding:max(56px,calc(var(--safe-top)+32px)) 24px max(44px,calc(var(--safe-bot)+24px));width:100%;min-height:100dvh;display:flex;flex-direction:column}
+.disc-title{font-size:28px;font-weight:700;letter-spacing:-.03em;margin-bottom:18px}
+.disc-body{font-size:15px;color:var(--t2);line-height:1.85;margin-bottom:32px;flex:1;max-width:480px}
+.disc-body strong{color:#fff}
+
 /* NBLE */
 .nble{padding:32px 20px;text-align:center}
 .nble-ico{font-size:32px;margin-bottom:10px}
@@ -226,6 +233,26 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
   <div class="spl-name">Volt<span style="color:rgba(255,255,255,.32);font-weight:300">Tune</span></div>
   <div class="spl-txt" id="splTxt">Checking for updates…</div>
   <div class="spl-sp" id="splSp"></div>
+</div>
+
+<div id="disc">
+  <div class="disc-box">
+    <div class="disc-title">Before you continue</div>
+    <div class="disc-body">
+      VoltTune modifies your scooter's firmware settings via Bluetooth.<br><br>
+      <strong>⚠️ Private property only.</strong> Riding a modified scooter on public roads is illegal in most countries.<br><br>
+      <strong>⚠️ Motor safety.</strong> Speed limits shown are the safe hardware maximums for each model. Exceeding them can damage the motor or controller.<br><br>
+      <strong>⚠️ Your responsibility.</strong> You accept full responsibility for any damage or injury.
+    </div>
+    <div id="discBtnWrap" style="position:relative;overflow:hidden;border-radius:10px;margin-top:auto">
+      <button id="discBtn" onclick="acceptDisc()" style="width:100%;padding:16px;background:#fff;color:#000;border:none;border-radius:10px;font-family:var(--fh);font-size:15px;font-weight:600;cursor:pointer;position:relative;z-index:2">
+        I understand — continue
+      </button>
+      <div id="discOverlay" style="position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:3;border-radius:10px;display:flex;align-items:center;justify-content:center;pointer-events:none">
+        <span id="discTimer" style="color:#fff;font-size:20px;font-weight:700;font-family:var(--fm)">30</span>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="app" data-t="white">
@@ -286,6 +313,7 @@ html,body{background:var(--bg);color:var(--t1);font-family:var(--fh);height:100%
       </div>
       <div class="sec">Riding mode</div>
       <div id="modeSel" style="display:flex;gap:7px"></div>
+      <div id="modeSpeedEdit"></div>
       <div id="ctrlSec" style="display:none">
         <div class="sec">Hardware</div>
         <div class="ctable" id="ctrlCard"></div>
@@ -609,6 +637,26 @@ function onNotify(e){
   if(cmd===0x62&&d.byteLength>=10){ctrlD.motor=(d.getUint8(7)|(d.getUint8(8)<<8))+"W";ctrlD.ctrl="v"+d.getUint8(9);renderCtrl();}
   if(cmd===0x1A&&d.byteLength>=9){ctrlD.fw=d.getUint8(7)+"."+d.getUint8(8);S.fwVer=ctrlD.fw;renderCtrl();}
   if(cmd===0x10&&d.byteLength>=20){try{S.sn=new TextDecoder().decode(raw.slice(6,20)).replace(/\0/g,"");}catch(_){}}
+  if(cmd===0x26&&d.byteLength>=8){detectCruiseTap(d.getUint8(6)|(d.getUint8(7)<<8));}
+}
+
+let _prevHigh=false,_lastTap=0,_tapCount=0;
+function detectCruiseTap(rawMm){
+  const isHigh=rawMm>300;
+  if(isHigh&&!_prevHigh){
+    const now=Date.now();
+    if(now-_lastTap<600)_tapCount++;else _tapCount=1;
+    _lastTap=now;
+    if(_tapCount>=2){_tapCount=0;if(!S.cruise)toggleCruise();}
+  }
+  _prevHigh=isHigh;
+}
+async function toggleCruise(){
+  S.cruise=!S.cruise;
+  await tx(S.cruise?"cruise_on":"cruise_off");
+  await tx("beep");
+  toast(S.cruise?"Cruise ON ✋":"Cruise OFF");
+  updFeat();
 }
 
 function renderCtrl(){
@@ -752,10 +800,11 @@ const BLE_FILTERS=[
 let _scanActive=false;
 
 async function reqDev(){
-  const isBluefy=/Bluefy/i.test(navigator.userAgent);
-  if(isBluefy)return navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[SVC]});
   try{return await navigator.bluetooth.requestDevice({filters:BLE_FILTERS,optionalServices:[SVC]});}
-  catch(_){return navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[SVC]});}
+  catch(e){
+    if(e.name==="NotFoundError"||e.name==="AbortError")throw e;
+    return navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[SVC]});
+  }
 }
 
 function openScan(){
@@ -771,7 +820,7 @@ function closeScan(){
 }
 
 async function runScan(){
-  if(!navigator.bluetooth){showNoBLE();return;}
+  if(!navigator.bluetooth||!navigator.bluetooth.requestDevice){showNoBLE();return;}
   while(_scanActive){
     document.getElementById("scanSp").style.display="block";
     try{
@@ -785,7 +834,14 @@ async function runScan(){
       }
     }catch(e){
       document.getElementById("scanSp").style.display="none";
-      if(!S.found.length)document.getElementById("scanBody").innerHTML=`<div class="scan-empty">No scooter found<br><span style="opacity:.6;font-size:11px">Power on your scooter and try again</span></div>`;
+      const cancelled=e.name==="NotFoundError"||e.name==="AbortError"||
+        (e.message||"").toLowerCase().includes("cancel")||
+        (e.message||"").toLowerCase().includes("user");
+      if(!S.found.length){
+        document.getElementById("scanBody").innerHTML=cancelled
+          ?`<div class="scan-empty">No scooter selected<br><span style="opacity:.5;font-size:11px">Power on your scooter and tap Scan again</span></div>`
+          :`<div class="scan-empty">Scan failed<br><span style="opacity:.5;font-size:11px">${e.message||"Unknown error"}</span></div>`;
+      }
       break;
     }
   }
@@ -825,7 +881,7 @@ async function doConn(){
 function showNoBLE(){
   _scanActive=false;
   document.getElementById("scanSp").style.display="none";
-  document.getElementById("scanBody").innerHTML=`<div class="nble"><div class="nble-ico">📱</div><div class="nble-t">Open in Bluefy</div><div class="nble-s">Safari blocks Web Bluetooth. Install Bluefy from the App Store, then open VoltTune there.</div><button class="btn" style="max-width:220px" onclick="openBluefy()">Get Bluefy</button><div style="margin-top:8px"><button class="btn-o" style="max-width:220px" onclick="startDemo()">Demo mode</button></div></div>`;
+  document.getElementById("scanBody").innerHTML=`<div class="nble"><div class="nble-ico">📶</div><div class="nble-t">Bluetooth not available</div><div class="nble-s">Enable Bluetooth and try again.</div><button class="btn" style="max-width:220px;margin:0 auto" onclick="runScan()">Try again</button><div style="margin-top:8px"><button class="btn-o" style="max-width:220px;margin:0 auto" onclick="startDemo()">Demo mode</button></div></div>`;
 }
 
 function enterConn(){
@@ -875,15 +931,20 @@ function startDemo(){
     setSpd(Math.round(sp*10)/10);
     document.getElementById("distVal").textContent=dist.toFixed(1);
     document.getElementById("batVal").textContent=Math.round(bat);
-    if(S.top<sp){S.top=sp;document.getElementById("topVal").textContent=S.top.toFixed(1);}
+
   },200);
   toast(S.model+" — demo mode");
 }
 
 function setSpd(v){
+  if(S.cruise&&S.spd>5&&v<S.spd-4){
+    S.cruise=false;tx("cruise_off");tx("beep");
+    toast("Cruise OFF — brake");updFeat();
+  }
   S.spd=v;
   document.getElementById("spdNum").textContent=v.toFixed(1);
   document.getElementById("spdFill").style.width=Math.min(100,(v/S.max)*100)+"%";
+  if(S.top<v){S.top=v;const el=document.getElementById("topVal");if(el)el.textContent=v.toFixed(1);}
 }
 
 function setSlider(v){
@@ -938,16 +999,62 @@ const FEATS={
 function buildModeSelector(){
   const w=document.getElementById("modeSel");if(!w)return;
   const modes=[];
-  if(S.feat.includes("eco"))modes.push({k:"eco",ico:"🌿",t:"Eco",reg:0x01});
-  modes.push({k:"normal",ico:"⚡",t:"Normal",reg:0x00});
-  if(S.feat.includes("sport"))modes.push({k:"sport",ico:"🚀",t:"Sport",reg:0x02});
-  if(S.feat.includes("race"))modes.push({k:"race",ico:"🏁",t:"Race",reg:0x03});
+  if(S.feat.includes("eco"))modes.push({k:"eco",ico:"🌿",t:"Eco",reg:0x01,def:15});
+  modes.push({k:"normal",ico:"🚗",t:"Drive",reg:0x00,def:20});
+  if(S.feat.includes("sport"))modes.push({k:"sport",ico:"⚡",t:"Sport",reg:0x02,def:45});
+  if(S.feat.includes("race"))modes.push({k:"race",ico:"🏁",t:"Race",reg:0x03,def:S.max});
+  S._modes=modes;
+  if(!S.modeSpeeds){S.modeSpeeds={eco:15,normal:20,sport:45,race:S.max};}
   w.innerHTML=modes.map(m=>`
-    <div id="mode_${m.k}" onclick="setMode('${m.k}',${m.reg})" style="flex:1;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:12px 8px;text-align:center;cursor:pointer;transition:all .15s">
-      <div style="font-size:18px;margin-bottom:5px">${m.ico}</div>
-      <div style="font-size:12px;font-weight:600">${m.t}</div>
+    <div id="mode_${m.k}" onclick="setMode('${m.k}',${m.reg})" style="flex:1;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r);padding:11px 6px;text-align:center;cursor:pointer;transition:all .15s">
+      <div style="font-size:16px;margin-bottom:3px">${m.ico}</div>
+      <div style="font-size:11px;font-weight:600">${m.t}</div>
+      <div id="mspd_${m.k}" style="font-size:10px;color:var(--t2);font-family:var(--fm);margin-top:1px">${S.modeSpeeds[m.k]||m.def}</div>
     </div>`).join("");
   updModeSelector();
+  buildModeSpeedEditor();
+}
+
+function buildModeSpeedEditor(){
+  const w=document.getElementById("modeSpeedEdit");if(!w||!S._modes)return;
+  w.innerHTML=`<div class="sec">Mode speed limits</div>`+
+  S._modes.map(m=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--b1)">
+    <div style="font-size:13px;font-weight:500">${m.ico} ${m.t}</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button onclick="adjMSpd('${m.k}',-1)" style="width:28px;height:28px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;color:#fff;font-size:16px;cursor:pointer">−</button>
+      <span id="mse_${m.k}" style="font-family:var(--fm);font-size:13px;font-weight:700;min-width:50px;text-align:center">${S.modeSpeeds[m.k]||m.def} km/h</span>
+      <button onclick="adjMSpd('${m.k}',1)" style="width:28px;height:28px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;color:#fff;font-size:16px;cursor:pointer">+</button>
+    </div>
+  </div>`).join("")+
+  `<button class="btn" style="margin-top:11px" onclick="applyModeSpeeds()">Apply all mode speeds</button>`;
+}
+
+function adjMSpd(k,d){
+  if(!S.modeSpeeds)S.modeSpeeds={};
+  const m=S._modes&&S._modes.find(x=>x.k===k);
+  const cur=S.modeSpeeds[k]||(m?m.def:20);
+  const nv=Math.max(5,Math.min(S.max,cur+d));
+  S.modeSpeeds[k]=nv;
+  const e1=document.getElementById("mse_"+k);if(e1)e1.textContent=nv+" km/h";
+  const e2=document.getElementById("mspd_"+k);if(e2)e2.textContent=nv;
+}
+
+async function applyModeSpeeds(){
+  if(!S.modeSpeeds||!S._modes)return;
+  const nb=(c,a,p)=>nbPkt(0x3E,0x20,c,a,p);
+  for(const m of S._modes){
+    const spd=S.modeSpeeds[m.k]||m.def;
+    const mCmd=S.proto==="mi"?miPkt(0x01,[0x8E,m.reg]):nb(0x03,0x8C,[m.reg]);
+    if(mCmd&&S.txC){try{await S.txC.writeValueWithoutResponse(mCmd);}catch(_){}}
+    await delay(200);
+    const mm=Math.round(spd*1000/36);
+    const sCmd=S.proto==="mi"?miPkt(0x01,[0x85,spd&0xFF]):nb(0x03,0x89,[mm&0xFF,(mm>>8)&0xFF]);
+    if(sCmd&&S.txC){try{await S.txC.writeValueWithoutResponse(sCmd);}catch(_){}}
+    await delay(200);
+  }
+  const cur=S._modes.find(x=>x.k===(S.currentMode||"normal"));
+  if(cur){const nb=(c,a,p)=>nbPkt(0x3E,0x20,c,a,p);const cmd=S.proto==="mi"?miPkt(0x01,[0x8E,cur.reg]):nb(0x03,0x8C,[cur.reg]);if(cmd&&S.txC){try{await S.txC.writeValueWithoutResponse(cmd);}catch(_){}}}
+  await tx("beep");toast("Mode speeds applied ✓");
 }
 
 async function setMode(k,reg){
@@ -1217,6 +1324,27 @@ function applyCustom(){
   localStorage.setItem("vt_t","custom");localStorage.setItem("vt_c",c);
 }
 
+function acceptDisc(){
+  if(document.getElementById("discBtn").disabled)return;
+  localStorage.setItem("vt_d","1");
+  document.getElementById("disc").style.display="none";
+}
+function startDiscCountdown(){
+  let t=30;
+  const ov=document.getElementById("discOverlay");
+  const tm=document.getElementById("discTimer");
+  if(!ov||!tm)return;
+  const iv=setInterval(()=>{
+    t--;
+    if(tm)tm.textContent=t;
+    if(t<=0){
+      clearInterval(iv);
+      if(ov){ov.style.opacity="0";setTimeout(()=>{ov.style.display="none";},300);}
+    }
+  },1000);
+  if(ov)ov.style.transition="opacity .3s";
+}
+
 async function checkUpdate(){
   try{
     const r=await fetch("https://raw.githubusercontent.com/leleCrazy1727/volttune/main/apps.json?t="+Date.now());
@@ -1277,7 +1405,7 @@ function preSelect(idx){
     setTimeout(()=>{
       const spl=document.getElementById("splash");
       spl.classList.add("out");
-      setTimeout(()=>{spl.style.display="none";if(!localStorage.getItem("vt_d")){document.getElementById("disc").style.display="flex";startDiscCountdown();}},550);
+      setTimeout(()=>{spl.style.display="none";localStorage.setItem("vt_d","1");},550);
     },1200);
   });
 })();
