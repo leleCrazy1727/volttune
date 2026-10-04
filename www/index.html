@@ -764,14 +764,18 @@ function sigBars(rssi){
 }
 
 function scard(d,i){
-  const r=d.r,bn=d.dev.name||"Unknown";
+  const r=d.r,bn=(d.dev&&d.dev.name)||d.name||"Unknown";
   const isSerial=bn!==r.name&&bn.length>6;
+  if(!d.variant)d.variant=detectVariant(bn);
   return`<div class="scard" id="sc${i}" onclick="connectIdx(${i})">
     <div class="sc-img">${scImg(r)}</div>
     <div class="sc-info">
-      <div class="sc-name">${isSerial?bn:r.name}</div>
+      <div class="sc-name" style="display:flex;align-items:center;gap:6px">
+        ${isSerial?bn:r.name}
+        ${d.variant?`<span style="padding:1px 6px;background:var(--b2);border-radius:4px;font-size:9px;font-family:var(--fm);color:var(--t2)">${d.variant}</span>`:""}
+      </div>
       <div class="sc-model">${isSerial?r.name:"Max "+r.max+" km/h"}</div>
-      <div class="sc-meta">Max ${r.max} km/h</div>
+      <div class="sc-meta">Max ${r.max} km/h · ${r.k==="mi"?"Xiaomi":"Ninebot"}</div>
     </div>
     <div class="sc-right">${sigBars(d.rssi)}</div>
   </div>`;
@@ -784,6 +788,52 @@ function renderFound(){
   b.innerHTML=S.found.map((d,i)=>scard(d,i)).join("");
 }
 
+const SVC_UUID="6e400001-b5a3-f393-e0a9-e50e24dcca9e";
+let _scanActive=false;
+let _nativeBLE=false; // set true when Capacitor plugin available
+
+// Detect if running in Capacitor (native app)
+function isNative(){return !!(window.Capacitor&&window.Capacitor.isNativePlatform&&window.Capacitor.isNativePlatform());}
+
+function openScan(){
+  document.getElementById("fsScan").classList.add("on");
+  S.found=[];renderFound();
+  _scanActive=true;
+  const hasBT=isNative()||(typeof navigator!=="undefined"&&(navigator.bluetooth||window.bluetooth));
+  if(!hasBT){showNoBLE();return;}
+  if(isNative()){startNativeScan();}else{startWebScan();}
+}
+
+function closeScan(){
+  _scanActive=false;
+  document.getElementById("fsScan").classList.remove("on");
+  if(isNative()&&window.Capacitor){
+    try{window.Capacitor.Plugins.BLEManager.stopScan();}catch(_){}
+  }
+}
+
+// NATIVE SCAN — no picker, shows all scooters automatically
+function startNativeScan(){
+  const sp=document.getElementById("scanSp");
+  sp.style.display="block";
+  document.getElementById("scanTitle").textContent="Scanning…";
+  
+  // Listen for discovered devices
+  window.Capacitor.Plugins.BLEManager.addListener("deviceFound",dev=>{
+    if(!_scanActive)return;
+    if(S.found.find(d=>d.id===dev.id))return;
+    const r=resolve(dev.name||"");
+    S.found.push({id:dev.id,dev:{id:dev.id,name:dev.name,gatt:{connected:false}},r,rssi:dev.rssi,variant:dev.variant||""});
+    renderFound();
+  });
+  
+  window.Capacitor.Plugins.BLEManager.startScan().catch(e=>{
+    sp.style.display="none";
+    document.getElementById("scanBody").innerHTML=`<div class="scan-empty">Bluetooth error<br><span style="opacity:.5;font-size:11px">${e.message||e}</span></div>`;
+  });
+}
+
+// WEB SCAN — Web Bluetooth picker (fallback for browser)
 const BLE_FILTERS=[
   {namePrefix:"N4G"},{namePrefix:"N4L"},{namePrefix:"N2G"},{namePrefix:"N5G"},
   {namePrefix:"1TE"},{namePrefix:"1CG"},{namePrefix:"1NC"},{namePrefix:"1SF"},
@@ -793,69 +843,76 @@ const BLE_FILTERS=[
   {namePrefix:"Mi Scooter"},{namePrefix:"Mi Electric"},{namePrefix:"Xiaomi"},
   {namePrefix:"Navee_"},{namePrefix:"NAVEE-"},{namePrefix:"Navee"},
   {services:[SVC]},
-  {manufacturerData:[{companyIdentifier:0x424E}]},
-  {manufacturerData:[{companyIdentifier:0x434E}]},
 ];
 
-let _scanActive=false;
-
-async function reqDev(){
-  try{return await navigator.bluetooth.requestDevice({filters:BLE_FILTERS,optionalServices:[SVC]});}
-  catch(e){
-    if(e.name==="NotFoundError"||e.name==="AbortError")throw e;
-    return navigator.bluetooth.requestDevice({acceptAllDevices:true,optionalServices:[SVC]});
-  }
-}
-
-function openScan(){
-  document.getElementById("fsScan").classList.add("on");
-  if(!S.found.length){S.found=[];renderFound();}
-  _scanActive=true;
-  runScan();
-}
-
-function closeScan(){
-  _scanActive=false;
-  document.getElementById("fsScan").classList.remove("on");
-}
-
-async function runScan(){
-  if(!navigator.bluetooth||!navigator.bluetooth.requestDevice){showNoBLE();return;}
+async function startWebScan(){
+  if(!navigator.bluetooth&&!window.bluetooth){showNoBLE();return;}
+  const BT=navigator.bluetooth||window.bluetooth;
   while(_scanActive){
     document.getElementById("scanSp").style.display="block";
     try{
-      const dev=await reqDev();
+      let dev;
+      try{dev=await BT.requestDevice({filters:BLE_FILTERS,optionalServices:[SVC]});}
+      catch(_){dev=await BT.requestDevice({acceptAllDevices:true,optionalServices:[SVC]});}
       document.getElementById("scanSp").style.display="none";
-      if(dev&&!S.found.find(d=>d.dev.id===dev.id)){
+      if(dev&&!S.found.find(d=>d.id===dev.id)){
         const r=resolve(dev.name||"");
-        S.found.push({dev,r,rssi:null});
+        const variant=detectVariant(dev.name||"");
+        S.found.push({id:dev.id,dev,r,rssi:null,variant});
         renderFound();
         toast("Found: "+(dev.name||r.name));
       }
     }catch(e){
       document.getElementById("scanSp").style.display="none";
-      const cancelled=e.name==="NotFoundError"||e.name==="AbortError"||
-        (e.message||"").toLowerCase().includes("cancel")||
-        (e.message||"").toLowerCase().includes("user");
       if(!S.found.length){
+        const cancelled=e.name==="NotFoundError"||e.name==="AbortError"||(e.message||"").toLowerCase().includes("cancel");
         document.getElementById("scanBody").innerHTML=cancelled
           ?`<div class="scan-empty">No scooter selected<br><span style="opacity:.5;font-size:11px">Power on your scooter and tap Scan again</span></div>`
-          :`<div class="scan-empty">Scan failed<br><span style="opacity:.5;font-size:11px">${e.message||"Unknown error"}</span></div>`;
+          :`<div class="scan-empty">Scan failed<br><span style="opacity:.5;font-size:11px">${e.message}</span></div>`;
       }
       break;
     }
   }
 }
 
-async function addDev(){_scanActive=true;runScan();}
+function detectVariant(name){
+  const u=(name||"").toUpperCase();
+  if(/\s+E$/.test(u)||u.includes(" E ")||u.includes("PRO E")||u.endsWith(" E"))return"E";
+  if(/\s+D$/.test(u)||u.includes(" D ")||u.includes("PRO D")||u.endsWith(" D"))return"D";
+  return"";
+}
+
+async function addDev(){openScan();}
+
+// Override connect for native
+async function connectNative(entry){
+  document.getElementById("scanTitle").textContent="Connecting…";
+  window.Capacitor.Plugins.BLEManager.addListener("connected",info=>{
+    closeScan();
+    // Set up notification listener
+    window.Capacitor.Plugins.BLEManager.addListener("notification",notif=>{
+      const bytes=notif.raw||[];
+      const buf=new Uint8Array(bytes).buffer;
+      const fake={target:{value:new DataView(buf)}};
+      onNotify(fake);
+    });
+    window.Capacitor.Plugins.BLEManager.addListener("disconnected",()=>disconnect(true));
+    // Override S.txC.writeValueWithoutResponse
+    S.txC={writeValueWithoutResponse:async(data)=>{
+      const hex=Array.from(new Uint8Array(data)).map(b=>b.toString(16).padStart(2,"0")).join("");
+      await window.Capacitor.Plugins.BLEManager.write({data:hex});
+    }};
+    enterConn();
+  });
+  await window.Capacitor.Plugins.BLEManager.connect({id:entry.id});
+}
 
 async function connectIdx(i){
   const e=S.found[i];if(!e)return;
   document.querySelectorAll(".scard").forEach(c=>c.classList.remove("conn"));
   const c=document.getElementById("sc"+i);if(c)c.classList.add("conn");
-  document.getElementById("scanTitle").textContent="Connecting…";
   S.dev=e.dev;S.model=e.r.name;S.proto=e.r.k;S.max=e.r.max;S.feat=e.r.feat;S.ctrl=e.r.ctrl;
-  await doConn();
+  if(isNative()){await connectNative(e);}else{await doConn();}
 }
 
 async function doConn(){
@@ -978,12 +1035,13 @@ async function applyLimit(){
   const btn=document.getElementById("applyBtn");
   btn.disabled=true;btn.textContent="Applying…";
   await tx("limit");await delay(300);await tx("beep");
+  await tx("beep");
   S.tuned=true;
   document.getElementById("limitSet").textContent=S.limit;
   document.getElementById("badge").classList.add("on");
   document.getElementById("badgeTxt").textContent="Limit "+S.limit+" km/h active";
   btn.disabled=false;btn.textContent="Apply limit";
-  toast("Speed limit set to "+S.limit+" km/h");
+  toast("Speed limit set to "+S.limit+" km/h ✓");
 }
 
 const FEATS={
